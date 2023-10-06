@@ -1,9 +1,12 @@
 package com.spookcity.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ghosts")
@@ -12,10 +15,15 @@ public class Ghost {
     private String fileName;
     private LocalDate dateOfDeath;
     private String dialogue;
-    @JsonIgnoreProperties("ghosts")
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JsonIgnoreProperties({"ghosts"})
+    @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinTable(
+            name = "users_ghosts",
+            joinColumns = {@JoinColumn(name = "ghost_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)}
+    )
+    private List<User> users;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +34,7 @@ public class Ghost {
         this.fileName = fileName;
         this.dateOfDeath = dateOfDeath;
         this.dialogue = dialogue;
+        this.users = new ArrayList<>();
     }
     public Ghost(){}
 
@@ -43,6 +52,10 @@ public class Ghost {
 
     public String getDialogue() {
         return dialogue;
+    }
+
+    public List<User> getUsers() {
+        return users;
     }
 
     public Long getId() {
@@ -65,15 +78,11 @@ public class Ghost {
         this.dialogue = dialogue;
     }
 
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

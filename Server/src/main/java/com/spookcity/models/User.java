@@ -1,9 +1,11 @@
 package com.spookcity.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -13,14 +15,20 @@ public class User {
     private Rank rank;
     private Long points;
     @JsonBackReference
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
-    private ArrayList<Ghost> discoveredGhosts;
+    @ManyToMany
+    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
+    @JoinTable(
+            name = "users_ghosts",
+            joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name="ghost_id", nullable = false, updatable = false)}
+    )
+    private List<Ghost> discoveredGhosts;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public User(String userName, String fileName, Rank rank, Long points, ArrayList<Ghost> discoveredGhosts) {
+    public User(String userName, String fileName, Rank rank, Long points) {
         this.userName = userName;
         this.fileName = fileName;
         this.rank = rank;
@@ -45,7 +53,7 @@ public class User {
         return points;
     }
 
-    public ArrayList<Ghost> getDiscoveredGhosts() {
+    public List<Ghost> getDiscoveredGhosts() {
         return discoveredGhosts;
     }
 
@@ -69,7 +77,7 @@ public class User {
         this.points = points;
     }
 
-    public void setDiscoveredGhosts(ArrayList<Ghost> discoveredGhosts) {
+    public void setDiscoveredGhosts(List<Ghost> discoveredGhosts) {
         this.discoveredGhosts = discoveredGhosts;
     }
 

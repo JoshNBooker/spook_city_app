@@ -10,8 +10,8 @@ public class Location {
     private String name;
     private String fileName;
     private String description;
-    private Long coordinateX;
-    private Long coordinateY;
+    private Double coordinateX;
+    private Double coordinateY;
     @JsonBackReference
     @OneToOne
     @JoinColumn(name = "ghost_id")
@@ -21,7 +21,7 @@ public class Location {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Location(String name, String fileName, String description, Long coordinateX, Long coordinateY, Ghost ghost) {
+    public Location(String name, String fileName, String description, Double coordinateX, Double coordinateY, Ghost ghost) {
         this.name = name;
         this.fileName = fileName;
         this.description = description;
@@ -43,11 +43,11 @@ public class Location {
         return description;
     }
 
-    public Long getCoordinateX() {
+    public Double getCoordinateX() {
         return coordinateX;
     }
 
-    public Long getCoordinateY() {
+    public Double getCoordinateY() {
         return coordinateY;
     }
 
@@ -71,11 +71,11 @@ public class Location {
         this.description = description;
     }
 
-    public void setCoordinateX(Long coordinateX) {
+    public void setCoordinateX(Double coordinateX) {
         this.coordinateX = coordinateX;
     }
 
-    public void setCoordinateY(Long coordinateY) {
+    public void setCoordinateY(Double coordinateY) {
         this.coordinateY = coordinateY;
     }
 
