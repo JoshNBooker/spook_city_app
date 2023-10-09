@@ -2,6 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView, View, FlatList, StyleSheet, Text } from 'react-native';
 import { Ghost, Location, User } from './Types';
 import { useState, useEffect } from 'react';
+import React from 'react';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
