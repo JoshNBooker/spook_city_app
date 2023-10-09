@@ -58,17 +58,17 @@ export default function App() {
 					longitude: -3.1999,
 					longitudeDelta: 0.08,
 				}}
+				showsUserLocation={true}
+				tintColor="Red"
 			>
-				{/* <Marker coordinate={locations.map((location) => {
-					latitude: location.coordinateX,
-					longitude: location.coordinateY,
-				})}></Marker> */}
-				{locations.map((location) => {
+				{locations.map((location, index) => {
 					return (
 						<Marker coordinate={{
 							latitude: location.coordinateX,
 							longitude: location.coordinateY
 						}}
+						key={index}
+						pinColor='Blue'
 						/>
 					)
 				})}
