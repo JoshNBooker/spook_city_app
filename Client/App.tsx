@@ -1,17 +1,19 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
-import { Ghost, Location, User } from './types/Types';
+import { Ghost, User, Location } from './types/Types';
 import { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { GOOGLE_MAPS_SDK_KEY } from "@env"; 
+import { GOOGLE_MAPS_SDK_KEY } from '@env';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
+import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
+import React from 'react';
+import SwipeUpDown from 'react-native-swipe-up-down';
+import ItemFull from './ItemFull';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
 	const apiUrl: string = 'http://localhost:8080';
-	
 
 	const fetchData = async (url: string) => {
 		try {
@@ -47,9 +49,7 @@ export default function App() {
 
 	return (
 		<View style={styles.container}>
-			
-			
-			<MapView 
+			<MapView
 				style={styles.map}
 				// provider={PROVIDER_GOOGLE}
 				initialRegion={{
@@ -63,17 +63,29 @@ export default function App() {
 			>
 				{locations.map((location, index) => {
 					return (
-						<Marker coordinate={{
-							latitude: location.coordinateX,
-							longitude: location.coordinateY
-						}}
-						key={index}
-						pinColor='Blue'
+						<Marker
+							coordinate={{
+								latitude: location.coordinateX,
+								longitude: location.coordinateY,
+							}}
+							key={index}
+							pinColor="Blue"
 						/>
-					)
+					);
 				})}
 			</MapView>
-			
+			<SwipeUpDown
+				itemMini={(show: boolean) => <ItemFull show={show} />}
+				itemFull={(hide: boolean) => <ItemFull hide={hide} />}
+				onShowMini={() => console.log('mini')}
+				onShowFull={() => console.log('full')}
+				animation="spring"
+				disableSwipeIcon
+				extraMarginTop={100}
+				iconColor="yellow"
+				iconSize={30}
+				style={{ backgroundColor: '#ffffff' }}
+			/>
 			<StatusBar style="auto" />
 		</View>
 	);
@@ -87,8 +99,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	map: {
-		height: "100%",
-		width: "100%",
-		backgroundColor: '#0000FF'
-	}
+		height: '100%',
+		width: '100%',
+		backgroundColor: '#0000FF',
+	},
 });
