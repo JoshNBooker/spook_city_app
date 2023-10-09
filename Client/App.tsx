@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, View, FlatList, StyleSheet, Text } from 'react-native';
+import { SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
 import { Ghost, Location, User } from './Types';
 import { useState, useEffect } from 'react';
+import MapView from 'react-native-maps';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
@@ -42,27 +43,30 @@ export default function App() {
 	console.log('locations: ', locations);
 
 	return (
-		<View style={styles.container}>
-			<h1>Ghosts</h1>
+		<SafeAreaView style={styles.container}>
+			<Text>Ghosts</Text>
 			<FlatList
 				data={ghosts}
 				renderItem={({ item }) => <Text>{item.name}</Text>}
 				keyExtractor={(item) => item.id.toString()}
 			/>
-			<h1>Users</h1>
+			<Text>Users</Text>
 			<FlatList
 				data={users}
 				renderItem={({ item }) => <Text>{item.userName}</Text>}
 				keyExtractor={(item) => item.id.toString()}
 			/>
-			<h1>Locations</h1>
+			<Text>Locations</Text>
 			<FlatList
 				data={locations}
 				renderItem={({ item }) => <Text>{item.name}</Text>}
 				keyExtractor={(item) => item.id.toString()}
 			/>
+			{/* <SafeAreaView>
+				<MapView style={styles.map}/>
+			</SafeAreaView> */}
 			<StatusBar style="auto" />
-		</View>
+		</SafeAreaView>
 	);
 }
 
@@ -73,4 +77,8 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	map: {
+		height: "100%",
+		width: "100%",
+	}
 });
