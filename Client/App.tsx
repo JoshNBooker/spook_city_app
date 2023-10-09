@@ -1,14 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
-import { Ghost, Location, User } from './Types';
+import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
+import { Ghost, Location, User } from './types/Types';
 import { useState, useEffect } from 'react';
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
+import { GOOGLE_MAPS_SDK_KEY } from "@env"; 
+import { PROVIDER_GOOGLE } from 'react-native-maps';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
 	const apiUrl: string = 'http://localhost:8080';
+	
 
 	const fetchData = async (url: string) => {
 		try {
@@ -43,30 +46,36 @@ export default function App() {
 	console.log('locations: ', locations);
 
 	return (
-		<SafeAreaView style={styles.container}>
-			<Text>Ghosts</Text>
-			<FlatList
-				data={ghosts}
-				renderItem={({ item }) => <Text>{item.name}</Text>}
-				keyExtractor={(item) => item.id.toString()}
-			/>
-			<Text>Users</Text>
-			<FlatList
-				data={users}
-				renderItem={({ item }) => <Text>{item.userName}</Text>}
-				keyExtractor={(item) => item.id.toString()}
-			/>
-			<Text>Locations</Text>
-			<FlatList
-				data={locations}
-				renderItem={({ item }) => <Text>{item.name}</Text>}
-				keyExtractor={(item) => item.id.toString()}
-			/>
-			{/* <SafeAreaView>
-				<MapView style={styles.map}/>
-			</SafeAreaView> */}
+		<View style={styles.container}>
+			
+			
+			<MapView 
+				style={styles.map}
+				// provider={PROVIDER_GOOGLE}
+				initialRegion={{
+					latitude: 55.9486,
+					latitudeDelta: 0.08,
+					longitude: -3.1999,
+					longitudeDelta: 0.08,
+				}}
+			>
+				{/* <Marker coordinate={locations.map((location) => {
+					latitude: location.coordinateX,
+					longitude: location.coordinateY,
+				})}></Marker> */}
+				{locations.map((location) => {
+					return (
+						<Marker coordinate={{
+							latitude: location.coordinateX,
+							longitude: location.coordinateY
+						}}
+						/>
+					)
+				})}
+			</MapView>
+			
 			<StatusBar style="auto" />
-		</SafeAreaView>
+		</View>
 	);
 }
 
@@ -80,5 +89,6 @@ const styles = StyleSheet.create({
 	map: {
 		height: "100%",
 		width: "100%",
+		backgroundColor: '#0000FF'
 	}
 });
