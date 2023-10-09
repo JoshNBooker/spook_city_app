@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "expo": "^49.0.13",
+    "react-native-dotenv": "^3.4.9"
+  }
+}
