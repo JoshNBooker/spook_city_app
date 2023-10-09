@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { GOOGLE_MAPS_SDK_KEY } from "@env"; 
 import { PROVIDER_GOOGLE } from 'react-native-maps';
+import styled from 'styled-components/native';
+import Swiper from 'react-native-swiper';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
@@ -48,6 +50,21 @@ export default function App() {
 	return (
 		<View style={styles.container}>
 			
+			<View style={styles.overlay}>
+				<Swiper>
+					<View style={styles.ghostContainer}>
+						{ghosts.map((ghost) => {
+							return (
+								<View style={styles.ghostTile}>
+									<Text style={styles.tileText}>{ghost.name}</Text>
+								</View>
+							)
+						})}
+					</View>
+					<View></View>
+				</Swiper>
+			</View>
+			
 			
 			<MapView 
 				style={styles.map}
@@ -89,6 +106,58 @@ const styles = StyleSheet.create({
 	map: {
 		height: "100%",
 		width: "100%",
-		backgroundColor: '#0000FF'
+		backgroundColor: '#0000FF',
+		position: 'absolute',
+		zIndex: -1,
+	},
+	overlay: {
+		position: 'absolute',
+		backgroundColor: '#e1e1fc',
+		opacity: 0.5,
+		height: "80%",
+		width: "80%",
+		zIndex: 1,
+	},
+	ghostTile: {
+		backgroundColor: '#0000FF',
+		justifyContent: 'center',
+		display: 'flex',
+		alignItems: 'center',
+		textAlign: 'center',
+		height: 'auto',
+		width: '30%',
+		zIndex: 2,
+	},
+	ghostContainer: {
+		display: 'flex',
+		flexDirection: 'row-reverse',
+		alignItems: 'center',
+		justifyContent: 'center',
+		height: '100%',
+		width: '100%',
+		gap: 3,
+	},
+	tileText: {
+		color: '#FBF7F5',
 	}
 });
+
+const GhostTile = styled.View `
+	background-color: '#0000FF';
+	justify-content: 'center';
+	display: 'flex';
+	align-items: 'center';
+	text-align: 'center';
+	height: 100px;
+	width: 100px;
+	z-index: 2;
+	`
+
+const GhostContainer = styled.View`
+	display: 'flex';
+	flex-direction: 'row-wrap';
+	align-items: 'center';
+	justify-content: 'center';
+	height: '100%';
+	width: '100%';
+`
