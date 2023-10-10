@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, TextInput } from 'react-native'
 import React from 'react'
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { useState } from 'react';
 
 const LoginScreen = () => {
-
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -17,19 +17,21 @@ const LoginScreen = () => {
   }
 
   const handleLogin = () => {
-    if (username === 'user' && password === 'password') {
+    if (username === 'User' && password === 'password') {
       alert('Login successful');
-      } else {
+    } else {
       alert('Username or password is incorrect');
-      }
+    }
   }
 
   return (
-    <View style={styles.container}>
-
-        <View style={styles.loginContainer}>
-          
-          <Text style={styles.title}>Login</Text>
+    <LinearGradient
+    colors={['#484747', '#d5722f']}
+    style={styles.backgroundImage}
+    >
+      <View style={styles.container}>
+      <View style={styles.loginContainer}>
+          <Text style={styles.title}>Login to Spook City</Text>
 
           <TextInput
             style={styles.input}
@@ -49,9 +51,9 @@ const LoginScreen = () => {
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-        </View>
-
+      </View>
     </View>
+    </LinearGradient>
   )
 }
 
@@ -61,14 +63,19 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     flex: 1,
-    resizeMode: 'cover',
     justifyContent: 'center',
+    width: '100%',
+    padding: 20,
+    borderRadius: 10,
   },
   loginContainer: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    padding: 20,
-    borderRadius: 10,
     margin: 20,
+    marginTop: 250,
+    borderRadius: 10,
+    overflow: 'hidden', 
+    padding: 10,
+    gap: 5,
   },
   title: {
     fontSize: 24,
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   loginButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#d4811d',
     padding: 10,
     borderRadius: 5,
   },
@@ -92,8 +99,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
-    border: 0,
-  }
+    textAlign: 'center',
+  },
 });
 
 export default LoginScreen;
