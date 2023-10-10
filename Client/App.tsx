@@ -102,6 +102,7 @@ export default function App() {
 				}}
 				animation="spring"
 				extraMarginTop={40}
+				swipeHeight={100}
 				style={styles.swipeUpDown}
 			/>
 			<StatusBar style="auto" />
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ffffff',
 		alignItems: 'center',
 		justifyContent: 'center',
+		display: 'flex',
 	},
 	map: {
 		height: '100%',
