@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
 	},
 	swipeUpDown: {
 		backgroundColor: '#ffffff',
-		opacity: 0.8,
+		opacity: 1,
 		paddingHorizontal: 15,
 	},
 });

@@ -16,6 +16,23 @@ interface ItemFullProps {
 	ghosts?: Ghost[];
 }
 
+const ghostImages: { [key: string]: any } = {
+	'Abandoned Annie': require('./images/GhostPictures/abandonedAnnie.jpg'),
+	'The Headless Drummer': require('./images/GhostPictures/headlessDrummer.jpg'),
+	'Mackenzie Poltergeist': require('./images/GhostPictures/mackenziePoltergeist.jpg'),
+	'Greyfriars Bobby': require('./images/GhostPictures/greyfriarsBobby.jpg'),
+	'Mary, Queen of Scots': require('./images/GhostPictures/maryQueenOfScots.jpg'),
+	'The Woman in Black': require('./images/GhostPictures/womanInBlack.jpg'),
+	'The Phantom Piper': require('./images/GhostPictures/phantomPiper.jpg'),
+	"The Poltergeist of Mary King's Close": require('./images/GhostPictures/poltergeistOfMaryKingsClose.jpg'),
+	'Wee Annie': require('./images/GhostPictures/weeAnnie.jpg'),
+	'The Phantom Harpist': require('./images/GhostPictures/phantomHarpist.jpg'),
+};
+const userImages: { [key: string]: any } = {
+	GhostHunter123: require('./images/UserPictures/GhostHunter123.jpg'),
+	SpookyExplorer: require('./images/UserPictures/SpookyExplorer.jpg'),
+};
+
 export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(null);
 
@@ -24,6 +41,12 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 	const handleSelectGhost = (ghost: Ghost) => {
 		setSelectedGhost(ghost);
 	};
+	function getImageForGhost(ghost: Ghost) {
+		return ghostImages[ghost.name];
+	}
+	function getImageForUser(user: User) {
+		return userImages[user.userName];
+	}
 
 	if (!users || users.length === 0) {
 		return (
@@ -37,9 +60,21 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 		<View style={styles.container}>
 			{hidden && (
 				<View style={styles.userInfoContainer}>
-					<Text style={styles.userName}>{firstUser.userName}</Text>
-					<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
-					<Text style={styles.score}>Score: {firstUser.points}</Text>
+					<View>
+						<Text style={styles.userName}>
+							{firstUser.userName}
+						</Text>
+						<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
+						<Text style={styles.score}>
+							Score: {firstUser.points}
+						</Text>
+					</View>
+					<View>
+						<Image
+							source={getImageForUser(users[0])}
+							style={styles.userImageMini}
+						/>
+					</View>
 				</View>
 			)}
 			{!hidden && (
@@ -51,10 +86,10 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 									<Text style={styles.ghostName}>
 										{selectedGhost.name}
 									</Text>
-									{/* <Image
-										source={require(`./images/${selectedGhost.fileName}`)}
-										style={{ width: 200, height: 200 }}
-									/> */}
+									<Image
+										source={getImageForGhost(selectedGhost)}
+										style={styles.ghostImage}
+									/>
 									<Text style={styles.ghostDescription}>
 										{selectedGhost.description}
 									</Text>
@@ -79,6 +114,10 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 							</ScrollView>
 						</View>
 						<View>
+							<Image
+								source={getImageForUser(users[0])}
+								style={styles.userImage}
+							/>
 							<Text>{firstUser.userName}</Text>
 							<Text>{firstUser.rank}</Text>
 							<Text>{firstUser.points}</Text>
@@ -98,8 +137,10 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 	},
 	userInfoContainer: {
+		display: 'flex',
 		marginBottom: 20,
-		// height: '80%',
+		justifyContent: 'space-between',
+		flexDirection: 'row',
 	},
 	userName: {
 		fontSize: 20,
@@ -119,6 +160,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#f0f0f0',
 		borderRadius: 10,
 		marginBottom: 20,
+		alignItems: 'center',
 	},
 	ghostName: {
 		fontSize: 18,
@@ -148,5 +190,17 @@ const styles = StyleSheet.create({
 	tileText: {
 		color: '#FBF7F5',
 		fontWeight: 'bold',
+	},
+	ghostImage: {
+		height: 500,
+		width: 300,
+	},
+	userImage: {
+		height: 500,
+		width: 300,
+	},
+	userImageMini: {
+		height: 50,
+		width: 30,
 	},
 });
