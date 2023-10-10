@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { GOOGLE_MAPS_SDK_KEY } from "@env"; 
 import { PROVIDER_GOOGLE } from 'react-native-maps';
+import LoginScreen from './components/LoginScreen';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
@@ -47,7 +48,7 @@ export default function App() {
 
 	return (
 		<View style={styles.container}>
-			
+			<LoginScreen />
 			
 			<MapView 
 				style={styles.map}
