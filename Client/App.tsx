@@ -12,7 +12,7 @@ export default function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [locations, setLocations] = useState<Location[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
-  const apiUrl: string = 'http://172.20.10.2:8080';
+  const apiUrl: string = 'http://localhost:8080';
 
   const fetchData = async (url: string) => {
     try {
@@ -49,7 +49,7 @@ export default function App() {
       <LoginScreen setIsLoggedIn={setIsLoggedIn} />
     </>
   )}
-  {isLoggedIn && <MapComponent locations={locations} users={users} />}
+  {isLoggedIn && <MapComponent locations={locations} users={users} ghosts={ghosts}/>}
 	</View>
 	
   );
