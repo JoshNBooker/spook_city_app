@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
 import { GOOGLE_MAPS_SDK_KEY } from '@env';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
-import styled from 'styled-components/native';
 import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
 import React from 'react';
 import SwipeUpDown from 'react-native-swipe-up-down';
@@ -14,10 +13,10 @@ export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
+	const [swipeHidden, setSwipeHidden] = useState<boolean>(true);
 	// Use ip address for running on ios device and localhost if not on hotspot
 	const apiUrl: string = 'http://localhost:8080';
 	// const apiUrl: string = 'http://172.20.10.5:8080';
-
 
 	const fetchData = async (url: string) => {
 		try {
@@ -53,9 +52,7 @@ export default function App() {
 
 	return (
 		<View style={styles.container}>
-			
 			<MapView
-
 				style={styles.map}
 				// provider={PROVIDER_GOOGLE}
 				initialRegion={{
@@ -81,18 +78,30 @@ export default function App() {
 				})}
 			</MapView>
 			<SwipeUpDown
-				itemMini={(show: boolean) => (
-					<ItemFull show={show} users={users} ghosts={ghosts}/>
+				itemMini={() => (
+					<ItemFull
+						hidden={swipeHidden}
+						users={users}
+						ghosts={ghosts}
+					/>
 				)}
-				itemFull={(hide: boolean) => (
-					<ItemFull hide={hide} users={users} ghosts={ghosts}/>
+				itemFull={() => (
+					<ItemFull
+						hidden={swipeHidden}
+						users={users}
+						ghosts={ghosts}
+					/>
 				)}
-				onShowMini={() => console.log('mini')}
-				onShowFull={() => console.log('full')}
+				onShowMini={() => {
+					setSwipeHidden(true);
+					console.log('mini');
+				}}
+				onShowFull={() => {
+					setSwipeHidden(false);
+					console.log('full');
+				}}
 				animation="spring"
 				extraMarginTop={40}
-				iconColor="yellow"
-				iconSize={30}
 				style={styles.swipeUpDown}
 			/>
 			<StatusBar style="auto" />
@@ -108,36 +117,15 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 	},
 	map: {
-		height: "100%",
-		width: "100%",
+		height: '100%',
+		width: '100%',
 		backgroundColor: '#0000FF',
 		position: 'absolute',
 		zIndex: -1,
 	},
-
 	swipeUpDown: {
 		backgroundColor: '#ffffff',
 		opacity: 0.8,
 		paddingHorizontal: 15,
 	},
 });
-
-const GhostTile = styled.View `
-	background-color: '#0000FF';
-	justify-content: 'center';
-	display: 'flex';
-	align-items: 'center';
-	text-align: 'center';
-	height: 100px;
-	width: 100px;
-	z-index: 2;
-	`
-
-const GhostContainer = styled.View`
-	display: 'flex';
-	flex-direction: 'row-wrap';
-	align-items: 'center';
-	justify-content: 'center';
-	height: '100%';
-	width: '100%';
-`
