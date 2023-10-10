@@ -17,7 +17,7 @@ const LoginScreen = () => {
   }
 
   const handleLogin = () => {
-    if (username === 'admin' && password === 'password') {
+    if (username === 'user' && password === 'password') {
       alert('Login successful');
       } else {
       alert('Username or password is incorrect');
