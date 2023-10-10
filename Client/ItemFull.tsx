@@ -6,7 +6,7 @@ import Swiper from 'react-native-swiper';
 interface ItemFullProps {
 	hidden: boolean;
 	users: User[];
-	ghosts?: Ghost[];
+	ghosts: Ghost[];
 }
 
 export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
