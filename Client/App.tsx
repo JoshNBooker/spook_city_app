@@ -75,16 +75,19 @@ export default function App() {
 				})}
 			</MapView>
 			<SwipeUpDown
-				itemMini={(show: boolean) => <ItemFull show={show} />}
-				itemFull={(hide: boolean) => <ItemFull hide={hide} />}
+				itemMini={(show: boolean) => (
+					<ItemFull show={show} users={users} />
+				)}
+				itemFull={(hide: boolean) => (
+					<ItemFull hide={hide} users={users} />
+				)}
 				onShowMini={() => console.log('mini')}
 				onShowFull={() => console.log('full')}
 				animation="spring"
-				disableSwipeIcon
-				extraMarginTop={100}
+				extraMarginTop={40}
 				iconColor="yellow"
 				iconSize={30}
-				style={{ backgroundColor: '#ffffff' }}
+				style={styles.swipeUpDown}
 			/>
 			<StatusBar style="auto" />
 		</View>
@@ -102,5 +105,10 @@ const styles = StyleSheet.create({
 		height: '100%',
 		width: '100%',
 		backgroundColor: '#0000FF',
+	},
+	swipeUpDown: {
+		backgroundColor: '#ffffff',
+		opacity: 0.8,
+		paddingHorizontal: 15,
 	},
 });
