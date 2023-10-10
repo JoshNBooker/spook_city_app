@@ -1,43 +1,42 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, ImageBackground, TextInput } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
+import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { useState } from 'react';
-
-const LoginScreen = () => {
+const LoginScreen = ({ setIsLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleUsernameChange = (text: string) => {
+  const handleUsernameChange = (text) => {
     setUsername(text);
-  }
+  };
 
-  const handlePasswordChange = (text: string) => {
+  const handlePasswordChange = (text) => {
     setPassword(text);
-  }
+  };
 
   const handleLogin = () => {
     if (username === 'User' && password === 'password') {
-      alert('Login successful');
+      setIsLoggedIn(true);
     } else {
-      alert('Username or password is incorrect');
-    }
-  }
+      alert('Username or password is incorrect. Please try again.');
+    } 
+  };
 
   return (
-    <LinearGradient
-    colors={['#484747', '#d5722f']}
-    style={styles.backgroundImage}
-    >
-      <View style={styles.container}>
-      <View style={styles.loginContainer}>
-          <Text style={styles.title}>Login to Spook City</Text>
+    <LinearGradient colors={['#484747', '#d5722f']} style={styles.backgroundImage}>
+    <View style={styles.container}>
+
+      <Image source={require('../assets/SpookCityLogo.png')} style={{ width: 200, height: 200, marginBottom: 10 }} />
+
+        <View style={styles.loginContainer}>
+          <Text style={styles.title}>Login... if you dare</Text>
 
           <TextInput
             style={styles.input}
             placeholder="Username"
             onChangeText={handleUsernameChange}
             value={username}
+            placeholderTextColor="#FFFFFF"
           />
 
           <TextInput
@@ -46,61 +45,71 @@ const LoginScreen = () => {
             onChangeText={handlePasswordChange}
             value={password}
             secureTextEntry={true}
+            placeholderTextColor="#FFFFFF"
           />
 
           <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
             <Text style={styles.buttonText}>Login</Text>
           </TouchableOpacity>
-      </View>
+        </View>
+        <Text style={styles.footer} >Developed by the SpookyCityCommittee™</Text>
     </View>
     </LinearGradient>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    marginTop: 150,
+    alignItems: 'center',
   },
   backgroundImage: {
-    flex: 1,
-    justifyContent: 'center',
     width: '100%',
     padding: 20,
-    borderRadius: 10,
+    height: '100%',
   },
   loginContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    margin: 20,
-    marginTop: 250,
-    borderRadius: 10,
-    overflow: 'hidden', 
-    padding: 10,
-    gap: 5,
+    padding: 20,
+    width: '80%',
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
+    fontFamily: 'Georgia',
     fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: 'center',
+    color: '#dedede',
   },
   loginButton: {
     backgroundColor: '#d4811d',
     padding: 10,
     borderRadius: 5,
+    marginTop: 10,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#1c1c1c',
     fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
   },
   input: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: 'rgba(156, 156, 156, 0.8)',
     padding: 10,
     borderRadius: 5,
     marginBottom: 10,
-    textAlign: 'center',
+    width: '100%',
+    color: '#000000',
   },
+  footer: {
+    marginTop: 200,
+    color: '#dedede',
+    fontSize: 12,
+    fontFamily: 'Georgia',
+    fontWeight: 'bold',
+  }
 });
 
 export default LoginScreen;
+function elseif(arg0: boolean) {
+  throw new Error('Function not implemented.');
+}
+
