@@ -59,7 +59,7 @@ export default function App() {
 		pitch: 40,
 		zoom: 15,
 	}
-
+	
 	return (
 		<View style={styles.container}>
 			<MapView
@@ -75,7 +75,6 @@ export default function App() {
 				showsUserLocation={true}
 				tintColor="Red"
 				pitchEnabled={true}
-				// mapType='satellite'
 				camera={initalCamera}
 				showsBuildings={true}
 			>
@@ -88,6 +87,9 @@ export default function App() {
 							}}
 							key={index}
 							pinColor="Blue"
+							image={require('./assets/AnimatedGhost1.gif')}
+							opacity={0.8}
+							style={{width: 10, height: 10}}
 						/>
 					);
 				})}
