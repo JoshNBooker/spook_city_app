@@ -12,7 +12,9 @@ export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
+	// Use ip address for running on ios device and localhost if not on hotspot
 	const apiUrl: string = 'http://localhost:8080';
+	// const apiUrl: string = 'http://172.20.10.5:8080';
 	
 
 	const fetchData = async (url: string) => {
