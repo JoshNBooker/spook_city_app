@@ -10,6 +10,7 @@ import LoginScreen from './components/LoginScreen';
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
+	const [loggedIn, setLoggedIn] = useState<boolean>(false);
 	const [locations, setLocations] = useState<Location[]>([]);
 	const apiUrl: string = 'http://localhost:8080';
 	
@@ -49,33 +50,6 @@ export default function App() {
 	return (
 		<View style={styles.container}>
 			<LoginScreen />
-			
-			<MapView 
-				style={styles.map}
-				// provider={PROVIDER_GOOGLE}
-				initialRegion={{
-					latitude: 55.9486,
-					latitudeDelta: 0.08,
-					longitude: -3.1999,
-					longitudeDelta: 0.08,
-				}}
-				showsUserLocation={true}
-				tintColor="Red"
-			>
-				{locations.map((location, index) => {
-					return (
-						<Marker coordinate={{
-							latitude: location.coordinateX,
-							longitude: location.coordinateY
-						}}
-						key={index}
-						pinColor='Blue'
-						/>
-					)
-				})}
-			</MapView>
-			
-			<StatusBar style="auto" />
 		</View>
 	);
 }
