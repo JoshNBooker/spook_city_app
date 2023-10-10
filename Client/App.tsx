@@ -53,9 +53,9 @@ export default function App() {
 			<View style={styles.overlay}>
 				<Swiper>
 					<View style={styles.ghostContainer}>
-						{ghosts.map((ghost) => {
+						{ghosts.map((ghost, index) => {
 							return (
-								<View style={styles.ghostTile}>
+								<View style={styles.ghostTile} key={index}>
 									<Text style={styles.tileText}>{ghost.name}</Text>
 								</View>
 							)
