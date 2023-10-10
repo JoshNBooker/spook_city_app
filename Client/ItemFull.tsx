@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { User, Ghost } from './types/Types';
 import Swiper from 'react-native-swiper';
 
@@ -10,9 +10,15 @@ interface ItemFullProps {
 }
 
 export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
+	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(null);
 	console.log('hidden:', hidden);
+	console.log(selectedGhost);
 
 	const firstUser = users[0];
+
+	const handleSelectGhost = (ghost: Ghost) => {
+		setSelectedGhost(ghost);
+	};
 
 	if (!users || users.length === 0) {
 		return (
@@ -24,27 +30,44 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 
 	return (
 		<View style={!hidden ? styles.centeredContent : undefined}>
-			{hidden ? (
+			{hidden && (
 				<View>
 					<Text>{firstUser.userName}</Text>
 					<Text>Rank: {firstUser.rank}</Text>
 					<Text>Score: {firstUser.points}</Text>
 				</View>
-			) : (
-				<View style={styles.overlay}>
-					<Swiper>
+			)}
+			{selectedGhost && !hidden && (
+				<View>
+					<Text>{selectedGhost.name}</Text>
+					<Text>{selectedGhost.dialogue}</Text>
+				</View>
+			)}
+			{!hidden && (
+				<View>
+					<Swiper showsButtons={true}>
 						<View style={styles.ghostContainer}>
 							{ghosts.map((ghost, index) => {
 								return (
 									<View style={styles.ghostTile} key={index}>
-										<Text style={styles.tileText}>
-											{ghost.name}
-										</Text>
+										<TouchableOpacity
+											onPress={() =>
+												handleSelectGhost(ghost)
+											}
+										>
+											<Text style={styles.tileText}>
+												{ghost.name}
+											</Text>
+										</TouchableOpacity>
 									</View>
 								);
 							})}
 						</View>
-						<View></View>
+						<View>
+							<Text>{firstUser.userName}</Text>
+							<Text>{firstUser.rank}</Text>
+							<Text>{firstUser.points}</Text>
+						</View>
 					</Swiper>
 				</View>
 			)}

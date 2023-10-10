@@ -13,6 +13,8 @@ import java.util.List;
 public class Ghost {
     private String name;
     private String fileName;
+
+    private String description;
     private LocalDate dateOfDeath;
     private String dialogue;
     @JsonIgnoreProperties({"ghosts"})
@@ -29,9 +31,10 @@ public class Ghost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Ghost(String name, String fileName, LocalDate dateOfDeath, String dialogue) {
+    public Ghost(String name, String fileName, String description, LocalDate dateOfDeath, String dialogue) {
         this.name = name;
         this.fileName = fileName;
+        this.description = description;
         this.dateOfDeath = dateOfDeath;
         this.dialogue = dialogue;
         this.users = new ArrayList<>();
