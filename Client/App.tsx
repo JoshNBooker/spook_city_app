@@ -1,12 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
-import { Ghost, Location, User } from './types/Types';
+import { Ghost, User, Location } from './types/Types';
 import { useState, useEffect } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { GOOGLE_MAPS_SDK_KEY } from "@env"; 
+import { GOOGLE_MAPS_SDK_KEY } from '@env';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
 import styled from 'styled-components/native';
 import Swiper from 'react-native-swiper';
+import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
+import React from 'react';
+import SwipeUpDown from 'react-native-swipe-up-down';
+import ItemFull from './ItemFull';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
@@ -15,7 +18,7 @@ export default function App() {
 	// Use ip address for running on ios device and localhost if not on hotspot
 	const apiUrl: string = 'http://localhost:8080';
 	// const apiUrl: string = 'http://172.20.10.5:8080';
-	
+
 
 	const fetchData = async (url: string) => {
 		try {
@@ -67,8 +70,8 @@ export default function App() {
 				</Swiper>
 			</View>
 			
-			
-			<MapView 
+			<MapView
+
 				style={styles.map}
 				// provider={PROVIDER_GOOGLE}
 				initialRegion={{
@@ -82,17 +85,32 @@ export default function App() {
 			>
 				{locations.map((location, index) => {
 					return (
-						<Marker coordinate={{
-							latitude: location.coordinateX,
-							longitude: location.coordinateY
-						}}
-						key={index}
-						pinColor='Blue'
+						<Marker
+							coordinate={{
+								latitude: location.coordinateX,
+								longitude: location.coordinateY,
+							}}
+							key={index}
+							pinColor="Blue"
 						/>
-					)
+					);
 				})}
 			</MapView>
-			
+			<SwipeUpDown
+				itemMini={(show: boolean) => (
+					<ItemFull show={show} users={users} />
+				)}
+				itemFull={(hide: boolean) => (
+					<ItemFull hide={hide} users={users} />
+				)}
+				onShowMini={() => console.log('mini')}
+				onShowFull={() => console.log('full')}
+				animation="spring"
+				extraMarginTop={40}
+				iconColor="yellow"
+				iconSize={30}
+				style={styles.swipeUpDown}
+			/>
 			<StatusBar style="auto" />
 		</View>
 	);
@@ -141,7 +159,12 @@ const styles = StyleSheet.create({
 	},
 	tileText: {
 		color: '#FBF7F5',
-	}
+	},
+	swipeUpDown: {
+		backgroundColor: '#ffffff',
+		opacity: 0.8,
+		paddingHorizontal: 15,
+	},
 });
 
 const GhostTile = styled.View `
