@@ -5,7 +5,6 @@ import MapView, { Marker } from 'react-native-maps';
 import { GOOGLE_MAPS_SDK_KEY } from '@env';
 import { PROVIDER_GOOGLE } from 'react-native-maps';
 import styled from 'styled-components/native';
-import Swiper from 'react-native-swiper';
 import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
 import React from 'react';
 import SwipeUpDown from 'react-native-swipe-up-down';
@@ -55,21 +54,6 @@ export default function App() {
 	return (
 		<View style={styles.container}>
 			
-			<View style={styles.overlay}>
-				<Swiper>
-					<View style={styles.ghostContainer}>
-						{ghosts.map((ghost, index) => {
-							return (
-								<View style={styles.ghostTile} key={index}>
-									<Text style={styles.tileText}>{ghost.name}</Text>
-								</View>
-							)
-						})}
-					</View>
-					<View></View>
-				</Swiper>
-			</View>
-			
 			<MapView
 
 				style={styles.map}
@@ -98,10 +82,10 @@ export default function App() {
 			</MapView>
 			<SwipeUpDown
 				itemMini={(show: boolean) => (
-					<ItemFull show={show} users={users} />
+					<ItemFull show={show} users={users} ghosts={ghosts}/>
 				)}
 				itemFull={(hide: boolean) => (
-					<ItemFull hide={hide} users={users} />
+					<ItemFull hide={hide} users={users} ghosts={ghosts}/>
 				)}
 				onShowMini={() => console.log('mini')}
 				onShowFull={() => console.log('full')}
@@ -130,36 +114,7 @@ const styles = StyleSheet.create({
 		position: 'absolute',
 		zIndex: -1,
 	},
-	overlay: {
-		position: 'absolute',
-		backgroundColor: '#e1e1fc',
-		opacity: 0.5,
-		height: "80%",
-		width: "80%",
-		zIndex: 1,
-	},
-	ghostTile: {
-		backgroundColor: '#0000FF',
-		justifyContent: 'center',
-		display: 'flex',
-		alignItems: 'center',
-		textAlign: 'center',
-		height: 'auto',
-		width: '30%',
-		zIndex: 2,
-	},
-	ghostContainer: {
-		display: 'flex',
-		flexDirection: 'row-reverse',
-		alignItems: 'center',
-		justifyContent: 'center',
-		height: '100%',
-		width: '100%',
-		gap: 3,
-	},
-	tileText: {
-		color: '#FBF7F5',
-	},
+
 	swipeUpDown: {
 		backgroundColor: '#ffffff',
 		opacity: 0.8,
