@@ -95,3 +95,5 @@ const styles = StyleSheet.create({
     border: 0,
   }
 });
+
+export default LoginScreen;
