@@ -62,7 +62,8 @@ const [swipeHidden, setSwipeHidden] = React.useState(true);
               console.log('full');
             }}
             animation="spring"
-            extraMarginTop={40}
+            extraMarginTop={40} 
+            style={styles.swipeUpDown}
           />
       </MapView>
   );
@@ -77,6 +78,10 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: '#0000FF',
     zIndex: +1,
+  },
+  swipeUpDown: {
+    justifyContent: 'flex-end',
+    zIndex: +2,
   }
 });
 
