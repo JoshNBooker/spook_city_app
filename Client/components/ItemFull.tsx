@@ -114,14 +114,17 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 								))}
 							</ScrollView>
 						</View>
-						<View>
+						<View style={styles.userInfoContainer}>
 							<Image
 								source={getImageForUser(users[0])}
 								style={styles.userImage}
 							/>
-							<Text>{firstUser.userName}</Text>
-							<Text>{firstUser.rank}</Text>
-							<Text>{firstUser.points}</Text>
+							<View style={styles.userInfoContainerText}>
+							<Text style={styles.userNameInfo}>{firstUser.userName}</Text>
+							<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
+							<Text style={styles.score}> Score: {firstUser.points}</Text>
+							</View>
+
 						</View>
 					</Swiper>
 				</View>
@@ -133,9 +136,10 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: '#fff',
+		backgroundColor: 'rgba(26, 26, 26, 0.97))',
 		paddingHorizontal: 20,
 		paddingTop: 20,
+		borderRadius: 30,
 	},
 	userInfoContainer: {
 		display: 'flex',
@@ -143,17 +147,26 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		flexDirection: 'row',
 	},
+	userInfoContainerText: {
+		display: 'flex',
+		justifyContent: 'space-between',
+		flexDirection: 'column',
+	},
 	userName: {
 		fontSize: 20,
+		color: '#b44d19',
+		fontFamily: 'Georgia',
 		fontWeight: 'bold',
 	},
 	rank: {
 		fontSize: 16,
-		color: '#555',
+		fontFamily: 'Georgia',
+		color: '#b2b2b2',
 	},
 	score: {
 		fontSize: 16,
-		color: '#555',
+		fontFamily: 'Georgia',
+		color: '#b2b2b2',
 	},
 	selectedGhostContainer: {
 		paddingVertical: 20,
@@ -179,7 +192,7 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 	ghostTile: {
-		backgroundColor: '#0000FF',
+		backgroundColor: '#da6512',
 		justifyContent: 'center',
 		alignItems: 'center',
 		textAlign: 'center',
@@ -197,16 +210,24 @@ const styles = StyleSheet.create({
 		width: 300,
 	},
 	userImage: {
-		height: 500,
-		width: 300,
+		height: 120,
+		width: 160,
+		resizeMode: 'contain',
+		borderRadius:10,
 	},
 	userImageMini: {
 		height: 70,
 		width: 50,
 		borderColor: '#000000',
-		borderRadius: 50,
+		borderRadius: 10,
 		borderWidth: 1,
 		backgroundColor: '#615f5f',
 		marginRight: 10,
+	},
+	userNameInfo: {
+		fontSize: 20,
+		color: '#b44d19',
+		fontFamily: 'Georgia',
+		fontWeight: 'bold',
 	},
 });
