@@ -120,11 +120,17 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 								style={styles.userImage}
 							/>
 							<View style={styles.userInfoContainerText}>
-							<Text style={styles.userNameInfo}>{firstUser.userName}</Text>
-							<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
-							<Text style={styles.score}> Score: {firstUser.points}</Text>
+								<Text style={styles.userNameInfo}>
+									{firstUser.userName}
+								</Text>
+								<Text style={styles.rank}>
+									Rank: {firstUser.rank}
+								</Text>
+								<Text style={styles.score}>
+									{' '}
+									Score: {firstUser.points}
+								</Text>
 							</View>
-
 						</View>
 					</Swiper>
 				</View>
@@ -213,7 +219,7 @@ const styles = StyleSheet.create({
 		height: 120,
 		width: 160,
 		resizeMode: 'contain',
-		borderRadius:10,
+		borderRadius: 10,
 	},
 	userImageMini: {
 		height: 70,
@@ -223,6 +229,10 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		backgroundColor: '#615f5f',
 		marginRight: 10,
+		shadowColor: 'rgba(247, 247, 247, 0.784)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
 	},
 	userNameInfo: {
 		fontSize: 20,

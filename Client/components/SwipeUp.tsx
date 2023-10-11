@@ -39,6 +39,10 @@ const styles = StyleSheet.create({
 	swipeUpDown: {
 		justifyContent: 'flex-end',
 		zIndex: 2,
+		shadowColor: 'rgba(243, 243, 199, 0.784)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
 	},
 });
 
