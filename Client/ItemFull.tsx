@@ -79,7 +79,7 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 			)}
 			{!hidden && (
 				<View style={styles.ghostListContainer}>
-					<Swiper showsButtons={true}>
+					<Swiper showsButtons={true} loop={false}>
 						<View>
 							{selectedGhost && !hidden && (
 								<View style={styles.selectedGhostContainer}>
@@ -200,7 +200,12 @@ const styles = StyleSheet.create({
 		width: 300,
 	},
 	userImageMini: {
-		height: 50,
-		width: 30,
+		height: 70,
+		width: 50,
+		borderColor: '#000000',
+		borderRadius: 50,
+		borderWidth: 1,
+		backgroundColor: '#615f5f',
+		marginRight: 10,
 	},
 });
