@@ -13,7 +13,7 @@ import Swiper from 'react-native-swiper';
 interface ItemFullProps {
 	hidden: boolean;
 	users: User[];
-	ghosts: Ghost[];
+	ghosts?: Ghost[];
 }
 
 const ghostImages: { [key: string]: any } = {
