@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Camera } from 'react-native-maps';
+import { ImageURISource } from 'react-native';
 import { Location, User, Ghost } from '../types/Types';
 import SwipeUp from './SwipeUp';
 
@@ -8,6 +9,12 @@ interface MapComponentProps {
 	locations: Location[];
 	users: User[];
 	ghosts: Ghost[];
+}
+
+const icon: ImageURISource = {
+	uri: '../assets/AnimatedGhost1.gif',
+	height: 300,
+	width: 200,
 }
 
 const MapComponent: React.FC<MapComponentProps> = ({
@@ -40,6 +47,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 								longitude: location.coordinateY,
 							}}
 							key={index}
+							image={require("../assets/AnimatedGhost1.gif")}
 						/>
 					);
 				})}

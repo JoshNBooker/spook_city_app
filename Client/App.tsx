@@ -11,7 +11,7 @@ export default function App() {
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
-	const apiUrl: string = 'http://172.20.10.5:8080';
+	const apiUrl: string = 'http://localhost:8080';
 
 	const fetchData = async (url: string) => {
 		try {
