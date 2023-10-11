@@ -7,34 +7,35 @@ import {
 	ScrollView,
 	Image,
 } from 'react-native';
-import { User, Ghost } from './types/Types';
+import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
 
 interface ItemFullProps {
 	hidden: boolean;
 	users: User[];
-	ghosts: Ghost[];
+	ghosts?: Ghost[];
 }
 
 const ghostImages: { [key: string]: any } = {
-	'Abandoned Annie': require('./images/GhostPictures/abandonedAnnie.jpg'),
-	'The Headless Drummer': require('./images/GhostPictures/headlessDrummer.jpg'),
-	'Mackenzie Poltergeist': require('./images/GhostPictures/mackenziePoltergeist.jpg'),
-	'Greyfriars Bobby': require('./images/GhostPictures/greyfriarsBobby.jpg'),
-	'Mary, Queen of Scots': require('./images/GhostPictures/maryQueenOfScots.jpg'),
-	'The Woman in Black': require('./images/GhostPictures/womanInBlack.jpg'),
-	'The Phantom Piper': require('./images/GhostPictures/phantomPiper.jpg'),
-	"The Poltergeist of Mary King's Close": require('./images/GhostPictures/poltergeistOfMaryKingsClose.jpg'),
-	'Wee Annie': require('./images/GhostPictures/weeAnnie.jpg'),
-	'The Phantom Harpist': require('./images/GhostPictures/phantomHarpist.jpg'),
+	'Abandoned Annie': require('../images/GhostPictures/abandonedAnnie.jpg'),
+	'The Headless Drummer': require('../images/GhostPictures/headlessDrummer.jpg'),
+	'Mackenzie Poltergeist': require('../images/GhostPictures/mackenziePoltergeist.jpg'),
+	'Greyfriars Bobby': require('../images/GhostPictures/greyfriarsBobby.jpg'),
+	'Mary, Queen of Scots': require('../images/GhostPictures/maryQueenOfScots.jpg'),
+	'The Woman in Black': require('../images/GhostPictures/womanInBlack.jpg'),
+	'The Phantom Piper': require('../images/GhostPictures/phantomPiper.jpg'),
+	"The Poltergeist of Mary King's Close": require('../images/GhostPictures/poltergeistOfMaryKingsClose.jpg'),
+	'Wee Annie': require('../images/GhostPictures/weeAnnie.jpg'),
+	'The Phantom Harpist': require('../images/GhostPictures/phantomHarpist.jpg'),
 };
 const userImages: { [key: string]: any } = {
-	GhostHunter123: require('./images/UserPictures/GhostHunter123.jpg'),
-	SpookyExplorer: require('./images/UserPictures/SpookyExplorer.jpg'),
+	GhostHunter123: require('../images/UserPictures/GhostHunter123.jpg'),
+	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
 };
 
 export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(null);
+	console.log('hidden: ', hidden);
 
 	const firstUser = users[0];
 
@@ -51,7 +52,7 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 	if (!users || users.length === 0) {
 		return (
 			<View style={styles.container}>
-				<Text>No user data available.</Text>
+				<Text>No user information</Text>
 			</View>
 		);
 	}

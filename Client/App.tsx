@@ -1,5 +1,7 @@
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { Ghost, User, Location } from './types/Types';
 import { useState, useEffect } from 'react';
 import MapView, { Marker, Camera } from 'react-native-maps';
 import { GOOGLE_MAPS_SDK_KEY } from '@env';
@@ -8,15 +10,16 @@ import { View, SafeAreaView, FlatList, StyleSheet, Text } from 'react-native';
 import React from 'react';
 import SwipeUpDown from 'react-native-swipe-up-down';
 import ItemFull from './ItemFull';
+import { Ghost, Location, User } from './types/Types';
+import MapComponent from './components/MapComponent';
+import LoginScreen from './components/LoginScreen';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
-	const [swipeHidden, setSwipeHidden] = useState<boolean>(true);
-	// Use ip address for running on ios device and localhost if not on hotspot
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const apiUrl: string = 'http://localhost:8080';
-	// const apiUrl: string = 'http://172.20.10.5:8080';
 
 	const fetchData = async (url: string) => {
 		try {
@@ -45,6 +48,7 @@ export default function App() {
 			.then((data: Location[]) => setLocations(data))
 			.catch((error) => console.error(error));
 	}, []);
+
 
 	console.log('ghosts: ', ghosts);
 	console.log('users: ', users);
@@ -146,220 +150,6 @@ const styles = StyleSheet.create({
 		paddingHorizontal: 15,
 	},
 });
-
-const generatedMapStyle = [
-	{
-	  "elementType": "geometry",
-	  "stylers": [
-		{
-		  "color": "#595050"
-		}
-	  ]
-	},
-	{
-	  "elementType": "labels.icon",
-	  "stylers": [
-		{
-		  "visibility": "off"
-		}
-	  ]
-	},
-	{
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#757575"
-		}
-	  ]
-	},
-	{
-	  "elementType": "labels.text.stroke",
-	  "stylers": [
-		{
-		  "color": "#212121"
-		}
-	  ]
-	},
-	{
-	  "featureType": "administrative",
-	  "elementType": "geometry",
-	  "stylers": [
-		{
-		  "color": "#757575"
-		}
-	  ]
-	},
-	{
-	  "featureType": "administrative.country",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#9e9e9e"
-		}
-	  ]
-	},
-	{
-	  "featureType": "administrative.land_parcel",
-	  "stylers": [
-		{
-		  "visibility": "off"
-		}
-	  ]
-	},
-	{
-	  "featureType": "administrative.locality",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#bdbdbd"
-		}
-	  ]
-	},
-	{
-	  "featureType": "poi",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#757575"
-		}
-	  ]
-	},
-	{
-		"featureType": "poi.business",
-		"elementType": "geometry",
-		"stylers": [
-			{
-				"color": "#120101"
-			}
-		]
-	},
-	{
-	  "featureType": "poi.business",
-	  "elementType": "labels.text",
-	  "stylers": [
-		{
-		  "visibility": "off"
-		}
-	  ]
-	},
-	{
-	  "featureType": "poi.park",
-	  "elementType": "geometry",
-	  "stylers": [
-		{
-		  "color": "#181818"
-		}
-	  ]
-	},
-	{
-	  "featureType": "poi.park",
-	  "elementType": "labels.text",
-	  "stylers": [
-		{
-		  "visibility": "off"
-		}
-	  ]
-	},
-	{
-	  "featureType": "poi.park",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#616161"
-		}
-	  ]
-	},
-	{
-	  "featureType": "poi.park",
-	  "elementType": "labels.text.stroke",
-	  "stylers": [
-		{
-		  "color": "#1b1b1b"
-		}
-	  ]
-	},
-	{
-	  "featureType": "road",
-	  "elementType": "geometry.fill",
-	  "stylers": [
-		{
-		  "color": "#2c2c2c"
-		}
-	  ]
-	},
-	{
-	  "featureType": "road",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#8a8a8a"
-		}
-	  ]
-	},
-	{
-	  "featureType": "road.arterial",
-	  "elementType": "geometry",
-	  "stylers": [
-		{
-		  "color": "#373737"
-		}
-	  ]
-	},
-	{
-	  "featureType": "road.highway",
-	  "elementType": "geometry",
-	  "stylers": [
-		{
-		  "color": "#3c3c3c"
-		}
-	  ]
-	},
-	{
-	  "featureType": "road.highway.controlled_access",
-	  "elementType": "geometry",
-	  "stylers": [
-		{
-		  "color": "#4e4e4e"
-		}
-	  ]
-	},
-	{
-	  "featureType": "road.local",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#616161"
-		}
-	  ]
-	},
-	{
-	  "featureType": "transit",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#757575"
-		}
-	  ]
-	},
-	{
-	  "featureType": "water",
-	  "elementType": "geometry",
-	  "stylers": [
-		{
-		  "color": "#000000"
-		}
-	  ]
-	},
-	{
-	  "featureType": "water",
-	  "elementType": "labels.text.fill",
-	  "stylers": [
-		{
-		  "color": "#3d3d3d"
-		}
-	  ]
-	}
-  ]
 
 
   const secondGenStyle = [
@@ -679,3 +469,22 @@ const generatedMapStyle = [
 	  ]
 	}
   ]
+
+	return (
+		<View>
+			{isLoggedIn === false && (
+				<>
+					<LoginScreen setIsLoggedIn={setIsLoggedIn} />
+				</>
+			)}
+			{isLoggedIn && (
+				<MapComponent
+					locations={locations}
+					users={users}
+					ghosts={ghosts}
+				/>
+			)}
+		</View>
+	);
+}
+
