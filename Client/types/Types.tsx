@@ -1,6 +1,7 @@
 export interface Ghost {
 	name: string;
 	fileName: string;
+	description:string;
 	dateOfDeath: Date;
 	dialogue: string;
 	users: User[];
