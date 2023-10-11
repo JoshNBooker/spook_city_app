@@ -18,7 +18,8 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.spookcity",
       "config": {
-        "googleMapsApiKey": ""
+        "googleMapsApiKey": "",
+        "mapStyle": ""
       }
     },
     "android": {
