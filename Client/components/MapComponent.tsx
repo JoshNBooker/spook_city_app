@@ -29,7 +29,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				showsUserLocation={true}
 				customMapStyle={secondGenStyle}
 				pitchEnabled={true}
-				// camera={initalCamera}
+				camera={initalCamera}
 				showsBuildings={true}
 			>
 				{locations.map((location, index) => {
