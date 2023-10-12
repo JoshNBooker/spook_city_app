@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
+import UserPage from './UserPage';
 
 interface ItemFullProps {
 	hidden: boolean;
@@ -96,39 +97,7 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 						<Text style={styles.progressText}>(amount)points until next level</Text>
 						<ProgressBar progress={0.255} width={280} height={8} color='orange' borderRadius='2' style={styles.progressBar}/>
 					<Swiper showsButtons={true} loop={false}>
-						<View>
-							{selectedGhost && !hidden && (
-								<View style={styles.selectedGhostContainer}>
-									<Text style={styles.ghostName}>
-										{selectedGhost.name}
-									</Text>
-									<Image
-										source={getImageForGhost(selectedGhost)}
-										style={styles.ghostImage}
-									/>
-									<Text style={styles.ghostDescription}>
-										{selectedGhost.description}
-									</Text>
-								</View>
-							)}
-							<Text style={styles.discoveredGhostsTitle}>Discovered Ghosts</Text>
-							<ScrollView
-								horizontal
-								style={styles.horizontalScrollView}
-							>
-								{ghosts.map((ghost, index) => (
-									<TouchableOpacity
-										key={index}
-										onPress={() => handleSelectGhost(ghost)}
-									>
-								<ImageBackground source={getImageForGhost(ghost)} style={styles.ghostButtonBackground} >
-										<View style={styles.ghostTile}>
-										</View>
-									</ImageBackground>
-									</TouchableOpacity>
-								))}
-							</ScrollView>
-						</View>
+							<UserPage hidden={hidden} users={users} ghosts={ghosts}></UserPage>
 					</Swiper>
 				</View>
 			)}
