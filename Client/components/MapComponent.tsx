@@ -32,17 +32,43 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
 
 	const compareLocations = () => {
+		(async () => {
+			let location = await UserLocation.getCurrentPositionAsync({});
+			setUserLocation(location);
+		  })().then(()=> {
 		if (userLocation) {
 			const closeGhosts: Location[] = locations.filter((location) => {
 				console.log(location.coordinateX, location.coordinateY)
-				console.log(userLocation)
+				console.log("the user location is", userLocation)
 				let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
 				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
 				console.log("latitude delta:", latDelta)
 				console.log("longitude delta:", longDelta)
-				return latDelta < 0.0000001 && longDelta < 0.0000001
+				return latDelta < 0.001 && longDelta < 0.001
 			})
 			console.log(closeGhosts)
+
+			let closestGhostLocation: Location[] = closeGhosts.sort(compareDistance)
+
+			console.log(closestGhostLocation)
+
+			let closetGhost: {ghost: Ghost, location: Location}
+		}})
+	}
+
+	const compareDistance = (a, b) => {
+		let latDeltaA: Double = Math.abs(userLocation.coords.latitude - a.coordinateX);
+		let longDeltaA: Double = Math.abs(userLocation.coords.longitude - a.coordinateY);
+		let latDeltaB: Double = Math.abs(userLocation.coords.latitude - b.coordinateX);
+		let longDeltaB: Double = Math.abs(userLocation.coords.longitude - b.coordinateY);
+		let distanceA: Double = Math.sqrt((latDeltaA ** 2) + (longDeltaA ** 2));
+		let distanceB: Double = Math.sqrt((latDeltaB ** 2) + (longDeltaB ** 2));
+		if (distanceA > distanceB) {
+			return 1;
+		} else if (distanceB > distanceA) {
+			return -1;
+		} else {
+			return 0;
 		}
 	}
 
