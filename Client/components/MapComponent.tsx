@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Camera } from 'react-native-maps';
 import { ImageURISource } from 'react-native';
 import { Location, User, Ghost } from '../types/Types';
 import SwipeUp from './SwipeUp';
+import * as UserLocation from 'expo-location';
+import { LocationObject } from 'expo-location';
+import { Double } from 'react-native/Libraries/Types/CodegenTypes';
+
+
 
 interface MapComponentProps {
 	locations: Location[];
@@ -17,11 +22,75 @@ const icon: ImageURISource = {
 	width: 200,
 }
 
+
+
 const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
 	users,
 	ghosts,
 }) => {
+	const [userLocation, setUserLocation] = useState<LocationObject>(null);
+
+	const compareLocations = () => {
+		console.log("comparing bitchhhh")
+		console.log(locations)
+		locations.forEach((location) => {console.log("for each works", location.name)})
+		if (userLocation) {
+			locations.forEach((location) => {
+				console.log(location.coordinateX, location.coordinateY)
+				console.log(userLocation)
+				let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
+				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
+				console.log("latitude delta:", latDelta)
+				console.log("longitude delta:", longDelta)
+			})
+		}
+	}
+
+
+
+	useEffect(() => {
+		(async () => {
+		  let location = await UserLocation.getCurrentPositionAsync({});
+		  setUserLocation(location);
+		//   console.log(locations)
+		  console.log("this is the current access value:", UserLocation.getForegroundPermissionsAsync())
+		//   setInterval(() => {
+		// 	console.log("comparing bitchhhh")
+		// 	console.log(locations)
+		// 	if (userLocation) {
+		// 		locations.forEach((location) => {
+		// 			console.log(location.coordinateX, location.coordinateY)
+		// 			console.log(userLocation)
+		// 			let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
+		// 			let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
+		// 			console.log(`The distance to location ${location.name} is:`)
+		// 			console.log("latitude delta:", latDelta)
+		// 			console.log("longitude delta:", longDelta)
+		// 		})
+		// 	}
+		//   }, 5000)
+		})();
+	  }, []);
+
+	  setInterval(() => {
+		console.log("comparing bitchhhh")
+		// console.log(locations)
+		if (userLocation) {
+			locations.forEach((location) => {
+				console.log(location.coordinateX, location.coordinateY)
+				console.log(userLocation)
+				let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
+				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
+				console.log(`The distance to location ${location.name} is:`)
+				console.log("latitude delta:", latDelta)
+				console.log("longitude delta:", longDelta)
+			})
+		}
+	  }, 5000)
+
+	  console.log("this is the user location", userLocation)
+
 	return (
 		<View>
 			<MapView
