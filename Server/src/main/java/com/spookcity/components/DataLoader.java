@@ -187,7 +187,7 @@ public class DataLoader implements ApplicationRunner {
         locationRepository.save(location9);
         locationRepository.save(location10);
 
-        User user1 = new User("GhostHunter123", "user1.jpg", Rank.MEDIUM, 1000L);
+        User user1 = new User("GhostHunter123", "user1.jpg", Rank.MEDIUM, 2380L);
         User user2 = new User("SpookyExplorer", "user2.jpg", Rank.NOVICE, 500L);
 
         userRepository.save(user1);

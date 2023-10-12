@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProgressBar from 'react-native-progress/Bar';
 import {
 	View,
 	Text,
