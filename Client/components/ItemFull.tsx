@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProgressBar from 'react-native-progress/Bar';
 import {
 	View,
 	Text,
@@ -120,16 +121,10 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 								style={styles.userImage}
 							/>
 							<View style={styles.userInfoContainerText}>
-								<Text style={styles.userNameInfo}>
-									{firstUser.userName}
-								</Text>
-								<Text style={styles.rank}>
-									Rank: {firstUser.rank}
-								</Text>
-								<Text style={styles.score}>
-									{' '}
-									Score: {firstUser.points}
-								</Text>
+							<Text style={styles.userNameInfo}>{firstUser.userName}</Text>
+							<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
+							<Text style={styles.score}> Score: {firstUser.points}</Text>
+							<ProgressBar progress={0.255} width={100} />
 							</View>
 						</View>
 					</Swiper>
