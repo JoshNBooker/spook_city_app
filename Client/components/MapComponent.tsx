@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Camera } from 'react-native-maps';
 import { ImageURISource } from 'react-native';
 import { Location, User, Ghost } from '../types/Types';
 import SwipeUp from './SwipeUp';
+import * as UserLocation from 'expo-location';
+import { LocationObject } from 'expo-location';
+import { Double } from 'react-native/Libraries/Types/CodegenTypes';
+
+
 
 interface MapComponentProps {
 	locations: Location[];
@@ -17,11 +22,42 @@ const icon: ImageURISource = {
 	width: 200,
 };
 
+
+
 const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
 	users,
 	ghosts,
 }) => {
+	const [userLocation, setUserLocation] = useState<LocationObject>(null);
+
+	const compareLocations = () => {
+		if (userLocation) {
+			const closeGhosts: Location[] = locations.filter((location) => {
+				console.log(location.coordinateX, location.coordinateY)
+				console.log(userLocation)
+				let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
+				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
+				console.log("latitude delta:", latDelta)
+				console.log("longitude delta:", longDelta)
+				return latDelta < 0.0000001 && longDelta < 0.0000001
+			})
+			console.log(closeGhosts)
+		}
+	}
+
+	useEffect(() => {
+		(async () => {
+		  let location = await UserLocation.getCurrentPositionAsync({});
+		  setUserLocation(location);
+		})();
+	  }, []);
+
+	// Initiate ghost proxitiy checker
+	setInterval(compareLocations, 5000)
+
+	console.log("this is the user location", userLocation)
+
 	return (
 		<View>
 			<MapView

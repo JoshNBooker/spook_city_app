@@ -5,12 +5,15 @@ import { StatusBar } from 'expo-status-bar';
 import { Ghost, Location, User } from './types/Types';
 import MapComponent from './components/MapComponent';
 import LoginScreen from './components/LoginScreen';
+import * as UserLocation from 'expo-location';
+
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
 	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [errorMsg, setErrorMsg] = useState(null);
 	const apiUrl: string = 'http://localhost:8080';
 
 	const fetchData = async (url: string) => {
@@ -28,6 +31,7 @@ export default function App() {
 	};
 
 	useEffect(() => {
+		(async () => {
 		fetchData(apiUrl + '/ghosts')
 			.then((data: Ghost[]) => setGhosts(data))
 			.catch((error) => console.error(error));
@@ -39,6 +43,14 @@ export default function App() {
 		fetchData(apiUrl + '/locations')
 			.then((data: Location[]) => setLocations(data))
 			.catch((error) => console.error(error));
+
+		let { status } = await UserLocation.requestForegroundPermissionsAsync();
+		console.log(status)
+		if (status !== 'granted') {
+		  setErrorMsg('Permission to access location was denied');
+		  return;
+		}
+		})()
 	}, []);
 
 	return (
