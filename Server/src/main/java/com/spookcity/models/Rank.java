@@ -1,16 +1,16 @@
 package com.spookcity.models;
 
 public enum Rank {
-    NOVICE (0, 1),
-    MEDIUM (1000, 2),
-    SEANCEMASTER (3000, 3);
+    NOVICE (0),
+    MEDIUM (1000),
+    SEANCEMASTER (3000);
 
     Rank(int points) {
     }
-
-    Rank(int rankNum) {
-    }
-
+//
+//    Rank(int rankNum) {
+//    }
+//
 
 
     public static Rank getRank(int points) {

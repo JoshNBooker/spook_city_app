@@ -7,9 +7,11 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	Image,
+	ImageBackground,
 } from 'react-native';
 import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
+import UserPage from './UserPage';
 import HiddenGhostsPage from './HiddenGhostsPage';
 
 interface ItemFullProps {
@@ -64,7 +66,7 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 			{!hidden && (
 				<View style={styles.ghostListContainer}>
 					<Swiper showsButtons={true} loop={false}>
-						<View></View>
+							<UserPage hidden={hidden} users={users} ghosts={ghosts}></UserPage>
 						<View style={styles.userInfoContainer}>
 							<HiddenGhostsPage ghosts={ghosts} hidden={hidden} />
 						</View>
@@ -94,6 +96,25 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		flexDirection: 'column',
 	},
+	progressBar: {
+		marginLeft: 35,
+		marginTop: 10,
+		marginBottom: 30,
+	},
+	progressText: {
+		fontSize: 14,
+		marginTop: 10,
+		color: '#f1f1f1',
+		fontWeight: 'bold',
+		textAlign: 'center',
+	},
+	discoveredGhostsTitle: {
+		fontSize: 18,
+		fontWeight: 'bold',
+		marginBottom: 10,
+		color: '#f1f1f1',
+		textAlign: 'center',
+	},
 	userName: {
 		fontSize: 20,
 		color: '#b44d19',
@@ -111,8 +132,8 @@ const styles = StyleSheet.create({
 		color: '#b2b2b2',
 	},
 	selectedGhostContainer: {
-		paddingVertical: 20,
-		paddingHorizontal: 10,
+		width: 270,
+		marginLeft: 41,
 		backgroundColor: '#f0f0f0',
 		borderRadius: 10,
 		marginBottom: 20,
@@ -134,22 +155,28 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 	ghostTile: {
-		backgroundColor: '#da6512',
-		justifyContent: 'center',
-		alignItems: 'center',
-		textAlign: 'center',
-		height: 100,
-		width: 150,
-		borderRadius: 10,
-		marginRight: 10,
+			justifyContent: 'center',
+			alignItems: 'center',
+			textAlign: 'center',
+			height: 100,
+			width: 150,
+			fontSize: 18,
+			borderRadius: 10,
+			marginRight: 10, 
+			shadowColor: 'rgb(225, 225, 225)',
+			shadowOffset: { width: 0, height: 2 },
+			shadowOpacity: 1,
 	},
 	tileText: {
 		color: '#FBF7F5',
 		fontWeight: 'bold',
+		flexWrap: 'wrap',
+		marginBottom: 60,
 	},
 	ghostImage: {
-		height: 500,
-		width: 300,
+		height: 300,
+		width: 180,
+		resizeMode: 'cover',
 	},
 	userImage: {
 		height: 120,
@@ -176,4 +203,15 @@ const styles = StyleSheet.create({
 		fontFamily: 'Georgia',
 		fontWeight: 'bold',
 	},
+	ghostButtonBackground: {
+    width: 100, 
+    height: 100, 
+		marginRight: 20,
+    justifyContent: 'center', 
+    alignItems: 'center', 
+		shadowColor: 'rgba(0, 0, 0, 0.784)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
+  },
 });
