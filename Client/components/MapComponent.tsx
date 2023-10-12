@@ -346,7 +346,7 @@ const secondGenStyle = [
 		elementType: 'geometry.fill',
 		stylers: [
 			{
-				color: '#ff6f00',
+				color: '#bf5300',
 			},
 		],
 	},
@@ -364,7 +364,7 @@ const secondGenStyle = [
 		elementType: 'geometry',
 		stylers: [
 			{
-				color: '#ff6f00',
+				color: '#bf5300',
 			},
 		],
 	},
