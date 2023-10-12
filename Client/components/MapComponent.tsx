@@ -32,64 +32,31 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
 
 	const compareLocations = () => {
-		console.log("comparing bitchhhh")
-		console.log(locations)
-		locations.forEach((location) => {console.log("for each works", location.name)})
 		if (userLocation) {
-			locations.forEach((location) => {
+			const closeGhosts: Location[] = locations.filter((location) => {
 				console.log(location.coordinateX, location.coordinateY)
 				console.log(userLocation)
 				let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
 				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
 				console.log("latitude delta:", latDelta)
 				console.log("longitude delta:", longDelta)
+				return latDelta < 0.0000001 && longDelta < 0.0000001
 			})
+			console.log(closeGhosts)
 		}
 	}
-
-
 
 	useEffect(() => {
 		(async () => {
 		  let location = await UserLocation.getCurrentPositionAsync({});
 		  setUserLocation(location);
-		//   console.log(locations)
-		  console.log("this is the current access value:", UserLocation.getForegroundPermissionsAsync())
-		//   setInterval(() => {
-		// 	console.log("comparing bitchhhh")
-		// 	console.log(locations)
-		// 	if (userLocation) {
-		// 		locations.forEach((location) => {
-		// 			console.log(location.coordinateX, location.coordinateY)
-		// 			console.log(userLocation)
-		// 			let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
-		// 			let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
-		// 			console.log(`The distance to location ${location.name} is:`)
-		// 			console.log("latitude delta:", latDelta)
-		// 			console.log("longitude delta:", longDelta)
-		// 		})
-		// 	}
-		//   }, 5000)
 		})();
 	  }, []);
 
-	  setInterval(() => {
-		console.log("comparing bitchhhh")
-		// console.log(locations)
-		if (userLocation) {
-			locations.forEach((location) => {
-				console.log(location.coordinateX, location.coordinateY)
-				console.log(userLocation)
-				let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
-				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
-				console.log(`The distance to location ${location.name} is:`)
-				console.log("latitude delta:", latDelta)
-				console.log("longitude delta:", longDelta)
-			})
-		}
-	  }, 5000)
+	// Initiate ghost proxitiy checker
+	setInterval(compareLocations, 5000)
 
-	  console.log("this is the user location", userLocation)
+	console.log("this is the user location", userLocation)
 
 	return (
 		<View>
