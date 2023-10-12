@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
 		height: 120,
 		width: 160,
 		resizeMode: 'contain',
-		borderRadius:10,
+		borderRadius: 10,
 	},
 	userImageMini: {
 		height: 70,
@@ -224,6 +224,10 @@ const styles = StyleSheet.create({
 		borderWidth: 1,
 		backgroundColor: '#615f5f',
 		marginRight: 10,
+		shadowColor: 'rgba(247, 247, 247, 0.784)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
 	},
 	userNameInfo: {
 		fontSize: 20,
