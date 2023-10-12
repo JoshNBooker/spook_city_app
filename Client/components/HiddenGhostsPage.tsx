@@ -29,6 +29,7 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 	console.log('name: ', selectedGhost.name);
 	console.log('description: ', selectedGhost.description);
 	console.log('dialogue: ', selectedGhost.dialogue);
+	console.log('');
 	const ghostImages: { [key: string]: any } = {
 		'Abandoned Annie': require('../images/GhostPictures/abandonedAnnie.jpg'),
 		'The Headless Drummer': require('../images/GhostPictures/headlessDrummer.jpg'),
@@ -55,7 +56,7 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 						</Text>
 						<Image
 							source={
-								selectedGhost.captured
+								selectedGhost.discovered
 									? getImageForGhost(selectedGhost)
 									: require('../images/GhostPictures/undiscoveredGhost.jpg')
 							}
@@ -63,7 +64,7 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 						/>
 						<Text style={styles.ghostDescription}>
 							{selectedGhost.hiddenDescription}
-							{!selectedGhost.captured &&
+							{!selectedGhost.discovered &&
 								'. You have not encountered this spirit yet'}
 							.
 						</Text>

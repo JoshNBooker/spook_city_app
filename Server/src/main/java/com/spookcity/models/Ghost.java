@@ -108,4 +108,12 @@ public class Ghost {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public boolean isDiscovered() {
+        return discovered;
+    }
+
+    public void setDiscovered(boolean discovered) {
+        this.discovered = discovered;
+    }
 }
