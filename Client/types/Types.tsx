@@ -1,11 +1,13 @@
 export interface Ghost {
 	name: string;
 	fileName: string;
-	description:string;
+	description: string;
 	dateOfDeath: Date;
 	dialogue: string;
 	users: User[];
 	id: number;
+	discovered: boolean;
+	hiddenDescription: string;
 }
 
 export interface User {

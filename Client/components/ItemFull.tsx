@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
+import HiddenGhostsPage from './HiddenGhostsPage';
 
 interface ItemFullProps {
 	hidden: boolean;
@@ -17,35 +18,16 @@ interface ItemFullProps {
 	ghosts?: Ghost[];
 }
 
-const ghostImages: { [key: string]: any } = {
-	'Abandoned Annie': require('../images/GhostPictures/abandonedAnnie.jpg'),
-	'The Headless Drummer': require('../images/GhostPictures/headlessDrummer.jpg'),
-	'Mackenzie Poltergeist': require('../images/GhostPictures/mackenziePoltergeist.jpg'),
-	'Greyfriars Bobby': require('../images/GhostPictures/greyfriarsBobby.jpg'),
-	'Mary, Queen of Scots': require('../images/GhostPictures/maryQueenOfScots.jpg'),
-	'The Woman in Black': require('../images/GhostPictures/womanInBlack.jpg'),
-	'The Phantom Piper': require('../images/GhostPictures/phantomPiper.jpg'),
-	"The Poltergeist of Mary King's Close": require('../images/GhostPictures/poltergeistOfMaryKingsClose.jpg'),
-	'Wee Annie': require('../images/GhostPictures/weeAnnie.jpg'),
-	'The Phantom Harpist': require('../images/GhostPictures/phantomHarpist.jpg'),
-};
 const userImages: { [key: string]: any } = {
 	GhostHunter123: require('../images/UserPictures/GhostHunter123.jpg'),
 	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
 };
 
 export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
-	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(null);
 	console.log('hidden: ', hidden);
 
 	const firstUser = users[0];
 
-	const handleSelectGhost = (ghost: Ghost) => {
-		setSelectedGhost(ghost);
-	};
-	function getImageForGhost(ghost: Ghost) {
-		return ghostImages[ghost.name];
-	}
 	function getImageForUser(user: User) {
 		return userImages[user.userName];
 	}
@@ -82,50 +64,9 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 			{!hidden && (
 				<View style={styles.ghostListContainer}>
 					<Swiper showsButtons={true} loop={false}>
-						<View>
-							{selectedGhost && !hidden && (
-								<View style={styles.selectedGhostContainer}>
-									<Text style={styles.ghostName}>
-										{selectedGhost.name}
-									</Text>
-									<Image
-										source={getImageForGhost(selectedGhost)}
-										style={styles.ghostImage}
-									/>
-									<Text style={styles.ghostDescription}>
-										{selectedGhost.description}
-									</Text>
-								</View>
-							)}
-							<ScrollView
-								horizontal
-								style={styles.horizontalScrollView}
-							>
-								{ghosts.map((ghost, index) => (
-									<TouchableOpacity
-										key={index}
-										onPress={() => handleSelectGhost(ghost)}
-									>
-										<View style={styles.ghostTile}>
-											<Text style={styles.tileText}>
-												{ghost.name}
-											</Text>
-										</View>
-									</TouchableOpacity>
-								))}
-							</ScrollView>
-						</View>
+						<View></View>
 						<View style={styles.userInfoContainer}>
-							<Image
-								source={getImageForUser(users[0])}
-								style={styles.userImage}
-							/>
-							<View style={styles.userInfoContainerText}>
-							<Text style={styles.userNameInfo}>{firstUser.userName}</Text>
-							<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
-							<Text style={styles.score}> Score: {firstUser.points}</Text>
-							<ProgressBar progress={0.255} width={100} />
-							</View>
+							<HiddenGhostsPage ghosts={ghosts} hidden={hidden} />
 						</View>
 					</Swiper>
 				</View>

@@ -13,10 +13,12 @@ import java.util.List;
 public class Ghost {
     private String name;
     private String fileName;
+    private String hiddenDescription;
 
     private String description;
     private LocalDate dateOfDeath;
     private String dialogue;
+    private boolean discovered;
     @JsonIgnoreProperties({"ghosts"})
     @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
@@ -31,13 +33,15 @@ public class Ghost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Ghost(String name, String fileName, String description, LocalDate dateOfDeath, String dialogue) {
+    public Ghost(String name, String fileName, String hiddenDescription, String description, LocalDate dateOfDeath, String dialogue, boolean discovered) {
         this.name = name;
         this.fileName = fileName;
+        this.hiddenDescription = hiddenDescription;
         this.description = description;
         this.dateOfDeath = dateOfDeath;
         this.dialogue = dialogue;
         this.users = new ArrayList<>();
+        this.discovered = discovered;
     }
     public Ghost(){}
 
@@ -87,5 +91,29 @@ public class Ghost {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getHiddenDescription() {
+        return hiddenDescription;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setHiddenDescription(String hiddenDescription) {
+        this.hiddenDescription = hiddenDescription;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isDiscovered() {
+        return discovered;
+    }
+
+    public void setDiscovered(boolean discovered) {
+        this.discovered = discovered;
     }
 }
