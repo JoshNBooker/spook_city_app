@@ -124,9 +124,6 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 								<ImageBackground source={getImageForGhost(ghost)} style={styles.ghostButtonBackground} >
 										<View style={styles.ghostTile}>
 										</View>
-											<Text style={styles.tileText}>
-												{ghost.name}
-											</Text>
 									</ImageBackground>
 									</TouchableOpacity>
 								))}
