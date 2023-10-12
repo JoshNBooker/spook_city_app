@@ -18,13 +18,17 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 	ghosts,
 	hidden,
 }) => {
-	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(ghosts[0]);
+	const [selectedGhost, setSelectedGhost] = useState<Ghost>(ghosts[0]);
 	const handleSelectGhost = (ghost: Ghost) => {
 		setSelectedGhost(ghost);
 	};
 	function getImageForGhost(ghost: Ghost) {
 		return ghostImages[ghost.name];
 	}
+	console.log('selectedGhost :', selectedGhost);
+	console.log('name: ', selectedGhost.name);
+	console.log('description: ', selectedGhost.description);
+	console.log('dialogue: ', selectedGhost.dialogue);
 	const ghostImages: { [key: string]: any } = {
 		'Abandoned Annie': require('../images/GhostPictures/abandonedAnnie.jpg'),
 		'The Headless Drummer': require('../images/GhostPictures/headlessDrummer.jpg'),
@@ -58,7 +62,7 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 							style={styles.ghostImage}
 						/>
 						<Text style={styles.ghostDescription}>
-							{selectedGhost.hiddenDescription}{' '}
+							{selectedGhost.hiddenDescription}
 							{!selectedGhost.captured &&
 								'. You have not encountered this spirit yet'}
 							.
