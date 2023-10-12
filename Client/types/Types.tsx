@@ -6,7 +6,7 @@ export interface Ghost {
 	dialogue: string;
 	users: User[];
 	id: number;
-	captured: boolean;
+	discovered: boolean;
 	hiddenDescription: string;
 }
 
