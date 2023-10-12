@@ -12,6 +12,7 @@ import {
 import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
 import UserPage from './UserPage';
+import HiddenGhostsPage from './HiddenGhostsPage';
 
 interface ItemFullProps {
 	hidden: boolean;
@@ -19,35 +20,16 @@ interface ItemFullProps {
 	ghosts?: Ghost[];
 }
 
-const ghostImages: { [key: string]: any } = {
-	'Abandoned Annie': require('../images/GhostPictures/abandonedAnnie.jpg'),
-	'The Headless Drummer': require('../images/GhostPictures/headlessDrummer.jpg'),
-	'Mackenzie Poltergeist': require('../images/GhostPictures/mackenziePoltergeist.jpg'),
-	'Greyfriars Bobby': require('../images/GhostPictures/greyfriarsBobby.jpg'),
-	'Mary, Queen of Scots': require('../images/GhostPictures/maryQueenOfScots.jpg'),
-	'The Woman in Black': require('../images/GhostPictures/womanInBlack.jpg'),
-	'The Phantom Piper': require('../images/GhostPictures/phantomPiper.jpg'),
-	"The Poltergeist of Mary King's Close": require('../images/GhostPictures/poltergeistOfMaryKingsClose.jpg'),
-	'Wee Annie': require('../images/GhostPictures/weeAnnie.jpg'),
-	'The Phantom Harpist': require('../images/GhostPictures/phantomHarpist.jpg'),
-};
 const userImages: { [key: string]: any } = {
 	GhostHunter123: require('../images/UserPictures/GhostHunter123.jpg'),
 	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
 };
 
 export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
-	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(null);
 	console.log('hidden: ', hidden);
 
 	const firstUser = users[0];
 
-	const handleSelectGhost = (ghost: Ghost) => {
-		setSelectedGhost(ghost);
-	};
-	function getImageForGhost(ghost: Ghost) {
-		return ghostImages[ghost.name];
-	}
 	function getImageForUser(user: User) {
 		return userImages[user.userName];
 	}
@@ -85,6 +67,9 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 				<View style={styles.ghostListContainer}>
 					<Swiper showsButtons={true} loop={false}>
 							<UserPage hidden={hidden} users={users} ghosts={ghosts}></UserPage>
+						<View style={styles.userInfoContainer}>
+							<HiddenGhostsPage ghosts={ghosts} hidden={hidden} />
+						</View>
 					</Swiper>
 				</View>
 			)}
