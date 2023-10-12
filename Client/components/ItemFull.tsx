@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
+import NearbyGhost from '../nearbyGhost';
 
 interface ItemFullProps {
 	hidden: boolean;
@@ -62,7 +63,7 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 		<View style={styles.container}>
 			{hidden && (
 				<View style={styles.userInfoContainer}>
-					<View>
+					<View style={styles.leftContent}>
 						<Text style={styles.userName}>
 							{firstUser.userName}
 						</Text>
@@ -71,7 +72,8 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 							Score: {firstUser.points}
 						</Text>
 					</View>
-					<View>
+					<NearbyGhost ghosts={ghosts} ghostImages={ghostImages} getImageForGhosts={getImageForGhost}/>
+					<View style={styles.rightContent}>
 						<Image
 							source={getImageForUser(users[0])}
 							style={styles.userImageMini}
@@ -121,10 +123,17 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 								style={styles.userImage}
 							/>
 							<View style={styles.userInfoContainerText}>
-							<Text style={styles.userNameInfo}>{firstUser.userName}</Text>
-							<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
-							<Text style={styles.score}> Score: {firstUser.points}</Text>
-							<ProgressBar progress={0.255} width={100} />
+								<Text style={styles.userNameInfo}>
+									{firstUser.userName}
+								</Text>
+								<Text style={styles.rank}>
+									Rank: {firstUser.rank}
+								</Text>
+								<Text style={styles.score}>
+									{' '}
+									Score: {firstUser.points}
+								</Text>
+								<ProgressBar progress={0.255} width={100} />
 							</View>
 						</View>
 					</Swiper>
@@ -145,19 +154,25 @@ const styles = StyleSheet.create({
 	userInfoContainer: {
 		display: 'flex',
 		marginBottom: 20,
-		justifyContent: 'space-between',
 		flexDirection: 'row',
+		justifyContent: 'space-between',
+	},
+	leftContent: {
+		flex: 1,
+	},
+	rightContent: {
+		flex: 1,
+	},
+	userName: {
+		fontWeight: 'bold',
+		fontSize: 20,
+		color: '#b44d19',
+		fontFamily: 'Georgia',
 	},
 	userInfoContainerText: {
 		display: 'flex',
 		justifyContent: 'space-between',
 		flexDirection: 'column',
-	},
-	userName: {
-		fontSize: 20,
-		color: '#b44d19',
-		fontFamily: 'Georgia',
-		fontWeight: 'bold',
 	},
 	rank: {
 		fontSize: 16,
@@ -228,11 +243,16 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 1,
 		shadowRadius: 4,
+		marginLeft: '33%',
 	},
 	userNameInfo: {
 		fontSize: 20,
 		color: '#b44d19',
 		fontFamily: 'Georgia',
 		fontWeight: 'bold',
+	},
+	userNameandSummoningMirror: {
+		display: 'flex',
+		flexDirection: 'row',
 	},
 });

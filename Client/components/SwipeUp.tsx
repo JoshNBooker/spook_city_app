@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import ItemFull from './ItemFull';
 import SwipeUpDown from 'react-native-swipe-up-down';
 import { User, Ghost } from '../types/Types';
+import NearbyGhost from '../nearbyGhost';
 
 interface SwipeUpProps {
 	users: User[];
