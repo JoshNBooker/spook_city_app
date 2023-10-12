@@ -83,19 +83,6 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 			)}
 			{!hidden && (
 				<View style={styles.ghostListContainer}>
-											<View style={styles.userInfoContainer}>
-							<Image
-								source={getImageForUser(users[0])}
-								style={styles.userImage}
-							/>
-							<View style={styles.userInfoContainerText}>
-							<Text style={styles.userNameInfo}>{firstUser.userName}</Text>
-							<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
-							<Text style={styles.score}> Score: {firstUser.points}</Text>
-							</View>
-						</View>
-						<Text style={styles.progressText}>(amount)points until next level</Text>
-						<ProgressBar progress={0.255} width={280} height={8} color='orange' borderRadius='2' style={styles.progressBar}/>
 					<Swiper showsButtons={true} loop={false}>
 							<UserPage hidden={hidden} users={users} ghosts={ghosts}></UserPage>
 					</Swiper>

@@ -54,6 +54,18 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 	}
 
   return(
+    <View>
+    <View style={styles.userInfoContainer}>
+    <Image
+      source={getImageForUser(users[0])}
+      style={styles.userImage}
+    />
+    <View style={styles.userInfoContainerText}>
+    <Text style={styles.userNameInfo}>{firstUser.userName}</Text>
+    <Text style={styles.rank}>Rank: {firstUser.rank}</Text>
+    <Text style={styles.score}> Score: {firstUser.points}</Text>
+    </View>
+    </View>
           <View>
 							{selectedGhost && !hidden && (
 								<View style={styles.selectedGhostContainer}>
@@ -69,6 +81,8 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 									</Text>
 								</View>
 							)}
+            <Text style={styles.progressText}>(amount)points until next level</Text>
+						<ProgressBar progress={0.255} width={280} height={8} color='orange' borderRadius='2' style={styles.progressBar}/>
 							<Text style={styles.discoveredGhostsTitle}>Discovered Ghosts</Text>
 							<ScrollView
 								horizontal
@@ -87,6 +101,7 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 								))}
 							</ScrollView>
 						</View>
+            </View>
   )};
 
 const styles = StyleSheet.create({
