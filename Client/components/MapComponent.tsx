@@ -22,7 +22,10 @@ const icon: ImageURISource = {
 	width: 200,
 };
 
+// For closeGhosts... change it to be an array of all the ghosts but sorted by proximity 
+// then find ghost that is in the really small radius and return that to the state of foundGhost 
 
+// to fix the payload issue maybe try using a set timeout and async-ly calling the compareLocations function and then set a timeout 
 
 const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
@@ -30,12 +33,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	ghosts,
 }) => {
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
+	const [foundGhost, setFoundGhost] = useState<Location>(null);
 
-	const compareLocations = () => {
-		(async () => {
-			let location = await UserLocation.getCurrentPositionAsync({});
-			setUserLocation(location);
-		  })().then(()=> {
+	const compareLocations = async () => {
+		console.log("here", userLocation)
+		let location = await UserLocation.getCurrentPositionAsync({});
+		console.log(location)
+		setUserLocation(location);
+		updateUserLocation().then(()=> {
+			console.log(userLocation)
 		if (userLocation) {
 			const closeGhosts: Location[] = locations.filter((location) => {
 				console.log(location.coordinateX, location.coordinateY)
@@ -48,12 +54,16 @@ const MapComponent: React.FC<MapComponentProps> = ({
 			})
 			console.log(closeGhosts)
 
-			let closestGhostLocation: Location[] = closeGhosts.sort(compareDistance)
+			let closestGhost: Location = closeGhosts.sort(compareDistance)[0]
 
-			console.log(closestGhostLocation)
+			console.log(closestGhost)
+		}}).then(() => loop())
+	}
 
-			let closetGhost: {ghost: Ghost, location: Location}
-		}})
+	const updateUserLocation = async () => {
+		let location = await UserLocation.getCurrentPositionAsync({});
+		setUserLocation(location);
+		return location
 	}
 
 	const compareDistance = (a, b) => {
@@ -73,16 +83,19 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	}
 
 	useEffect(() => {
-		(async () => {
-		  let location = await UserLocation.getCurrentPositionAsync({});
-		  setUserLocation(location);
-		})();
-	  }, []);
+		console.log(userLocation)
+		loop()
+	}, []);
 
 	// Initiate ghost proxitiy checker
-	setInterval(compareLocations, 5000)
+	// setInterval(compareLocations, 10000)
+	function loop() {
+		setTimeout(() => {
+		  // Your logic here
+			compareLocations()
+		}, 5000);
+	  };
 
-	console.log("this is the user location", userLocation)
 
 	return (
 		<View>
