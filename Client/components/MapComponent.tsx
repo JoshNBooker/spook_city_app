@@ -14,7 +14,6 @@ interface MapComponentProps {
 	locations: Location[];
 	users: User[];
 	ghosts: Ghost[];
-	setLocations: any;
 }
 
 const icon: ImageURISource = {
@@ -30,10 +29,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
 	users,
 	ghosts,
-	setLocations,
 }) => {
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
 	const [foundGhost, setFoundGhost] = useState<Location>(null);
+	const [sortedGhostLocations, setSortedGhostLocations] = useState<Location[]>([])
 	
 
 	const compareLocations = async () => {
@@ -55,8 +54,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
 			console.log("close ghosts array", closeGhosts)
 
 			let sortedGhosts: Location[] = locations.sort(compareDistance)
-			setLocations(sortedGhosts)
+			setSortedGhostLocations(sortedGhosts)
 			setFoundGhost(closeGhosts[0])
+
+			// console.log("the sorted ghosts array", sortedGhosts)
 
 			console.log("the closest ghost", foundGhost)
 			return new Promise<Location>((resolve, reject) => {

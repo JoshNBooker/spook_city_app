@@ -65,7 +65,6 @@ export default function App() {
 					locations={locations}
 					users={users}
 					ghosts={ghosts}
-					setLocations={setLocations}
 				/>
 			)}
 		</View>
