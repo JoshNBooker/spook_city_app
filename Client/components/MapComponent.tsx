@@ -22,7 +22,8 @@ const icon: ImageURISource = {
 	width: 200,
 };
 
-
+// For closeGhosts... change it to be an array of all the ghosts but sorted by proximity 
+// then find ghost that is in the really small radius and return that to the state of foundGhost 
 
 const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
@@ -30,33 +31,92 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	ghosts,
 }) => {
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
+	const [foundGhost, setFoundGhost] = useState<Location>(null);
+	const [sortedGhostLocations, setSortedGhostLocations] = useState<Location[]>([])
+	
 
-	const compareLocations = () => {
-		if (userLocation) {
+	const compareLocations = async () => {
+		try {
+			await updateUserLocation()
+			console.log("here", userLocation)
+			console.log("this is the user location state in compareLocations:", userLocation)
+			
+			console.log("user location in the then",userLocation)
 			const closeGhosts: Location[] = locations.filter((location) => {
 				console.log(location.coordinateX, location.coordinateY)
-				console.log(userLocation)
+				console.log("the user location is", userLocation)
 				let latDelta: Double = Math.abs(userLocation.coords.latitude - location.coordinateX);
 				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
 				console.log("latitude delta:", latDelta)
 				console.log("longitude delta:", longDelta)
-				return latDelta < 0.0000001 && longDelta < 0.0000001
+				return latDelta < 0.00001 && longDelta < 0.00001
 			})
-			console.log(closeGhosts)
+			console.log("close ghosts array", closeGhosts)
+
+			let sortedGhosts: Location[] = locations.sort(compareDistance)
+			setSortedGhostLocations(sortedGhosts)
+			setFoundGhost(closeGhosts[0])
+
+			// console.log("the sorted ghosts array", sortedGhosts)
+
+			console.log("the closest ghost", foundGhost)
+			return new Promise<Location>((resolve, reject) => {
+				resolve(foundGhost)
+			})
+			
+		} catch (error) {
+			console.error("Error while getting user location:",  error)
 		}
+		
 	}
 
+	const updateUserLocation = async () => {
+		let location = await UserLocation.getCurrentPositionAsync({});
+		setUserLocation(location);
+		return location
+	}
+
+	const compareDistance = (a, b) => {
+		let latDeltaA: Double = Math.abs(userLocation.coords.latitude - a.coordinateX);
+		let longDeltaA: Double = Math.abs(userLocation.coords.longitude - a.coordinateY);
+		let latDeltaB: Double = Math.abs(userLocation.coords.latitude - b.coordinateX);
+		let longDeltaB: Double = Math.abs(userLocation.coords.longitude - b.coordinateY);
+		let distanceA: Double = Math.sqrt((latDeltaA ** 2) + (longDeltaA ** 2));
+		let distanceB: Double = Math.sqrt((latDeltaB ** 2) + (longDeltaB ** 2));
+		if (distanceA > distanceB) {
+			return 1;
+		} else if (distanceB > distanceA) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+	
 	useEffect(() => {
-		(async () => {
-		  let location = await UserLocation.getCurrentPositionAsync({});
-		  setUserLocation(location);
-		})();
-	  }, []);
+		// setUserLocation({"coords": {"accuracy": 5, "altitude": 0, "altitudeAccuracy": -1, "heading": -1, "latitude": 55.9485, "longitude": -3.1904, "speed": -1}, "timestamp": 1697278398755.179});
+		console.log("user location inside the useEffect", userLocation)
+		loop()
+	}, [userLocation]);
+
 
 	// Initiate ghost proxitiy checker
-	setInterval(compareLocations, 5000)
+	// setInterval(compareLocations, 10000)
+	// This timeOut/state combination approach might still throw some unexpected behaviour so might have to resort to
+	// just passing the location as a variable to the compareLocations() function as well as having it in state for the sort()
+	let loopTimeout: ReturnType<typeof setTimeout>;
 
-	console.log("this is the user location", userLocation)
+	async function loop() {
+		loopTimeout ? clearTimeout(loopTimeout) : console.log("The timeout doesnt exist here for somme fkn reason:)")
+		// let location = await updateUserLocation()
+		
+		console.log("promise should be resolved and user location is:", userLocation)
+		loopTimeout = setTimeout(() => {
+		  // Your logic here
+			compareLocations()
+		}, 10000);
+		console.log("this is the timeout ", loopTimeout)
+	  };
+
 
 	return (
 		<View>
