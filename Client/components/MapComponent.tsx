@@ -14,6 +14,7 @@ interface MapComponentProps {
 	locations: Location[];
 	users: User[];
 	ghosts: Ghost[];
+	setLocations: any;
 }
 
 const icon: ImageURISource = {
@@ -25,15 +26,15 @@ const icon: ImageURISource = {
 // For closeGhosts... change it to be an array of all the ghosts but sorted by proximity 
 // then find ghost that is in the really small radius and return that to the state of foundGhost 
 
-// to fix the payload issue maybe try using a set timeout and async-ly calling the compareLocations function and then set a timeout 
-
 const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
 	users,
 	ghosts,
+	setLocations,
 }) => {
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
 	const [foundGhost, setFoundGhost] = useState<Location>(null);
+	
 
 	const compareLocations = async () => {
 		try {
@@ -49,15 +50,17 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				let longDelta: Double = Math.abs(userLocation.coords.longitude - location.coordinateY);
 				console.log("latitude delta:", latDelta)
 				console.log("longitude delta:", longDelta)
-				return latDelta < 0.001 && longDelta < 0.001
+				return latDelta < 0.00001 && longDelta < 0.00001
 			})
 			console.log("close ghosts array", closeGhosts)
 
-			let closestGhost: Location = closeGhosts.sort(compareDistance)[0]
+			let sortedGhosts: Location[] = locations.sort(compareDistance)
+			setLocations(sortedGhosts)
+			setFoundGhost(closeGhosts[0])
 
-			console.log("the closest ghost", closestGhost)
+			console.log("the closest ghost", foundGhost)
 			return new Promise<Location>((resolve, reject) => {
-				resolve(closestGhost)
+				resolve(foundGhost)
 			})
 			
 		} catch (error) {
@@ -94,16 +97,11 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		loop()
 	}, [userLocation]);
 
-	useEffect(() => {
-		console.log("the user location state was changed!")
-		console.log("and is now:", userLocation)
-	}, [userLocation])
-
-	// console.log("user location outside the useEffect", userLocation)
-
 
 	// Initiate ghost proxitiy checker
 	// setInterval(compareLocations, 10000)
+	// This timeOut/state combination approach might still throw some unexpected behaviour so might have to resort to
+	// just passing the location as a variable to the compareLocations() function as well as having it in state for the sort()
 	let loopTimeout: ReturnType<typeof setTimeout>;
 
 	async function loop() {
@@ -117,8 +115,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		}, 10000);
 		console.log("this is the timeout ", loopTimeout)
 	  };
-	
-	  console.log("yer da sells avon at", userLocation)
+
 
 	return (
 		<View>
