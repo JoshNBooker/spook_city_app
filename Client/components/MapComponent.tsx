@@ -36,13 +36,12 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	const [foundGhost, setFoundGhost] = useState<Location>(null);
 
 	const compareLocations = async () => {
-		console.log("here", userLocation)
-		let location = await UserLocation.getCurrentPositionAsync({});
-		console.log(location)
-		setUserLocation(location);
-		updateUserLocation().then(()=> {
-			console.log(userLocation)
-		if (userLocation) {
+		try {
+			await updateUserLocation()
+			console.log("here", userLocation)
+			console.log("this is the user location state in compareLocations:", userLocation)
+			
+			console.log("user location in the then",userLocation)
 			const closeGhosts: Location[] = locations.filter((location) => {
 				console.log(location.coordinateX, location.coordinateY)
 				console.log("the user location is", userLocation)
@@ -52,12 +51,19 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				console.log("longitude delta:", longDelta)
 				return latDelta < 0.001 && longDelta < 0.001
 			})
-			console.log(closeGhosts)
+			console.log("close ghosts array", closeGhosts)
 
 			let closestGhost: Location = closeGhosts.sort(compareDistance)[0]
 
-			console.log(closestGhost)
-		}}).then(() => loop())
+			console.log("the closest ghost", closestGhost)
+			return new Promise<Location>((resolve, reject) => {
+				resolve(closestGhost)
+			})
+			
+		} catch (error) {
+			console.error("Error while getting user location:",  error)
+		}
+		
 	}
 
 	const updateUserLocation = async () => {
@@ -81,21 +87,38 @@ const MapComponent: React.FC<MapComponentProps> = ({
 			return 0;
 		}
 	}
+	
+	useEffect(() => {
+		// setUserLocation({"coords": {"accuracy": 5, "altitude": 0, "altitudeAccuracy": -1, "heading": -1, "latitude": 55.9485, "longitude": -3.1904, "speed": -1}, "timestamp": 1697278398755.179});
+		console.log("user location inside the useEffect", userLocation)
+		loop()
+	}, [userLocation]);
 
 	useEffect(() => {
-		console.log(userLocation)
-		loop()
-	}, []);
+		console.log("the user location state was changed!")
+		console.log("and is now:", userLocation)
+	}, [userLocation])
+
+	// console.log("user location outside the useEffect", userLocation)
+
 
 	// Initiate ghost proxitiy checker
 	// setInterval(compareLocations, 10000)
-	function loop() {
-		setTimeout(() => {
+	let loopTimeout: ReturnType<typeof setTimeout>;
+
+	async function loop() {
+		loopTimeout ? clearTimeout(loopTimeout) : console.log("The timeout doesnt exist here for somme fkn reason:)")
+		// let location = await updateUserLocation()
+		
+		console.log("promise should be resolved and user location is:", userLocation)
+		loopTimeout = setTimeout(() => {
 		  // Your logic here
 			compareLocations()
-		}, 5000);
+		}, 10000);
+		console.log("this is the timeout ", loopTimeout)
 	  };
-
+	
+	  console.log("yer da sells avon at", userLocation)
 
 	return (
 		<View>
