@@ -25,6 +25,7 @@ export interface Location {
 	coordinateX: number;
 	coordinateY: number;
 	id: number;
+	ghost: Ghost;
 }
 
 export interface Ghosts {
