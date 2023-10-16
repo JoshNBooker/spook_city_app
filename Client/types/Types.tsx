@@ -8,7 +8,6 @@ export interface Ghost {
 	id: number;
 	discovered: boolean;
 	hiddenDescription: string;
-	location: Location;
 }
 
 export interface User {
