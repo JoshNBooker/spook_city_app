@@ -8,6 +8,7 @@ import {
 	View,
 	StyleSheet,
 } from 'react-native';
+import getGhostImage from '../ghostImages';
 
 interface HiddenGhostsPageProps {
 	ghosts: Ghost[];
@@ -22,26 +23,11 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 	const handleSelectGhost = (ghost: Ghost) => {
 		setSelectedGhost(ghost);
 	};
-	function getImageForGhost(ghost: Ghost) {
-		return ghostImages[ghost.name];
-	}
 	console.log('selectedGhost :', selectedGhost);
 	console.log('name: ', selectedGhost.name);
 	console.log('description: ', selectedGhost.description);
 	console.log('dialogue: ', selectedGhost.dialogue);
 	console.log('');
-	const ghostImages: { [key: string]: any } = {
-		'Abandoned Annie': require('../images/GhostPictures/abandonedAnnie.jpg'),
-		'The Headless Drummer': require('../images/GhostPictures/headlessDrummer.jpg'),
-		'Mackenzie Poltergeist': require('../images/GhostPictures/mackenziePoltergeist.jpg'),
-		'Greyfriars Bobby': require('../images/GhostPictures/greyfriarsBobby.jpg'),
-		'Mary, Queen of Scots': require('../images/GhostPictures/maryQueenOfScots.jpg'),
-		'The Woman in Black': require('../images/GhostPictures/womanInBlack.jpg'),
-		'The Phantom Piper': require('../images/GhostPictures/phantomPiper.jpg'),
-		"The Poltergeist of Mary King's Close": require('../images/GhostPictures/poltergeistOfMaryKingsClose.jpg'),
-		'Wee Annie': require('../images/GhostPictures/weeAnnie.jpg'),
-		'The Phantom Harpist': require('../images/GhostPictures/phantomHarpist.jpg'),
-	};
 
 	return (
 		<View style={styles.container}>
@@ -52,12 +38,14 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 				{selectedGhost && !hidden && (
 					<View style={styles.selectedGhostContainer}>
 						<Text style={styles.ghostName}>
-							{selectedGhost.name}
+							{selectedGhost.discovered
+								? selectedGhost.name
+								: 'Unknown Ghost'}
 						</Text>
 						<Image
 							source={
 								selectedGhost.discovered
-									? getImageForGhost(selectedGhost)
+									? getGhostImage(selectedGhost)
 									: require('../images/GhostPictures/undiscoveredGhost.jpg')
 							}
 							style={styles.ghostImage}
@@ -148,7 +136,6 @@ const styles = StyleSheet.create({
 		shadowOpacity: 0.3,
 		shadowRadius: 10,
 	},
-
 	horizontalScrollView: {
 		maxHeight: 150,
 		marginBottom: 20,
