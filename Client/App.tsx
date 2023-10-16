@@ -8,9 +8,9 @@ import LoginScreen from './components/LoginScreen';
 import * as UserLocation from 'expo-location';
 
 export default function App() {
-	const [ghosts, setGhosts] = useState<Ghost[]>([]);
-	const [users, setUsers] = useState<User[]>([]);
-	const [locations, setLocations] = useState<Location[]>([]);
+	const [ghosts, setGhosts] = useState<Ghost[]>(null);
+	const [users, setUsers] = useState<User[]>(null);
+	const [locations, setLocations] = useState<Location[]>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(true);
 	const [errorMsg, setErrorMsg] = useState(null);
 	const apiUrl: string = 'http://localhost:8080';
@@ -52,13 +52,6 @@ export default function App() {
 			}
 		})();
 	}, []);
-	console.log('location 1 :', locations[0]);
-	console.log('ghosts[0]', ghosts[0]);
-	setTimeout(() => {
-		console.log('location 1 ghost inside timeout:', locations[0].ghost);
-	}, 1000);
-
-	// console.log('ghost.location', ghosts[0].location);
 
 	return (
 		<View>
@@ -67,7 +60,7 @@ export default function App() {
 					<LoginScreen setIsLoggedIn={setIsLoggedIn} />
 				</>
 			)}
-			{isLoggedIn && (
+			{isLoggedIn && ghosts && users && locations && (
 				<MapComponent
 					locations={locations}
 					users={users}

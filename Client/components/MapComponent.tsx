@@ -134,10 +134,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		}, 10000);
 		console.log('this is the timeout ', loopTimeout);
 	}
-	// console.log('ghosts: ', ghosts);
-	// console.log('locations', locations);
-
-	//
+	console.log('location 1 :', locations[0]);
+	console.log('ghosts[0]', ghosts[0]);
+	console.log('locations[0].ghost: ', locations[0].ghost);
 
 	return (
 		<View>
