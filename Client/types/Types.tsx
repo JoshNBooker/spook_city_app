@@ -8,6 +8,7 @@ export interface Ghost {
 	id: number;
 	discovered: boolean;
 	hiddenDescription: string;
+	location: Location;
 }
 
 export interface User {
@@ -25,6 +26,7 @@ export interface Location {
 	coordinateX: number;
 	coordinateY: number;
 	id: number;
+	ghost: Ghost;
 }
 
 export interface Ghosts {

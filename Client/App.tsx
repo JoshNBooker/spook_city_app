@@ -7,7 +7,6 @@ import MapComponent from './components/MapComponent';
 import LoginScreen from './components/LoginScreen';
 import * as UserLocation from 'expo-location';
 
-
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
@@ -32,26 +31,34 @@ export default function App() {
 
 	useEffect(() => {
 		(async () => {
-		fetchData(apiUrl + '/ghosts')
-			.then((data: Ghost[]) => setGhosts(data))
-			.catch((error) => console.error(error));
+			fetchData(apiUrl + '/locations')
+				.then((data: Location[]) => setLocations(data))
+				.catch((error) => console.error(error));
 
-		fetchData(apiUrl + '/users')
-			.then((data: User[]) => setUsers(data))
-			.catch((error) => console.error(error));
+			fetchData(apiUrl + '/ghosts')
+				.then((data: Ghost[]) => setGhosts(data))
+				.catch((error) => console.error(error));
 
-		fetchData(apiUrl + '/locations')
-			.then((data: Location[]) => setLocations(data))
-			.catch((error) => console.error(error));
+			fetchData(apiUrl + '/users')
+				.then((data: User[]) => setUsers(data))
+				.catch((error) => console.error(error));
 
-		let { status } = await UserLocation.requestForegroundPermissionsAsync();
-		console.log(status)
-		if (status !== 'granted') {
-		  setErrorMsg('Permission to access location was denied');
-		  return;
-		}
-		})()
+			let { status } =
+				await UserLocation.requestForegroundPermissionsAsync();
+			console.log(status);
+			if (status !== 'granted') {
+				setErrorMsg('Permission to access location was denied');
+				return;
+			}
+		})();
 	}, []);
+	console.log('location 1 :', locations[0]);
+	console.log('ghosts[0]', ghosts[0]);
+	setTimeout(() => {
+		console.log('location 1 ghost inside timeout:', locations[0].ghost);
+	}, 1000);
+
+	// console.log('ghost.location', ghosts[0].location);
 
 	return (
 		<View>
