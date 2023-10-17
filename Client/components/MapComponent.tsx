@@ -333,7 +333,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} spookyFonts={spookyFonts}/>
+			<SwipeUp users={users} ghosts={ghosts} spookyFonts={spookyFonts} />
 		</View>
 	);
 };
@@ -365,6 +365,11 @@ const styles = StyleSheet.create({
 		borderRadius: 30,
 		padding: 20,
 		alignItems: 'center',
+		shadowColor: 'rgba(255, 255, 255, 0.5)', // Semi-transparent white
+		shadowOffset: { width: 0, height: 0 },
+		shadowOpacity: 1, // Adjust as needed
+		shadowRadius: 10, // Adjust as needed
+		border: '1px solid rgba(255, 255, 255, 0.3)', // Semi-transparent white border
 	},
 	selectedGhostContainer: {
 		paddingVertical: 20,
