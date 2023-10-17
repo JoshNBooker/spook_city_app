@@ -191,6 +191,11 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		console.log('found modal visible: ', foundGhostModalVisible);
 	};
 
+	const summonGhost = (ghost: Ghost) => {
+		ghost.discovered = true;
+		console.log(ghost.discovered);
+	};
+
 	console.log('normal modal visible? :', modalVisible);
 	console.log('found modal visible? :', foundGhostModalVisible);
 
@@ -319,7 +324,12 @@ const MapComponent: React.FC<MapComponentProps> = ({
 									... Dare you summon this spectre?
 								</Text>
 								<View style={styles.modalButtonContainer}>
-									<Button title="Yes"></Button>
+									<Button
+										title="Yes"
+										onPress={() =>
+											summonGhost(foundGhost.ghost)
+										}
+									></Button>
 									<Button
 										title="No"
 										onPress={() => {
@@ -365,11 +375,11 @@ const styles = StyleSheet.create({
 		borderRadius: 30,
 		padding: 20,
 		alignItems: 'center',
-		shadowColor: 'rgba(255, 255, 255, 0.5)', // Semi-transparent white
+		shadowColor: 'rgba(255, 255, 255, 0.5)',
 		shadowOffset: { width: 0, height: 0 },
-		shadowOpacity: 1, // Adjust as needed
-		shadowRadius: 10, // Adjust as needed
-		border: '1px solid rgba(255, 255, 255, 0.3)', // Semi-transparent white border
+		shadowOpacity: 1,
+		shadowRadius: 10,
+		border: '1px solid rgba(255, 255, 255, 0.3)',
 	},
 	selectedGhostContainer: {
 		paddingVertical: 20,

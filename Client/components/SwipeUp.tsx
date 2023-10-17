@@ -15,10 +15,20 @@ const SwipeUp: React.FC<SwipeUpProps> = ({ users, ghosts, spookyFonts }) => {
 	return (
 		<SwipeUpDown
 			itemMini={() => (
-				<ItemFull hidden={swipeHidden} users={users} ghosts={ghosts} spookyFonts={spookyFonts} />
+				<ItemFull
+					hidden={swipeHidden}
+					users={users}
+					ghosts={ghosts}
+					spookyFonts={spookyFonts}
+				/>
 			)}
 			itemFull={() => (
-				<ItemFull hidden={swipeHidden} users={users} ghosts={ghosts} spookyFonts={spookyFonts} />
+				<ItemFull
+					hidden={swipeHidden}
+					users={users}
+					ghosts={ghosts}
+					spookyFonts={spookyFonts}
+				/>
 			)}
 			onShowMini={() => {
 				setSwipeHidden(true);
