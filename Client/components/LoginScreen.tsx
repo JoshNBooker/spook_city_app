@@ -7,11 +7,26 @@ import {
 	Image,
 } from 'react-native';
 import React, { useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const LoginScreen = ({ setIsLoggedIn }) => {
-	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [joinPassword, setJoinPassword] = useState('');
+  const [joinPasswordReenter, setJoinPasswordReenter] = useState('');
+  const [joinUsername , setJoinUsername] = useState('');
+  const [joinClicked, setJoinClicked] = useState(false);
+  const [profileImage, setProfileImage] = useState('');
+
+  const userImages = {
+    male1: require('../images/UserPictures/male1.jpg'),
+    male2: require('../images/UserPictures/male2.jpg'),
+    male3: require('../images/UserPictures/male3.jpg'),
+    female1: require('../images/UserPictures/female1.jpg'),
+    female2: require('../images/UserPictures/female2.jpg'),
+    female3: require('../images/UserPictures/female3.jpg'),
+  };
 
 	const handleUsernameChange = (text) => {
 		setUsername(text);
@@ -21,117 +36,281 @@ const LoginScreen = ({ setIsLoggedIn }) => {
 		setPassword(text);
 	};
 
-	const handleLogin = () => {
-		if (username === 'User' && password === 'password') {
-			setIsLoggedIn(true);
-		} else {
-			alert('Username or password is incorrect. Please try again.');
-		}
-	};
+  const handleJoinUsernameChange = (text) => {
+    setJoinUsername(text);
+  }
 
-	return (
-		<LinearGradient
-			colors={['#484747', '#d5722f']}
-			style={styles.backgroundImage}
-		>
-			<View style={styles.container}>
-				<Image
-					source={require('../assets/SpookCityLogo.png')}
-					style={{ width: 200, height: 200, marginBottom: 10 }}
-				/>
+  const handleJoinPasswordChange = (text) => {
+    setJoinPassword(text);
+  };
 
-				<View style={styles.loginContainer}>
-					<Text style={styles.title}>Login... if you dare</Text>
+  const handleReenterPasswordChange = (text) => {
+    setJoinPasswordReenter(text);
+  };
 
-					<TextInput
-						style={styles.input}
-						placeholder="Username"
-						onChangeText={handleUsernameChange}
-						value={username}
-						placeholderTextColor="#FFFFFF"
-					/>
+  const handleLogin = () => {
+    if (username === 'User' && password === 'password') {
+      setIsLoggedIn(true);
+    } else {
+      alert('Username or password is incorrect. Please try again.');
+    }
+  };
 
-					<TextInput
-						style={styles.input}
-						placeholder="Password"
-						onChangeText={handlePasswordChange}
-						value={password}
-						secureTextEntry={true}
-						placeholderTextColor="#FFFFFF"
-					/>
+  const handleJoin = () => {
+    setJoinClicked(true);
+  };
 
-					<TouchableOpacity
-						style={styles.loginButton}
-						onPress={handleLogin}
-					>
-						<Text style={styles.buttonText}>Login</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.loginButton}
-						onPress={handleLogin}
-					>
-						<Text style={styles.buttonText}>Login</Text>
-					</TouchableOpacity>
-				</View>
-				<Text style={styles.footer}>
-					Developed by the SpookyCityCommittee™
-				</Text>
-			</View>
-		</LinearGradient>
-	);
+  // const handleJoinLogin = () => {
+  //   if (joinPassword === joinPasswordReenter) {
+  //     alert('Account created! Please login.');
+  //     setJoinClicked(false);
+  //   } else {
+  //     alert('Passwords do not match. Please try again.');
+  //   }
+  // };
+
+  const handleSelectProfileImage = (image) => {
+    setProfileImage(image);
+  };
+
+  const handleJoinLogin = () => {
+    if (joinUsername.length > 0 && joinPassword === joinPasswordReenter) {
+      alert('Account created! Please login.');
+      setJoinClicked(false);
+    } else if (joinUsername.length === 0) {
+      alert('Please enter a username.');
+    } else if (joinPassword.length === 0) {
+      alert('Please enter a password.');
+    } else if (joinPassword !== joinPasswordReenter) {
+      alert('Passwords do not match. Please try again.');
+    } else {
+      alert('There was an error. Please enter a username and password.');
+    }
+  };
+
+  return (
+    <LinearGradient colors={['#484747', '#d5722f']} style={styles.backgroundImage}>
+      {!joinClicked && (
+        <View style={styles.container}>
+          <Image source={require('../assets/SpookCityLogo.png')} style={styles.logo} />
+
+          <View style={styles.loginContainer}>
+            <Text style={styles.title}>Login... if you dare</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Username"
+              onChangeText={handleUsernameChange}
+              value={username}
+              placeholderTextColor="#FFFFFF"
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              onChangeText={handlePasswordChange}
+              value={password}
+              secureTextEntry={true}
+              placeholderTextColor="#FFFFFF"
+            />
+
+            <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+              <Text style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity onPress={handleJoin}>
+            <Text style={styles.join}>Join the hunt!</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.footer}>Developed by the SpookyCityCommittee™</Text>
+        </View>
+      )}
+      {joinClicked && (
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => setJoinClicked(false)}>
+            <Text style={styles.join}>Back</Text>
+          </TouchableOpacity>
+          <View style={styles.headingContainer}>
+            <Image source={require('../assets/SpookCityLogo.png')} style={styles.smallLogo} />
+            <Text style={styles.joinText}>Join The Hunt!</Text>
+          </View>
+
+          <View style={styles.loginContainer}>
+            <Text style={styles.titleJoin}>Create an account</Text>
+
+            <TextInput
+              style={styles.input}
+              placeholder="Username"
+              onChangeText={handleJoinUsernameChange}
+              value={joinUsername}
+              placeholderTextColor="#FFFFFF"
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              onChangeText={handleJoinPasswordChange}
+              value={joinPassword}
+              secureTextEntry={true}
+              placeholderTextColor="#FFFFFF"
+            />
+
+            <TextInput
+              style={styles.input}
+              placeholder="Re-enter Password"
+              onChangeText={handleReenterPasswordChange}
+              value={joinPasswordReenter}
+              secureTextEntry={true}
+              placeholderTextColor="#FFFFFF"
+            />
+            <Text style={styles.avatarSelectTitle} >Select your avatar</Text>
+            <View style={styles.userImagesContainer}>
+              {Object.keys(userImages).map((userImageKey, index) => (
+                <TouchableOpacity
+                  key={index}
+                  onPress={() => handleSelectProfileImage(userImages[userImageKey])}
+                  style={[
+                    styles.userImageTile,
+                    profileImage === userImages[userImageKey] ? styles.userImageTileClicked : null
+                  ]}
+                >
+                  <Image source={userImages[userImageKey]} style={styles.userImageTile} />
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <TouchableOpacity style={styles.joinButton} onPress={handleJoinLogin}>
+              <Text style={styles.buttonText}>Create Account</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      )}
+    </LinearGradient>
+  );
 };
 
 const styles = StyleSheet.create({
-	container: {
-		marginTop: 150,
-		alignItems: 'center',
-	},
-	backgroundImage: {
-		width: '100%',
-		padding: 20,
-		height: '100%',
-	},
-	loginContainer: {
-		padding: 20,
-		width: '80%',
-		alignItems: 'center',
-	},
-	title: {
-		fontSize: 24,
-		fontFamily: 'Georgia',
-		fontWeight: 'bold',
-		marginBottom: 20,
-		color: '#dedede',
-	},
-	loginButton: {
-		backgroundColor: '#d4811d',
-		padding: 10,
-		borderRadius: 5,
-		marginTop: 10,
-	},
-	buttonText: {
-		color: '#1c1c1c',
-		fontSize: 18,
-		fontWeight: 'bold',
-	},
-	input: {
-		backgroundColor: 'rgba(156, 156, 156, 0.8)',
-		padding: 10,
-		borderRadius: 5,
-		marginBottom: 10,
-		width: '100%',
-		color: '#000000',
-	},
-	footer: {
-		marginTop: 200,
-		color: '#dedede',
-		fontSize: 12,
-		fontFamily: 'Georgia',
-		fontWeight: 'bold',
-	},
+  container: {
+    marginTop: 60,
+    alignItems: 'center',
+  },
+  headingContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  backgroundImage: {
+    width: '100%',
+    padding: 20,
+    height: '100%',
+  },
+  joinText: {
+    color: '#dedede',
+    fontSize: 24,
+    fontFamily: 'Georgia',
+    fontWeight: 'bold',
+  },
+  smallLogo: {
+    width: 100,
+    height: 100,
+    marginBottom: 10,
+    marginLeft: 5,
+    marginRight: 30,
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    marginBottom: 10,
+  },
+  loginContainer: {
+    padding: 20,
+    width: '80%',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: 'Georgia',
+    fontWeight: 'bold',
+    marginBottom: 16,
+    color: '#dedede',
+  },
+  titleJoin: {
+    fontSize: 15,
+    fontFamily: 'Georgia',
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#dedede',
+  },
+  avatarSelectTitle: {
+    fontSize: 15,
+    fontFamily: 'Georgia',
+    fontWeight: 'bold',
+    marginTop: 8,
+    color: '#dedede',
+  },
+  loginButton: {
+    backgroundColor: '#d4811d',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  joinButton: {
+    backgroundColor: '#ffc249',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 10,
+  },
+  join: {
+    color: '#dedede',
+    fontSize: 12,
+    fontFamily: 'Georgia',
+    fontWeight: 'bold',
+    textDecorationLine: 'underline',
+  },
+  buttonText: {
+    color: '#1c1c1c',
+    fontSize: 18,
+    fontWeight: 'bold',
+    fontFamily: 'Georgia',
+  },
+  input: {
+    backgroundColor: 'rgba(196, 196, 196, 0.8)',
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    width: '100%',
+    color: '#000000',
+  },
+  userImagesContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    marginTop: 6,
+    marginBottom: 10,
+  },
+  userImageTile: {
+    height: 90,
+    width: 90,
+    borderRadius: 10,
+    margin: 5,
+  },
+  userImageTileClicked: {
+    borderRadius: 10,
+    margin: 5,
+    shadowColor: 'rgba(0, 0, 0, 0.784)',
+    shadowOffset: { width: -7, height: 3 },
+    shadowOpacity: 100,
+    shadowRadius: 1,
+  },
+  footer: {
+    marginTop: 170,
+    color: '#dedede',
+    fontSize: 12,
+    fontFamily: 'Georgia',
+    fontWeight: 'bold',
+  },
 });
 
 export default LoginScreen;
-function elseif(arg0: boolean) {
-	throw new Error('Function not implemented.');
-}

@@ -14,7 +14,7 @@ export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>(null);
 	const [users, setUsers] = useState<User[]>(null);
 	const [locations, setLocations] = useState<Location[]>(null);
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(null);
 	const apiUrl: string = 'http://localhost:8080';
 	const [fontLoaded] = useFonts({
