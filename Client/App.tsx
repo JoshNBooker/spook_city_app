@@ -12,7 +12,7 @@ export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>([]);
 	const [users, setUsers] = useState<User[]>([]);
 	const [locations, setLocations] = useState<Location[]>([]);
-	const [isLoggedIn, setIsLoggedIn] = useState(true);
+	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(null);
 	const apiUrl: string = 'http://localhost:8080';
 

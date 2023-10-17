@@ -36,7 +36,6 @@ const userImages: { [key: string]: any } = {
 	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
 };
 
-
 export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(null);
 	console.log('hidden: ', hidden);
@@ -68,6 +67,7 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
     </View>
           <View>
 							{selectedGhost && !hidden && (
+                <View style={styles.selectedContainer}>
 								<View style={styles.selectedGhostContainer}>
 									<Text style={styles.ghostName}>
 										{selectedGhost.name}
@@ -76,12 +76,21 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 										source={getImageForGhost(selectedGhost)}
 										style={styles.ghostImage}
 									/>
+                  {/* <View style={styles.hint}>
+                  <Text>
+                    Uncovered Hint:
+                  </Text>
+                  <Text>
+                    {selectedGhost.hiddenDescription}
+                  </Text>
+                  </View> */}
+                </View>
 									<Text style={styles.ghostDescription}>
 										{selectedGhost.description}
 									</Text>
 								</View>
 							)}
-            <Text style={styles.progressText}>(amount)points until next level</Text>
+            <Text style={styles.progressText}> 620 more points until next level</Text>
 						<ProgressBar progress={0.255} width={280} height={8} color='orange' borderRadius='2' style={styles.progressBar}/>
 							<Text style={styles.discoveredGhostsTitle}>Discovered Ghosts</Text>
 							<ScrollView
@@ -107,7 +116,6 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: 'rgba(26, 26, 26, 0.97))',
       paddingHorizontal: 20,
       paddingTop: 20,
       borderRadius: 30,
@@ -117,6 +125,7 @@ const styles = StyleSheet.create({
       marginBottom: 20,
       justifyContent: 'space-between',
       flexDirection: 'row',
+      marginTop: 14,
     },
     userInfoContainerText: {
       display: 'flex',
@@ -134,6 +143,9 @@ const styles = StyleSheet.create({
       color: '#f1f1f1',
       fontWeight: 'bold',
       textAlign: 'center',
+    },
+    hint: {
+      color: '#f1f1f1',
     },
     discoveredGhostsTitle: {
       fontSize: 18,
@@ -158,21 +170,31 @@ const styles = StyleSheet.create({
       fontFamily: 'Georgia',
       color: '#b2b2b2',
     },
+    selectedContainer: {
+      display: 'flex',
+      alignItems: 'center',
+    },
     selectedGhostContainer: {
-      width: 270,
-      marginLeft: 41,
-      backgroundColor: '#f0f0f0',
-      borderRadius: 10,
-      marginBottom: 20,
+      width: 200,
+      marginLeft: 20,
+      marginBottom: 17,
       alignItems: 'center',
     },
     ghostName: {
       fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 5,
+      marginTop: 20,
+      fontWeight: '900',
+      marginBottom: 7,
+      color: '#e5e5e5',
+      textAlign: 'center',
     },
     ghostDescription: {
       fontSize: 14,
+      color: '#f1f1f1',
+      flexWrap: 'wrap',
+      overflow: 'scroll',
+      marginBottom: 10,
+      textAlign: 'center',
     },
     ghostListContainer: {
       flex: 1,
@@ -201,9 +223,10 @@ const styles = StyleSheet.create({
       marginBottom: 60,
     },
     ghostImage: {
-      height: 300,
-      width: 180,
+      height: 150,
+      width: 130,
       resizeMode: 'cover',
+
     },
     userImage: {
       height: 120,
