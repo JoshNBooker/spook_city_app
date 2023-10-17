@@ -1,5 +1,6 @@
 package com.spookcity.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cascade;
 
@@ -14,11 +15,15 @@ public class Ghost {
     private String name;
     private String fileName;
     private String hiddenDescription;
-
     private String description;
     private LocalDate dateOfDeath;
     private String dialogue;
     private boolean discovered;
+
+    @JsonBackReference
+    @OneToOne(mappedBy = "ghost", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Location location;
     @JsonIgnoreProperties({"ghosts"})
     @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
@@ -40,9 +45,19 @@ public class Ghost {
         this.description = description;
         this.dateOfDeath = dateOfDeath;
         this.dialogue = dialogue;
-        this.users = new ArrayList<>();
         this.discovered = discovered;
+        this.location = location;
+        this.users = new ArrayList<>();
     }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public Ghost(){}
 
     public String getName() {

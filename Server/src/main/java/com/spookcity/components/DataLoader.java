@@ -82,16 +82,6 @@ public class DataLoader implements ApplicationRunner {
                 LocalDate.of(11, 11, 11),
                 "Please... stay... listen to my music", false
         );
-        ghostRepository.save(ghost1);
-        ghostRepository.save(ghost2);
-        ghostRepository.save(ghost3);
-        ghostRepository.save(ghost4);
-        ghostRepository.save(ghost5);
-        ghostRepository.save(ghost6);
-        ghostRepository.save(ghost7);
-        ghostRepository.save(ghost8);
-        ghostRepository.save(ghost9);
-        ghostRepository.save(ghost10);
 
         Location location1 = new Location(
                 "Greyfriars Kirkyard",
@@ -175,6 +165,17 @@ public class DataLoader implements ApplicationRunner {
                 ghost10
         );
 
+        ghost1.setLocation(location1);
+        ghost2.setLocation(location2);
+        ghost3.setLocation(location3);
+        ghost4.setLocation(location4);
+        ghost5.setLocation(location5);
+        ghost6.setLocation(location6);
+        ghost7.setLocation(location7);
+        ghost8.setLocation(location8);
+        ghost9.setLocation(location9);
+        ghost10.setLocation(location10);
+
 
         locationRepository.save(location1);
         locationRepository.save(location2);
@@ -186,6 +187,17 @@ public class DataLoader implements ApplicationRunner {
         locationRepository.save(location8);
         locationRepository.save(location9);
         locationRepository.save(location10);
+
+        ghostRepository.save(ghost1);
+        ghostRepository.save(ghost2);
+        ghostRepository.save(ghost3);
+        ghostRepository.save(ghost4);
+        ghostRepository.save(ghost5);
+        ghostRepository.save(ghost6);
+        ghostRepository.save(ghost7);
+        ghostRepository.save(ghost8);
+        ghostRepository.save(ghost9);
+        ghostRepository.save(ghost10);
 
         User user1 = new User("GhostHunter123", "user1.jpg", Rank.MEDIUM, 2380L);
         User user2 = new User("SpookyExplorer", "user2.jpg", Rank.NOVICE, 500L);
