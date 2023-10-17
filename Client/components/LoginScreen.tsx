@@ -7,7 +7,6 @@ import {
 	Image,
 } from 'react-native';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const LoginScreen = ({ setIsLoggedIn }) => {
