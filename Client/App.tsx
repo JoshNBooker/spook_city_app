@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Ghost, Location, User } from './types/Types';
 import MapComponent from './components/MapComponent';
 import LoginScreen from './components/LoginScreen';
 import * as UserLocation from 'expo-location';
+import * as Font from 'expo-font';
+import { FellEnglish } from './fonts/fonts';
+import { useFonts } from 'expo-font';
 
 export default function App() {
 	const [ghosts, setGhosts] = useState<Ghost[]>(null);
@@ -14,6 +17,9 @@ export default function App() {
 	const [isLoggedIn, setIsLoggedIn] = useState(true);
 	const [errorMsg, setErrorMsg] = useState(null);
 	const apiUrl: string = 'http://localhost:8080';
+	const [fontLoaded] = useFonts({
+		spookyFonts: require('./fonts/IM_Fell_English/IMFellEnglish-Italic.ttf'),
+	});
 
 	const fetchData = async (url: string) => {
 		try {
@@ -52,6 +58,14 @@ export default function App() {
 			}
 		})();
 	}, []);
+
+	if (!fontLoaded) {
+		return (
+			<View>
+				<Text>Awaiting font</Text>
+			</View>
+		);
+	}
 
 	return (
 		<View>
