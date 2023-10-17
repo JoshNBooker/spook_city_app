@@ -70,7 +70,7 @@ const LoginScreen = ({ setIsLoggedIn }) => {
 						style={styles.loginButton}
 						onPress={handleLogin}
 					>
-						<Text style={styles.buttonText}>New User</Text>
+						<Text style={styles.buttonText}>Login</Text>
 					</TouchableOpacity>
 				</View>
 				<Text style={styles.footer}>

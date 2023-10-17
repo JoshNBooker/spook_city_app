@@ -14,11 +14,13 @@ import Swiper from 'react-native-swiper';
 import UserPage from './UserPage';
 import HiddenGhostsPage from './HiddenGhostsPage';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+import { useFonts } from 'expo-font';
 
 interface ItemFullProps {
 	hidden: boolean;
 	users: User[];
 	ghosts?: Ghost[];
+	spookyFonts: any;
 }
 
 const userImages: { [key: string]: any } = {
@@ -26,7 +28,12 @@ const userImages: { [key: string]: any } = {
 	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
 };
 
-export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
+export default function ItemFull({
+	hidden,
+	users,
+	ghosts,
+	spookyFonts,
+}: ItemFullProps) {
 	console.log('hidden: ', hidden);
 
 	const firstUser = users[0];
@@ -34,6 +41,11 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 	function getImageForUser(user: User) {
 		return userImages[user.userName];
 	}
+
+	const [fontLoaded] = useFonts({
+		spookyFontsLarge: require('../fonts/IM_Fell_English/IMFellEnglish-Regular.ttf'),
+		spookyFontsSmall: require('../fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf'),
+	});
 
 	if (!users || users.length === 0) {
 		return (
@@ -52,9 +64,6 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 							{firstUser.userName}
 						</Text>
 						<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
-						<Text style={styles.score}>
-							Score: {firstUser.points}
-						</Text>
 					</View>
 					<View>
 						<Image
@@ -67,7 +76,11 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 			{!hidden && (
 				<View style={styles.ghostListContainer}>
 					<Swiper showsButtons={true} loop={false}>
-							<UserPage hidden={hidden} users={users} ghosts={ghosts}></UserPage>
+						<UserPage
+							hidden={hidden}
+							users={users}
+							ghosts={ghosts}
+						></UserPage>
 						<View style={styles.userInfoContainer}>
 							<HiddenGhostsPage ghosts={ghosts} hidden={hidden} />
 						</View>
@@ -117,19 +130,19 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 	},
 	userName: {
-		fontSize: 20,
+		fontSize: 25,
 		color: '#b44d19',
-		fontFamily: 'Georgia',
+		fontFamily: 'spookyFontsLarge',
 		fontWeight: 'bold',
 	},
 	rank: {
 		fontSize: 16,
-		fontFamily: 'Georgia',
+		fontFamily: 'spookyFontsSmall',
 		color: '#b2b2b2',
 	},
 	score: {
 		fontSize: 16,
-		fontFamily: 'Georgia',
+		fontFamily: 'spookyFontsSmall',
 		color: '#b2b2b2',
 	},
 	selectedGhostContainer: {
@@ -156,17 +169,17 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 	ghostTile: {
-			justifyContent: 'center',
-			alignItems: 'center',
-			textAlign: 'center',
-			height: 100,
-			width: 150,
-			fontSize: 18,
-			borderRadius: 10,
-			marginRight: 10, 
-			shadowColor: 'rgb(225, 225, 225)',
-			shadowOffset: { width: 0, height: 2 },
-			shadowOpacity: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		textAlign: 'center',
+		height: 100,
+		width: 150,
+		fontSize: 18,
+		borderRadius: 10,
+		marginRight: 10,
+		shadowColor: 'rgb(225, 225, 225)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
 	},
 	tileText: {
 		color: '#FBF7F5',
@@ -205,14 +218,14 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 	},
 	ghostButtonBackground: {
-    width: 100, 
-    height: 100, 
+		width: 100,
+		height: 100,
 		marginRight: 20,
-    justifyContent: 'center', 
-    alignItems: 'center', 
+		justifyContent: 'center',
+		alignItems: 'center',
 		shadowColor: 'rgba(0, 0, 0, 0.784)',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 1,
 		shadowRadius: 4,
-  },
+	},
 });

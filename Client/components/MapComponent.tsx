@@ -333,7 +333,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} />
+			<SwipeUp users={users} ghosts={ghosts} spookyFonts={spookyFonts}/>
 		</View>
 	);
 };
