@@ -15,32 +15,22 @@ import UserPage from './UserPage';
 import HiddenGhostsPage from './HiddenGhostsPage';
 import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { useFonts } from 'expo-font';
+import getUserImage from '../userImages';
 
 interface ItemFullProps {
 	hidden: boolean;
 	users: User[];
 	ghosts?: Ghost[];
-	spookyFonts: any;
+	activeUser: User;
 }
-
-const userImages: { [key: string]: any } = {
-	GhostHunter123: require('../images/UserPictures/GhostHunter123.jpg'),
-	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
-};
 
 export default function ItemFull({
 	hidden,
 	users,
 	ghosts,
-	spookyFonts,
+	activeUser,
 }: ItemFullProps) {
 	console.log('hidden: ', hidden);
-
-	const firstUser = users[0];
-
-	function getImageForUser(user: User) {
-		return userImages[user.userName];
-	}
 
 	const [fontLoaded] = useFonts({
 		spookyFontsLarge: require('../fonts/IM_Fell_English/IMFellEnglish-Regular.ttf'),
@@ -61,13 +51,13 @@ export default function ItemFull({
 				<View style={styles.userInfoContainer}>
 					<View>
 						<Text style={styles.userName}>
-							{firstUser.userName}
+							{activeUser.userName}
 						</Text>
-						<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
+						<Text style={styles.rank}>Rank: {activeUser.rank}</Text>
 					</View>
 					<View>
 						<Image
-							source={getImageForUser(users[0])}
+							source={getUserImage(activeUser)}
 							style={styles.userImageMini}
 						/>
 					</View>
@@ -80,6 +70,7 @@ export default function ItemFull({
 							hidden={hidden}
 							users={users}
 							ghosts={ghosts}
+							activeUser={activeUser}
 						></UserPage>
 						<View style={styles.userInfoContainer}>
 							<HiddenGhostsPage ghosts={ghosts} hidden={hidden} />
@@ -94,16 +85,26 @@ export default function ItemFull({
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'rgba(39, 39, 39, 0.97))',
+		backgroundColor: 'rgba(39, 39, 39, 0.97)',
 		paddingHorizontal: 20,
 		paddingTop: 20,
 		borderRadius: 30,
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
 	},
 	userInfoContainer: {
 		display: 'flex',
 		marginBottom: 20,
 		justifyContent: 'space-between',
 		flexDirection: 'row',
+		padding: 10,
+		borderRadius: 10,
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
 	},
 	userInfoContainerText: {
 		display: 'flex',
@@ -163,6 +164,11 @@ const styles = StyleSheet.create({
 	},
 	ghostListContainer: {
 		flex: 1,
+		borderRadius: 10,
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 1,
+		shadowRadius: 4,
 	},
 	horizontalScrollView: {
 		maxHeight: 150,
@@ -223,7 +229,7 @@ const styles = StyleSheet.create({
 		marginRight: 20,
 		justifyContent: 'center',
 		alignItems: 'center',
-		shadowColor: 'rgba(0, 0, 0, 0.784)',
+		shadowColor: 'rgba(0, 0, 0, 0.5)',
 		shadowOffset: { width: 0, height: 2 },
 		shadowOpacity: 1,
 		shadowRadius: 4,

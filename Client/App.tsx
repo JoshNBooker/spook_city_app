@@ -20,6 +20,7 @@ export default function App() {
 	const [fontLoaded] = useFonts({
 		spookyFonts: require('./fonts/IM_Fell_English/IMFellEnglish-Italic.ttf'),
 	});
+	const [activeUser, setActiveUser] = useState<User>(null);
 
 	const fetchData = async (url: string) => {
 		try {
@@ -71,7 +72,10 @@ export default function App() {
 		<View>
 			{isLoggedIn === false && (
 				<>
-					<LoginScreen setIsLoggedIn={setIsLoggedIn} />
+					<LoginScreen
+						setIsLoggedIn={setIsLoggedIn}
+						setActiveUser={setActiveUser}
+					/>
 				</>
 			)}
 			{isLoggedIn && ghosts && users && locations && (
@@ -79,6 +83,7 @@ export default function App() {
 					locations={locations}
 					users={users}
 					ghosts={ghosts}
+					activeUser={activeUser}
 				/>
 			)}
 		</View>

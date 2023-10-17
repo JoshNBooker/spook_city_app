@@ -11,29 +11,25 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     private String userName;
-    private String fileName;
+    private int fileName;
     private Rank rank;
     private Long points;
-    @JsonBackReference
-    @ManyToMany
-    @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
-    @JoinTable(
-            name = "users_ghosts",
-            joinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name="ghost_id", nullable = false, updatable = false)}
-    )
+    private String password;
+
+    @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Ghost> discoveredGhosts;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public User(String userName, String fileName, Rank rank, Long points) {
+    public User(String userName, int fileName, Rank rank, Long points, String password) {
         this.userName = userName;
         this.fileName = fileName;
         this.rank = rank;
         this.points = points;
         this.discoveredGhosts = new ArrayList<>();
+        this.password = password;
     }
     public User(){}
 
@@ -41,7 +37,7 @@ public class User {
         return userName;
     }
 
-    public String getFileName() {
+    public int getFileName() {
         return fileName;
     }
 
@@ -51,6 +47,10 @@ public class User {
 
     public Long getPoints() {
         return points;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public List<Ghost> getDiscoveredGhosts() {
@@ -65,7 +65,7 @@ public class User {
         this.userName = userName;
     }
 
-    public void setFileName(String fileName) {
+    public void setFileName(int fileName) {
         this.fileName = fileName;
     }
 
@@ -75,6 +75,10 @@ public class User {
 
     public void setPoints(Long points) {
         this.points = points;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public void setDiscoveredGhosts(List<Ghost> discoveredGhosts) {

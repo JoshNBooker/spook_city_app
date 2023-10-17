@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Profile("!test")
-@Component
+//@Component
 public class DataLoader implements ApplicationRunner {
     @Autowired
     GhostRepository ghostRepository;
@@ -199,9 +199,10 @@ public class DataLoader implements ApplicationRunner {
         ghostRepository.save(ghost9);
         ghostRepository.save(ghost10);
 
-        User user1 = new User("GhostHunter123", "user1.jpg", Rank.MEDIUM, 2380L);
-        User user2 = new User("SpookyExplorer", "user2.jpg", Rank.NOVICE, 500L);
+        User user1 = new User("GhostHunter123", 4, Rank.MEDIUM, 2380L, "ILoveGhostHunting");
+        User user2 = new User("SpookyExplorer", 2, Rank.NOVICE, 500L, "ExplorerOfTheSpooks");
 
+        user1.getDiscoveredGhosts().add(ghost2);
         userRepository.save(user1);
         userRepository.save(user2);
 

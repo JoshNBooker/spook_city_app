@@ -7,18 +7,28 @@ import { User, Ghost } from '../types/Types';
 interface SwipeUpProps {
 	users: User[];
 	ghosts: Ghost[];
-	spookyFonts: any;
+	activeUser: User;
 }
 
-const SwipeUp: React.FC<SwipeUpProps> = ({ users, ghosts, spookyFonts }) => {
+const SwipeUp: React.FC<SwipeUpProps> = ({ users, ghosts, activeUser }) => {
 	const [swipeHidden, setSwipeHidden] = React.useState(true);
 	return (
 		<SwipeUpDown
 			itemMini={() => (
-				<ItemFull hidden={swipeHidden} users={users} ghosts={ghosts} spookyFonts={spookyFonts} />
+				<ItemFull
+					hidden={swipeHidden}
+					users={users}
+					ghosts={ghosts}
+					activeUser={activeUser}
+				/>
 			)}
 			itemFull={() => (
-				<ItemFull hidden={swipeHidden} users={users} ghosts={ghosts} spookyFonts={spookyFonts} />
+				<ItemFull
+					hidden={swipeHidden}
+					users={users}
+					ghosts={ghosts}
+					activeUser={activeUser}
+				/>
 			)}
 			onShowMini={() => {
 				setSwipeHidden(true);

@@ -24,13 +24,14 @@ public class Ghost {
     @OneToOne(mappedBy = "ghost", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Location location;
-    @JsonIgnoreProperties({"ghosts"})
+
+    @JsonBackReference
     @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinTable(
             name = "users_ghosts",
             joinColumns = {@JoinColumn(name = "ghost_id", nullable = false, updatable = false)},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", nullable = false, updatable = false)}
+            inverseJoinColumns = {@JoinColumn(name="user_id", nullable = false, updatable = false)}
     )
     private List<User> users;
 
