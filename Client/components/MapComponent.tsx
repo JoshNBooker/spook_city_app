@@ -156,9 +156,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				showsBuildings={true}
 			>
 				{locations.map((location, index) => {
-					const imagePath = location.ghost.discovered
-						? require('../assets/foundGhost.png')
-						: require('../assets/AnimatedGhost1.gif');
+					const imagePath = require('../assets/AnimatedGhost1.gif');
+						// ? require('../assets/foundGhost.png')
+						// : require('../assets/AnimatedGhost1.gif');
 					return (
 						<Marker
 							coordinate={{
