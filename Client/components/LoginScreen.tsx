@@ -85,7 +85,7 @@ const LoginScreen = ({ setIsLoggedIn, setActiveUser }) => {
 	};
 
 	const handleJoinLogin = () => {
-		fetch('YOUR_REGISTRATION_API_ENDPOINT', {
+		fetch('http://localhost:8080/users/register', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -98,6 +98,7 @@ const LoginScreen = ({ setIsLoggedIn, setActiveUser }) => {
 		})
 			.then((response) => response.json())
 			.then((data) => {
+				console.log(data);
 				if (data.success) {
 					alert('Account created! Please login.');
 					setJoinClicked(false);
@@ -214,9 +215,7 @@ const LoginScreen = ({ setIsLoggedIn, setActiveUser }) => {
 									<TouchableOpacity
 										key={index}
 										onPress={() =>
-											handleSelectProfileImage(
-												userImages[userImageKey]
-											)
+											handleSelectProfileImage(index)
 										}
 										style={[
 											styles.userImageTile,

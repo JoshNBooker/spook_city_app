@@ -191,7 +191,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
 	console.log('normal modal visible? :', modalVisible);
 	console.log('found modal visible? :', foundGhostModalVisible);
-	console.log('active User: ', activeUser);
+	console.log('active user: ', activeUser);
+	console.log('active User ghosts: ', activeUser.discoveredGhosts);
 
 	return (
 		<View>
@@ -318,7 +319,14 @@ const MapComponent: React.FC<MapComponentProps> = ({
 									... Dare you summon this spectre?
 								</Text>
 								<View style={styles.modalButtonContainer}>
-									<Button title="Yes"></Button>
+									<Button
+										title="Yes"
+										onPress={() => {
+											activeUser.discoveredGhosts.push(
+												foundGhost.ghost
+											);
+										}}
+									></Button>
 									<Button
 										title="No"
 										onPress={() => {
@@ -332,7 +340,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} />
+			<SwipeUp users={users} ghosts={ghosts} activeUser={activeUser} />
 		</View>
 	);
 };

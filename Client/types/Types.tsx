@@ -16,6 +16,7 @@ export interface User {
 	rank: string;
 	points: number;
 	id: number;
+	discoveredGhosts: Ghost[];
 }
 
 export interface Location {

@@ -3,7 +3,7 @@ package com.spookcity.models;
 public class UserRegistrationRequest {
     private String joinUsername;
     private String joinPassword;
-    private String profileImage;
+    private int profileImage;
 
     public String getJoinUsername() {
         return joinUsername;
@@ -13,7 +13,7 @@ public class UserRegistrationRequest {
         return joinPassword;
     }
 
-    public String getProfileImage() {
+    public int getProfileImage() {
         return profileImage;
     }
 
@@ -25,7 +25,7 @@ public class UserRegistrationRequest {
         this.joinPassword = joinPassword;
     }
 
-    public void setProfileImage(String profileImage) {
+    public void setProfileImage(int profileImage) {
         this.profileImage = profileImage;
     }
 }

@@ -33,13 +33,11 @@ public class UserController {
     }
 
 
-//    @PostMapping("/users/register")
-//    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
-//        try {
-//            userService.registerUser(request);
-//            return ResponseEntity.ok(new ApiResponse("Registration successful"));
-//        } catch (UserRegistrationException e) {
-//            return ResponseEntity.badRequest().body(new ApiResponse(e.getMessage()));
-//        }
-//    }
+    @PostMapping("/users/register")
+    public ResponseEntity<?> registerUser(@RequestBody UserRegistrationRequest request) {
+        User newUser = new User(request.getJoinUsername(), request.getProfileImage(), Rank.NOVICE, 0L, request.getJoinPassword());
+        userRepository.save(newUser);
+        UserLoginResponse response = new UserLoginResponse(true, newUser);
+        return ResponseEntity.ok(response);
+    }
 }

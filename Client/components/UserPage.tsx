@@ -13,59 +13,45 @@ import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
 import { isExportDeclaration } from 'typescript';
 import { useFonts } from 'expo-font';
+import getUserImage from '../userImages';
+import getGhostImage from '../ghostImages';
 
 interface ItemFullProps {
 	hidden: boolean;
 	users: User[];
 	ghosts?: Ghost[];
+	activeUser: User;
 }
-const ghostImages: { [key: string]: any } = {
-	'Abandoned Annie': require('../images/GhostPictures/abandonedAnnie.jpg'),
-	'The Headless Drummer': require('../images/GhostPictures/headlessDrummer.jpg'),
-	'Mackenzie Poltergeist': require('../images/GhostPictures/mackenziePoltergeist.jpg'),
-	'Greyfriars Bobby': require('../images/GhostPictures/greyfriarsBobby.jpg'),
-	'Mary, Queen of Scots': require('../images/GhostPictures/maryQueenOfScots.jpg'),
-	'The Woman in Black': require('../images/GhostPictures/womanInBlack.jpg'),
-	'The Phantom Piper': require('../images/GhostPictures/phantomPiper.jpg'),
-	"The Poltergeist of Mary King's Close": require('../images/GhostPictures/poltergeistOfMaryKingsClose.jpg'),
-	'Wee Annie': require('../images/GhostPictures/weeAnnie.jpg'),
-	'The Phantom Harpist': require('../images/GhostPictures/phantomHarpist.jpg'),
-};
 
-const userImages: { [key: string]: any } = {
-	GhostHunter123: require('../images/UserPictures/GhostHunter123.jpg'),
-	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
-};
-
-export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
+export default function UserPage({
+	hidden,
+	users,
+	ghosts,
+	activeUser,
+}: ItemFullProps) {
 	const [selectedGhost, setSelectedGhost] = useState<Ghost | null>(null);
 	console.log('hidden: ', hidden);
-
-	const firstUser = users[0];
 
 	const handleSelectGhost = (ghost: Ghost) => {
 		setSelectedGhost(ghost);
 	};
-	function getImageForGhost(ghost: Ghost) {
-		return ghostImages[ghost.name];
-	}
-	function getImageForUser(user: User) {
-		return userImages[user.userName];
-	}
 
 	return (
 		<View>
 			<View style={styles.userInfoContainer}>
 				<Image
-					source={getImageForUser(users[0])}
+					source={getUserImage(activeUser)}
 					style={styles.userImage}
 				/>
 				<View style={styles.userInfoContainerText}>
 					<Text style={styles.userNameInfo}>
-						{firstUser.userName}
+						{activeUser.userName}
 					</Text>
-					<Text style={styles.rank}>Rank: {firstUser.rank}</Text>
-					<Text style={styles.score}> Score: {firstUser.points}</Text>
+					<Text style={styles.rank}>Rank: {activeUser.rank}</Text>
+					<Text style={styles.score}>
+						{' '}
+						Score: {activeUser.points}
+					</Text>
 				</View>
 			</View>
 			<View>
@@ -76,7 +62,7 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 								{selectedGhost.name}
 							</Text>
 							<Image
-								source={getImageForGhost(selectedGhost)}
+								source={getGhostImage(selectedGhost)}
 								style={styles.ghostImage}
 							/>
 							{/* <View style={styles.hint}>
@@ -108,21 +94,25 @@ export default function UserPage({ hidden, users, ghosts }: ItemFullProps) {
 				<Text style={styles.discoveredGhostsTitle}>
 					Discovered Ghosts
 				</Text>
-				<ScrollView horizontal style={styles.horizontalScrollView}>
-					{ghosts.map((ghost, index) => (
-						<TouchableOpacity
-							key={index}
-							onPress={() => handleSelectGhost(ghost)}
-						>
-							<ImageBackground
-								source={getImageForGhost(ghost)}
-								style={styles.ghostButtonBackground}
+				{activeUser.discoveredGhosts ? (
+					<ScrollView horizontal style={styles.horizontalScrollView}>
+						{activeUser.discoveredGhosts.map((ghost, index) => (
+							<TouchableOpacity
+								key={index}
+								onPress={() => handleSelectGhost(ghost)}
 							>
-								<View style={styles.ghostTile}></View>
-							</ImageBackground>
-						</TouchableOpacity>
-					))}
-				</ScrollView>
+								<ImageBackground
+									source={getGhostImage(ghost)}
+									style={styles.ghostButtonBackground}
+								>
+									<View style={styles.ghostTile}></View>
+								</ImageBackground>
+							</TouchableOpacity>
+						))}
+					</ScrollView>
+				) : (
+					<Text>You have not discovered any ghosts yet.</Text>
+				)}
 			</View>
 		</View>
 	);
