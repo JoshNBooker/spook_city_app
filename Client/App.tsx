@@ -7,12 +7,11 @@ import MapComponent from './components/MapComponent';
 import LoginScreen from './components/LoginScreen';
 import * as UserLocation from 'expo-location';
 
-
 export default function App() {
-	const [ghosts, setGhosts] = useState<Ghost[]>([]);
-	const [users, setUsers] = useState<User[]>([]);
-	const [locations, setLocations] = useState<Location[]>([]);
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [ghosts, setGhosts] = useState<Ghost[]>(null);
+	const [users, setUsers] = useState<User[]>(null);
+	const [locations, setLocations] = useState<Location[]>(null);
+	const [isLoggedIn, setIsLoggedIn] = useState(true);
 	const [errorMsg, setErrorMsg] = useState(null);
 	const apiUrl: string = 'http://localhost:8080';
 
@@ -32,25 +31,26 @@ export default function App() {
 
 	useEffect(() => {
 		(async () => {
-		fetchData(apiUrl + '/ghosts')
-			.then((data: Ghost[]) => setGhosts(data))
-			.catch((error) => console.error(error));
+			fetchData(apiUrl + '/locations')
+				.then((data: Location[]) => setLocations(data))
+				.catch((error) => console.error(error));
 
-		fetchData(apiUrl + '/users')
-			.then((data: User[]) => setUsers(data))
-			.catch((error) => console.error(error));
+			fetchData(apiUrl + '/ghosts')
+				.then((data: Ghost[]) => setGhosts(data))
+				.catch((error) => console.error(error));
 
-		fetchData(apiUrl + '/locations')
-			.then((data: Location[]) => setLocations(data))
-			.catch((error) => console.error(error));
+			fetchData(apiUrl + '/users')
+				.then((data: User[]) => setUsers(data))
+				.catch((error) => console.error(error));
 
-		let { status } = await UserLocation.requestForegroundPermissionsAsync();
-		console.log(status)
-		if (status !== 'granted') {
-		  setErrorMsg('Permission to access location was denied');
-		  return;
-		}
-		})()
+			let { status } =
+				await UserLocation.requestForegroundPermissionsAsync();
+			console.log(status);
+			if (status !== 'granted') {
+				setErrorMsg('Permission to access location was denied');
+				return;
+			}
+		})();
 	}, []);
 
 	return (
@@ -60,7 +60,7 @@ export default function App() {
 					<LoginScreen setIsLoggedIn={setIsLoggedIn} />
 				</>
 			)}
-			{isLoggedIn && (
+			{isLoggedIn && ghosts && users && locations && (
 				<MapComponent
 					locations={locations}
 					users={users}

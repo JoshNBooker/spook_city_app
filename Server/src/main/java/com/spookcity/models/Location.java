@@ -12,9 +12,9 @@ public class Location {
     private String description;
     private Double coordinateX;
     private Double coordinateY;
-    @JsonBackReference
     @OneToOne
-    @JoinColumn(name = "ghost_id")
+    @MapsId
+    @JoinColumn(name = "location_id")
     private Ghost ghost;
 
     @Id
