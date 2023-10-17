@@ -14,6 +14,7 @@ public class User {
     private String fileName;
     private Rank rank;
     private Long points;
+    private String password;
     @JsonBackReference
     @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
@@ -28,12 +29,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public User(String userName, String fileName, Rank rank, Long points) {
+    public User(String userName, String fileName, Rank rank, Long points, String password) {
         this.userName = userName;
         this.fileName = fileName;
         this.rank = rank;
         this.points = points;
         this.discoveredGhosts = new ArrayList<>();
+        this.password = password;
     }
     public User(){}
 
@@ -83,5 +85,12 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

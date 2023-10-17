@@ -20,7 +20,6 @@ interface ItemFullProps {
 	hidden: boolean;
 	users: User[];
 	ghosts?: Ghost[];
-	spookyFonts: any;
 }
 
 const userImages: { [key: string]: any } = {
@@ -28,12 +27,7 @@ const userImages: { [key: string]: any } = {
 	SpookyExplorer: require('../images/UserPictures/SpookyExplorer.jpg'),
 };
 
-export default function ItemFull({
-	hidden,
-	users,
-	ghosts,
-	spookyFonts,
-}: ItemFullProps) {
+export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 	console.log('hidden: ', hidden);
 
 	const firstUser = users[0];

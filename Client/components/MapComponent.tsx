@@ -28,7 +28,7 @@ interface MapComponentProps {
 	locations: Location[];
 	users: User[];
 	ghosts: Ghost[];
-	spookyFonts: any;
+	activeUser: User;
 }
 
 const icon: ImageURISource = {
@@ -58,7 +58,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
 	users,
 	ghosts,
-	spookyFonts,
+	activeUser,
 }) => {
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
 	const [foundGhost, setFoundGhost] = useState<Location>(locations[3]);
@@ -178,8 +178,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	console.log('ghosts[0]', ghosts[0]);
 	console.log('locations[0].ghost: ', locations[0].ghost);
 
-	console.log('spookyfonts: ', spookyFonts);
-
 	const handleMarkerClick = (location: Location) => {
 		setModalVisible(!modalVisible);
 		setSelectedGhostMapScreen(location.ghost);
@@ -193,6 +191,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 
 	console.log('normal modal visible? :', modalVisible);
 	console.log('found modal visible? :', foundGhostModalVisible);
+	console.log('active User: ', activeUser);
 
 	return (
 		<View>
@@ -333,7 +332,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} spookyFonts={spookyFonts} />
+			<SwipeUp users={users} ghosts={ghosts} />
 		</View>
 	);
 };
