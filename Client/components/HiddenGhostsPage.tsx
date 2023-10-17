@@ -9,6 +9,7 @@ import {
 	StyleSheet,
 } from 'react-native';
 import getGhostImage from '../ghostImages';
+import { useFonts } from 'expo-font';
 
 interface HiddenGhostsPageProps {
 	ghosts: Ghost[];
@@ -23,6 +24,10 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 	const handleSelectGhost = (ghost: Ghost) => {
 		setSelectedGhost(ghost);
 	};
+	const [fontLoaded] = useFonts({
+		spookyFontsLarge: require('../fonts/IM_Fell_English/IMFellEnglish-Regular.ttf'),
+		spookyFontsSmall: require('../fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf'),
+	});
 	console.log('selectedGhost :', selectedGhost);
 	console.log('name: ', selectedGhost.name);
 	console.log('description: ', selectedGhost.description);
@@ -91,6 +96,7 @@ const styles = StyleSheet.create({
 		fontSize: 30,
 		fontWeight: 'bold',
 		color: '#FBF7F5',
+		fontFamily: 'spookyFontsLarge',
 	},
 	subtitle: {
 		color: '#FBF7F5',
@@ -108,6 +114,7 @@ const styles = StyleSheet.create({
 	tileText: {
 		color: '#FBF7F5',
 		fontWeight: 'bold',
+		fontFamily: 'spookyFontsLarge',
 	},
 	ghostImage: {
 		height: 500,
@@ -117,12 +124,14 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: '#FBF7F5',
 		marginTop: '5%',
+		fontFamily: 'spookyFontsSmall',
 	},
 	ghostName: {
 		fontSize: 18,
 		fontWeight: 'bold',
 		marginBottom: 20,
 		color: '#FBF7F5',
+		fontFamily: 'spookyFontsLarge',
 	},
 	selectedGhostContainer: {
 		paddingVertical: 20,

@@ -22,17 +22,33 @@ import * as UserLocation from 'expo-location';
 import { LocationObject } from 'expo-location';
 import { Double } from 'react-native/Libraries/Types/CodegenTypes';
 import getGhostImage from '../ghostImages';
+import { useFonts } from 'expo-font';
 
 interface MapComponentProps {
 	locations: Location[];
 	users: User[];
 	ghosts: Ghost[];
+	spookyFonts: any;
 }
 
 const icon: ImageURISource = {
 	uri: '../assets/AnimatedGhost1.gif',
 	height: 300,
 	width: 200,
+};
+
+const overlayProps = {
+	bounds: [0, 0, window.innerWidth, window.innerHeight], // Set the bounds to cover the entire screen
+	image: 'your-overlay-image-url.png', // Replace with your image URL
+	style: {
+		position: 'absolute',
+		top: 0,
+		left: 0,
+		right: 0,
+		bottom: 0,
+		backgroundColor: 'transparent', // Set the background color as needed
+		borderRadius: 0, // Set the border radius as needed
+	},
 };
 
 // For closeGhosts... change it to be an array of all the ghosts but sorted by proximity
@@ -42,6 +58,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
 	users,
 	ghosts,
+	spookyFonts,
 }) => {
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
 	const [foundGhost, setFoundGhost] = useState<Location>(locations[3]);
@@ -53,6 +70,10 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	const [modalVisible, setModalVisible] = useState(false);
 	const [selectedGhostMapScreen, setSelectedGhostMapScreen] =
 		useState<Ghost>(null);
+	const [fontLoaded] = useFonts({
+		spookyFontsLarge: require('../fonts/IM_Fell_English/IMFellEnglish-Regular.ttf'),
+		spookyFontsSmall: require('../fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf'),
+	});
 	const compareLocations = async () => {
 		try {
 			await updateUserLocation();
@@ -157,6 +178,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	console.log('ghosts[0]', ghosts[0]);
 	console.log('locations[0].ghost: ', locations[0].ghost);
 
+	console.log('spookyfonts: ', spookyFonts);
+
 	const handleMarkerClick = (location: Location) => {
 		setModalVisible(!modalVisible);
 		setSelectedGhostMapScreen(location.ghost);
@@ -183,7 +206,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					longitudeDelta: 0.08,
 				}}
 				showsUserLocation={true}
-				customMapStyle={secondGenStyle}
+				customMapStyle={victorianSpookyStyle}
 				pitchEnabled={true}
 				camera={initalCamera}
 				showsBuildings={true}
@@ -246,7 +269,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 									}
 									style={styles.ghostImage}
 								/>
-								<Text style={styles.ghostDescription}>
+								<Text style={styles.modalText}>
 									{!selectedGhostMapScreen.discovered
 										? `${selectedGhostMapScreen.hiddenDescription}. You have not encountered this spirit yet`
 										: selectedGhostMapScreen.description}
@@ -272,7 +295,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				>
 					<View style={styles.centered}>
 						<View style={styles.modalView}>
-							<Text style={styles.modalText}>
+							<Text style={styles.ghostName}>
 								Ghost Encounter!
 							</Text>
 							<Image
@@ -293,7 +316,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 								<Text style={styles.modalText}>
 									You have found {foundGhost.ghost.name} in{' '}
 									{foundGhost.name} - {foundGhost.description}
-									. Dare you summon this spectre?
+									... Dare you summon this spectre?
 								</Text>
 								<View style={styles.modalButtonContainer}>
 									<Button title="Yes"></Button>
@@ -310,7 +333,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} />
+			<SwipeUp users={users} ghosts={ghosts} spookyFonts={spookyFonts} />
 		</View>
 	);
 };
@@ -322,7 +345,7 @@ const styles = StyleSheet.create({
 	map: {
 		height: '100%',
 		width: '100%',
-		backgroundColor: '#0000FF',
+		backgroundColor: '#3C3C3C',
 		zIndex: 1,
 	},
 	foundMarker: {
@@ -338,9 +361,15 @@ const styles = StyleSheet.create({
 	},
 	modalView: {
 		margin: 20,
-		backgroundColor: 'rgba(26, 26, 26, 0.97)',
+		backgroundColor: 'rgba(60, 60, 60, 0.9)',
 		borderRadius: 30,
 		padding: 20,
+		alignItems: 'center',
+		shadowColor: 'rgba(255, 255, 255, 0.5)', // Semi-transparent white
+		shadowOffset: { width: 0, height: 0 },
+		shadowOpacity: 1, // Adjust as needed
+		shadowRadius: 10, // Adjust as needed
+		border: '1px solid rgba(255, 255, 255, 0.3)', // Semi-transparent white border
 	},
 	selectedGhostContainer: {
 		paddingVertical: 20,
@@ -349,16 +378,17 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		elevation: 10,
-		shadowColor: '#fff',
+		shadowColor: 'rgba(255, 255, 255, 0.3)', // Light shadow
 		shadowOffset: { width: 0, height: 5 },
 		shadowOpacity: 0.3,
 		shadowRadius: 10,
 	},
 	ghostName: {
-		fontSize: 18,
+		fontSize: 30,
 		fontWeight: 'bold',
 		marginBottom: 20,
-		color: '#FBF7F5',
+		color: '#E8D8C7',
+		fontFamily: 'spookyFontsLarge',
 	},
 	ghostImage: {
 		height: 500,
@@ -366,20 +396,21 @@ const styles = StyleSheet.create({
 	},
 	ghostDescription: {
 		fontSize: 14,
-		color: '#FBF7F5',
+		color: '#E8D8C7', // Off-white or cream color
 		marginTop: '5%',
 	},
 	modalText: {
-		fontSize: 30,
+		fontSize: 18,
 		fontWeight: 'bold',
-		color: '#FBF7F5',
+		color: '#E8D8C7',
+		fontFamily: 'spookyFontsSmall',
 	},
 	modalButton: {
 		margin: 10,
 		padding: 10,
 	},
 	modalButtonClose: {
-		backgroundColor: '#da6512',
+		backgroundColor: '#693C23',
 		borderRadius: 10,
 		padding: 10,
 	},
@@ -403,320 +434,126 @@ const initalCamera: Camera = {
 	zoom: 15,
 };
 
-const secondGenStyle = [
+const victorianSpookyStyle = [
 	{
 		elementType: 'geometry',
 		stylers: [
-			{
-				color: '#212121',
-			},
-			{
-				weight: 2,
-			},
+			{ color: '#222222' }, // Dark background color
+			{ weight: 2 },
 		],
 	},
 	{
 		elementType: 'labels.icon',
 		stylers: [
-			{
-				visibility: 'off',
-			},
+			{ visibility: 'off' }, // Hide icons
 		],
 	},
 	{
 		elementType: 'labels.text.fill',
 		stylers: [
-			{
-				color: '#d3d1d1',
-			},
+			{ color: '#A88E75' }, // Sepia text color
 		],
 	},
 	{
 		elementType: 'labels.text.stroke',
 		stylers: [
-			{
-				color: '#010101',
-			},
+			{ color: '#231F20' }, // Dark text stroke
 		],
 	},
 	{
 		featureType: 'administrative',
 		elementType: 'geometry',
 		stylers: [
-			{
-				color: '#757575',
-			},
+			{ color: '#403f3f' }, // Dark administrative boundaries
 		],
 	},
 	{
 		featureType: 'administrative.country',
 		elementType: 'labels.text.fill',
 		stylers: [
-			{
-				color: '#d3d1d1',
-			},
-		],
-	},
-	{
-		featureType: 'administrative.land_parcel',
-		stylers: [
-			{
-				visibility: 'off',
-			},
-		],
-	},
-	{
-		featureType: 'administrative.locality',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#bdbdbd',
-			},
-		],
-	},
-	{
-		featureType: 'administrative.locality',
-		elementType: 'labels.text.fill',
-		stylers: [
-			{
-				color: '#d3d1d1',
-			},
-		],
-	},
-	{
-		featureType: 'administrative.neighborhood',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#bdbdbd',
-			},
+			{ color: '#A88E75' }, // Sepia country labels
 		],
 	},
 	{
 		featureType: 'landscape',
 		elementType: 'geometry.fill',
 		stylers: [
-			{
-				color: '#212121',
-			},
-		],
-	},
-	{
-		featureType: 'landscape.man_made',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#201d1d',
-			},
-		],
-	},
-	{
-		featureType: 'landscape.natural.landcover',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#262626',
-			},
-		],
-	},
-	{
-		featureType: 'landscape.natural.terrain',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#212121',
-			},
-			{
-				weight: 0.5,
-			},
+			{ color: '#1c1c1c' }, // Dark landscape
 		],
 	},
 	{
 		featureType: 'poi',
 		elementType: 'labels.text.fill',
 		stylers: [
-			{
-				color: '#d3d1d1',
-			},
-		],
-	},
-	{
-		featureType: 'poi.business',
-		stylers: [
-			{
-				visibility: 'off',
-			},
-		],
-	},
-	{
-		featureType: 'poi.business',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#969696',
-			},
-		],
-	},
-	{
-		featureType: 'poi.government',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#464444',
-			},
-		],
-	},
-	{
-		featureType: 'poi.medical',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#383838',
-			},
-		],
-	},
-	{
-		featureType: 'poi.park',
-		elementType: 'geometry',
-		stylers: [
-			{
-				color: '#181818',
-			},
-		],
-	},
-	{
-		featureType: 'poi.park',
-		elementType: 'labels.text',
-		stylers: [
-			{
-				visibility: 'off',
-			},
-		],
-	},
-	{
-		featureType: 'poi.park',
-		elementType: 'labels.text.fill',
-		stylers: [
-			{
-				color: '#d3d1d1',
-			},
-		],
-	},
-	{
-		featureType: 'poi.park',
-		elementType: 'labels.text.stroke',
-		stylers: [
-			{
-				color: '#1b1b1b',
-			},
-		],
-	},
-	{
-		featureType: 'poi.place_of_worship',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#212121',
-			},
-		],
-	},
-	{
-		featureType: 'poi.school',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#2c2626',
-			},
+			{ color: '#A88E75' }, // Sepia POI labels
 		],
 	},
 	{
 		featureType: 'road',
 		elementType: 'geometry.fill',
 		stylers: [
-			{
-				color: '#bf5300',
-			},
-		],
-	},
-	{
-		featureType: 'road',
-		elementType: 'labels.text.fill',
-		stylers: [
-			{
-				color: '#d3d1d1',
-			},
-		],
-	},
-	{
-		featureType: 'road.arterial',
-		elementType: 'geometry',
-		stylers: [
-			{
-				color: '#bf5300',
-			},
-		],
-	},
-	{
-		featureType: 'road.highway',
-		elementType: 'geometry',
-		stylers: [
-			{
-				color: '#3c3c3c',
-			},
-		],
-	},
-	{
-		featureType: 'road.highway.controlled_access',
-		elementType: 'geometry',
-		stylers: [
-			{
-				color: '#4e4e4e',
-			},
-		],
-	},
-	{
-		featureType: 'road.local',
-		elementType: 'labels.text.fill',
-		stylers: [
-			{
-				color: '#d3d1d1',
-			},
+			{ color: '#D4B192' }, // Dark road color
 		],
 	},
 	{
 		featureType: 'transit',
 		elementType: 'labels.text.fill',
 		stylers: [
-			{
-				color: '#d3d1d1',
-			},
+			{ color: '#8D6F4E' }, // Sepia transit labels
 		],
 	},
 	{
 		featureType: 'water',
 		elementType: 'geometry',
 		stylers: [
-			{
-				color: '#000000',
-			},
-		],
-	},
-	{
-		featureType: 'water',
-		elementType: 'geometry.fill',
-		stylers: [
-			{
-				color: '#010118',
-			},
+			{ color: '#484747' }, // Dark water color
 		],
 	},
 	{
 		featureType: 'water',
 		elementType: 'labels.text.fill',
 		stylers: [
-			{
-				color: '#d3d1d1',
-			},
+			{ color: '#A88E75' }, // Sepia water labels
+		],
+	},
+	{
+		featureType: 'building',
+		elementType: 'geometry',
+		stylers: [{ color: '#5D#505050' }],
+	},
+	{
+		featureType: 'poi.business',
+		elementType: 'geometry',
+		stylers: [
+			{ color: '#5D5047' }, // Darker color for business POIs
+		],
+	},
+	{
+		featureType: 'poi.government',
+		elementType: 'geometry',
+		stylers: [
+			{ color: '#5D5047' }, // Darker color for government buildings
+		],
+	},
+	{
+		featureType: 'poi.medical',
+		elementType: 'geometry',
+		stylers: [
+			{ color: '#5D5047' }, // Darker color for medical facilities
+		],
+	},
+	{
+		featureType: 'poi.school',
+		elementType: 'geometry',
+		stylers: [
+			{ color: '#5D5047' }, // Darker color for schools
+		],
+	},
+	{
+		featureType: 'poi.place_of_worship',
+		elementType: 'geometry',
+		stylers: [
+			{ color: '#5D5047' }, // Darker color for places of worship
 		],
 	},
 ];

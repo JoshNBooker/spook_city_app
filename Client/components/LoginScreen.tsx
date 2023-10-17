@@ -1,3 +1,11 @@
+import {
+	StyleSheet,
+	Text,
+	View,
+	TouchableOpacity,
+	TextInput,
+	Image,
+} from 'react-native';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -20,13 +28,13 @@ const LoginScreen = ({ setIsLoggedIn }) => {
     female3: require('../images/UserPictures/female3.jpg'),
   };
 
-  const handleUsernameChange = (text) => {
-    setUsername(text);
-  };
+	const handleUsernameChange = (text) => {
+		setUsername(text);
+	};
 
-  const handlePasswordChange = (text) => {
-    setPassword(text);
-  };
+	const handlePasswordChange = (text) => {
+		setPassword(text);
+	};
 
   const handleJoinUsernameChange = (text) => {
     setJoinUsername(text);
