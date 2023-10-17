@@ -13,6 +13,7 @@ import { User, Ghost } from '../types/Types';
 import Swiper from 'react-native-swiper';
 import UserPage from './UserPage';
 import HiddenGhostsPage from './HiddenGhostsPage';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 interface ItemFullProps {
 	hidden: boolean;
@@ -80,7 +81,7 @@ export default function ItemFull({ hidden, users, ghosts }: ItemFullProps) {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: 'rgba(26, 26, 26, 0.97))',
+		backgroundColor: 'rgba(39, 39, 39, 0.97))',
 		paddingHorizontal: 20,
 		paddingTop: 20,
 		borderRadius: 30,
