@@ -16,7 +16,7 @@ export default function App() {
 	const [locations, setLocations] = useState<Location[]>(null);
 	const [isLoggedIn, setIsLoggedIn] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(null);
-	const apiUrl: string = 'http://localhost:8080';
+	const apiUrl: string = 'http://10.22.55.119:8080';
 	const [fontLoaded] = useFonts({
 		spookyFonts: require('./fonts/IM_Fell_English/IMFellEnglish-Italic.ttf'),
 	});

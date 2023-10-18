@@ -171,7 +171,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		loopTimeout = setTimeout(() => {
 			// Your logic here
 			compareLocations();
-		}, 10000);
+		}, 2000);
 		console.log('this is the timeout ', loopTimeout);
 	}
 	console.log('location 1 :', locations[0]);
