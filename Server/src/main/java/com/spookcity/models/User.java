@@ -1,6 +1,7 @@
 package com.spookcity.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
@@ -16,6 +17,8 @@ public class User {
     private Long points;
     private String password;
 
+//    @JsonIgnoreProperties({"users"})
+//    @JsonBackReference("user-ghosts")
     @ManyToMany(mappedBy = "users", fetch = FetchType.EAGER)
     private List<Ghost> discoveredGhosts;
 

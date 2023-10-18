@@ -46,8 +46,8 @@ const overlayProps = {
 		left: 0,
 		right: 0,
 		bottom: 0,
-		backgroundColor: 'transparent', // Set the background color as needed
-		borderRadius: 0, // Set the border radius as needed
+		backgroundColor: 'transparent',
+		borderRadius: 0,
 	},
 };
 
@@ -177,6 +177,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	console.log('location 1 :', locations[0]);
 	console.log('ghosts[0]', ghosts[0]);
 	console.log('locations[0].ghost: ', locations[0].ghost);
+	console.log('active user:', activeUser);
 
 	const handleMarkerClick = (location: Location) => {
 		setModalVisible(!modalVisible);
@@ -189,10 +190,25 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		console.log('found modal visible: ', foundGhostModalVisible);
 	};
 
-	console.log('normal modal visible? :', modalVisible);
-	console.log('found modal visible? :', foundGhostModalVisible);
-	console.log('active user: ', activeUser);
-	console.log('active User ghosts: ', activeUser.discoveredGhosts);
+	const handleSummonGhost = (ghost: Ghost) => {
+		if (!activeUser.discoveredGhosts.includes(ghost)) {
+			activeUser.discoveredGhosts.push(ghost);
+			foundGhost.ghost.discovered = true;
+			fetch(`http://localhost:8080/users/${activeUser.id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					activeUser,
+				}),
+			}).then((data) => {
+				console.log('data: ', data);
+			});
+		} else {
+			console.log('Ghost already discovered');
+		}
+	};
 
 	return (
 		<View>
@@ -212,11 +228,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				showsBuildings={true}
 			>
 				{locations.map((location, index) => {
+					if (activeUser.discoveredGhosts.includes(location.ghost)) {
+						location.ghost.discovered = true;
+					}
 					let opacity = 1 - index * 0.1;
 					const imagePath = location.ghost.discovered
 						? require('../assets/foundGhost.png')
 						: require('../assets/AnimatedGhost1.gif');
-					return location.ghost == foundGhost.ghost ? (
+					return location.ghost == foundGhost.ghost &&
+						!foundGhost.ghost.discovered ? (
 						<Marker
 							coordinate={{
 								latitude: location.coordinateX,
@@ -322,9 +342,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 									<Button
 										title="Yes"
 										onPress={() => {
-											activeUser.discoveredGhosts.push(
-												foundGhost.ghost
-											);
+											handleSummonGhost(foundGhost.ghost);
 										}}
 									></Button>
 									<Button

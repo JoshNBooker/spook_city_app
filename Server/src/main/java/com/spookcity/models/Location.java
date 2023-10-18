@@ -1,6 +1,7 @@
 package com.spookcity.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -12,6 +13,7 @@ public class Location {
     private String description;
     private Double coordinateX;
     private Double coordinateY;
+    @JsonIgnoreProperties("location")
     @OneToOne
     @MapsId
     @JoinColumn(name = "location_id")
