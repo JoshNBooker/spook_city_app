@@ -172,6 +172,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 			// Your logic here
 			compareLocations();
 		}, 2000);
+
 		console.log('this is the timeout ', loopTimeout);
 	}
 	console.log('location 1 :', locations[0]);
@@ -195,6 +196,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		if (!activeUser.discoveredGhosts.includes(ghost)) {
 			activeUser.discoveredGhosts.push(ghost);
 			foundGhost.ghost.discovered = true;
+			activeUser.points += 100;
 			console.log('user about to be sent :', activeUser);
 			const updatedUser = { ...activeUser };
 			updatedUser.discoveredGhosts = [...updatedUser.discoveredGhosts];
@@ -297,7 +299,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 										selectedGhostMapScreen.discovered
 											? getGhostImage(
 													selectedGhostMapScreen
-											  )
+											)
 											: require('../images/GhostPictures/undiscoveredGhost.jpg')
 									}
 									style={styles.ghostImage}
@@ -371,7 +373,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} activeUser={activeUser} />
+			<SwipeUp users={users} ghosts={ghosts} activeUser={activeUser} locations={locations}/>
 		</View>
 	);
 };

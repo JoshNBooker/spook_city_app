@@ -81,10 +81,10 @@ export default function UserPage({
 				)}
 				<Text style={styles.progressText}>
 					{' '}
-					620 more points until next level
+					Progress Bar
 				</Text>
 				<ProgressBar
-					progress={0.255}
+					progress={activeUser.points / 1000}
 					width={280}
 					height={8}
 					color="orange"

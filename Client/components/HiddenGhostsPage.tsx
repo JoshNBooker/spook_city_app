@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Ghost } from '../types/Types';
+import React, { useEffect, useState } from 'react';
+import { Ghost, User, Location } from '../types/Types';
 import {
 	Image,
 	ScrollView,
@@ -14,11 +14,15 @@ import { useFonts } from 'expo-font';
 interface HiddenGhostsPageProps {
 	ghosts: Ghost[];
 	hidden: boolean;
+	activeUser: User;
+	locations: Location[];
 }
 
 const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 	ghosts,
 	hidden,
+	activeUser,
+	locations,
 }) => {
 	const [selectedGhost, setSelectedGhost] = useState<Ghost>(ghosts[0]);
 	const handleSelectGhost = (ghost: Ghost) => {
@@ -33,6 +37,10 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 	console.log('description: ', selectedGhost.description);
 	console.log('dialogue: ', selectedGhost.dialogue);
 	console.log('');
+
+	useEffect(() => {
+		console.log('re-render');
+	}, [hidden]);
 
 	return (
 		<View style={styles.container}>
@@ -64,18 +72,27 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 					</View>
 				)}
 				<ScrollView horizontal style={styles.horizontalScrollView}>
-					{ghosts.map((ghost, index) => (
-						<TouchableOpacity
-							key={index}
-							onPress={() => handleSelectGhost(ghost)}
-						>
-							<View style={styles.ghostTile}>
-								<Text style={styles.tileText}>
-									{ghost.name}
-								</Text>
-							</View>
-						</TouchableOpacity>
-					))}
+					{locations.map((location, index) => {
+						if (
+							activeUser.discoveredGhosts.includes(location.ghost)
+						) {
+							location.ghost.discovered = true;
+						}
+						return (
+							<TouchableOpacity
+								key={index}
+								onPress={() =>
+									handleSelectGhost(location.ghost)
+								}
+							>
+								<View style={styles.ghostTile}>
+									<Text style={styles.tileText}>
+										{location.ghost.name}
+									</Text>
+								</View>
+							</TouchableOpacity>
+						);
+					})}
 				</ScrollView>
 			</View>
 		</View>
@@ -94,6 +111,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 30,
+		marginTop: 10,
 		fontWeight: 'bold',
 		color: '#FBF7F5',
 		fontFamily: 'spookyFontsLarge',
@@ -117,7 +135,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'spookyFontsLarge',
 	},
 	ghostImage: {
-		height: 500,
+		height: 400,
 		width: 300,
 	},
 	ghostDescription: {

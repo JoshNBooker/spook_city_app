@@ -9,7 +9,7 @@ import {
 	Image,
 	ImageBackground,
 } from 'react-native';
-import { User, Ghost } from '../types/Types';
+import { User, Ghost, Location } from '../types/Types';
 import Swiper from 'react-native-swiper';
 import UserPage from './UserPage';
 import HiddenGhostsPage from './HiddenGhostsPage';
@@ -22,6 +22,7 @@ interface ItemFullProps {
 	users: User[];
 	ghosts?: Ghost[];
 	activeUser: User;
+	locations: Location[]
 }
 
 export default function ItemFull({
@@ -29,6 +30,7 @@ export default function ItemFull({
 	users,
 	ghosts,
 	activeUser,
+	locations
 }: ItemFullProps) {
 	console.log('hidden: ', hidden);
 
@@ -73,7 +75,7 @@ export default function ItemFull({
 							activeUser={activeUser}
 						></UserPage>
 						<View style={styles.userInfoContainer}>
-							<HiddenGhostsPage ghosts={ghosts} hidden={hidden} />
+							<HiddenGhostsPage ghosts={ghosts} hidden={hidden} activeUser={activeUser} locations={locations} />
 						</View>
 					</Swiper>
 				</View>

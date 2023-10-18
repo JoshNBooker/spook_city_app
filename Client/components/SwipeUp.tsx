@@ -2,15 +2,21 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import ItemFull from './ItemFull';
 import SwipeUpDown from 'react-native-swipe-up-down';
-import { User, Ghost } from '../types/Types';
+import { User, Ghost, Location } from '../types/Types';
 
 interface SwipeUpProps {
 	users: User[];
 	ghosts: Ghost[];
 	activeUser: User;
+	locations: Location[];
 }
 
-const SwipeUp: React.FC<SwipeUpProps> = ({ users, ghosts, activeUser }) => {
+const SwipeUp: React.FC<SwipeUpProps> = ({
+	users,
+	ghosts,
+	activeUser,
+	locations,
+}) => {
 	const [swipeHidden, setSwipeHidden] = React.useState(true);
 	return (
 		<SwipeUpDown
@@ -20,6 +26,7 @@ const SwipeUp: React.FC<SwipeUpProps> = ({ users, ghosts, activeUser }) => {
 					users={users}
 					ghosts={ghosts}
 					activeUser={activeUser}
+					locations={locations}
 				/>
 			)}
 			itemFull={() => (
@@ -28,6 +35,7 @@ const SwipeUp: React.FC<SwipeUpProps> = ({ users, ghosts, activeUser }) => {
 					users={users}
 					ghosts={ghosts}
 					activeUser={activeUser}
+					locations={locations}
 				/>
 			)}
 			onShowMini={() => {
