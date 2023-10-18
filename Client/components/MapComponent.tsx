@@ -74,6 +74,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		spookyFontsLarge: require('../fonts/IM_Fell_English/IMFellEnglish-Regular.ttf'),
 		spookyFontsSmall: require('../fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf'),
 	});
+	const [ghostEncounter, setGhostEncounter] = useState<boolean>(false)
 	const compareLocations = async () => {
 		try {
 			await updateUserLocation();
@@ -208,6 +209,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				body: JSON.stringify(updatedUser),
 			}).then((data) => {
 				console.log('data: ', data);
+				setFoundGhostModalVisible(false);
+				setGhostEncounter(true);
 			});
 		} else {
 			console.log('Ghost already discovered');
@@ -368,6 +371,53 @@ const MapComponent: React.FC<MapComponentProps> = ({
 										}}
 									></Button>
 								</View>
+							</Pressable>
+						</View>
+					</View>
+				</Modal>
+			)}
+			{ghostEncounter && !modalVisible && !foundGhostModalVisible && (
+				<Modal
+					animationType="slide"
+					transparent={true}
+					visible={ghostEncounter}
+					onRequestClose={() => {
+						Alert.alert('Modal has been closed.');
+						setGhostEncounter(!ghostEncounter);
+					}}
+				>
+					<View style={styles.centered}>
+						<View style={styles.modalView}>
+							<Text style={styles.ghostName}>
+								{foundGhost.ghost.name}
+							</Text>
+							<Image
+								source={getGhostImage(foundGhost.ghost)}
+								style={styles.foundGhostImage}
+							/>
+							<Pressable
+								style={[
+									styles.modalButton,
+									styles.modalButtonClose,
+								]}
+								onPress={() =>
+									setFoundGhostModalVisible(
+										!foundGhostModalVisible
+									)
+								}
+							>
+								<Text style={styles.modalText}>
+									You have found {foundGhost.ghost.name} in{' '}
+									{foundGhost.name} - {foundGhost.description}
+									... Dare you summon this spectre?
+								</Text>
+									<Button
+										title="Return To Quest!"
+										onPress={() => {
+											setFoundGhostModalVisible(false);
+											setModalVisible(false);
+										}}
+									></Button>
 							</Pressable>
 						</View>
 					</View>
