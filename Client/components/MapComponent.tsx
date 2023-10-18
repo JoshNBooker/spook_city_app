@@ -95,13 +95,13 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				);
 				console.log('latitude delta:', latDelta);
 				console.log('longitude delta:', longDelta);
-				return latDelta < 0.00001 && longDelta < 0.00001;
+				return latDelta < 0.000001 && longDelta < 0.000001;
 			});
 			console.log('close ghosts array', closeGhosts);
 
 			let sortedGhosts: Location[] = locations.sort(compareDistance);
 			setSortedGhostLocations(sortedGhosts);
-			setFoundGhost(closeGhosts[0]);
+			closeGhosts.length > 0 ? setFoundGhost(closeGhosts[0]) : setFoundGhost(null);
 
 			// console.log("the sorted ghosts array", sortedGhosts)
 
@@ -171,13 +171,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		loopTimeout = setTimeout(() => {
 			// Your logic here
 			compareLocations();
-		}, 10000);
+		}, 2000);
+
 		console.log('this is the timeout ', loopTimeout);
 	}
 	console.log('location 1 :', locations[0]);
 	console.log('ghosts[0]', ghosts[0]);
 	console.log('locations[0].ghost: ', locations[0].ghost);
 	console.log('active user:', activeUser);
+	console.log("This is the foundGhost", foundGhost)
 
 	const handleMarkerClick = (location: Location) => {
 		setModalVisible(!modalVisible);
@@ -194,6 +196,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		if (!activeUser.discoveredGhosts.includes(ghost)) {
 			activeUser.discoveredGhosts.push(ghost);
 			foundGhost.ghost.discovered = true;
+			activeUser.points += 100;
 			const updatedUser = { ...activeUser };
 			updatedUser.discoveredGhosts = [...updatedUser.discoveredGhosts];
 			fetch(`http://localhost:8080/users/${activeUser.id}`, {
@@ -260,7 +263,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					const imagePath = location.ghost.discovered
 						? require('../assets/foundGhost.png')
 						: require('../assets/AnimatedGhost1.gif');
-					return location.ghost == foundGhost.ghost &&
+					return foundGhost ? location.ghost == foundGhost.ghost &&
 						!foundGhost.ghost.discovered ? (
 						<Marker
 							coordinate={{
@@ -271,6 +274,17 @@ const MapComponent: React.FC<MapComponentProps> = ({
 							image={require('../assets/atGhost.png')}
 							style={{ opacity: opacity }}
 							onPress={() => handleFoundMarkerClick(location)}
+						/>
+					) : (
+						<Marker
+							coordinate={{
+								latitude: location.coordinateX,
+								longitude: location.coordinateY,
+							}}
+							key={index}
+							image={imagePath}
+							onPress={() => handleMarkerClick(location)}
+							style={{ opacity: opacity }}
 						/>
 					) : (
 						<Marker
@@ -309,7 +323,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 										selectedGhostMapScreen.discovered
 											? getGhostImage(
 													selectedGhostMapScreen
-											  )
+											)
 											: require('../images/GhostPictures/undiscoveredGhost.jpg')
 									}
 									style={styles.ghostImage}
