@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 30,
+		marginTop: 10,
 		fontWeight: 'bold',
 		color: '#FBF7F5',
 		fontFamily: 'spookyFontsLarge',
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
 		fontFamily: 'spookyFontsLarge',
 	},
 	ghostImage: {
-		height: 500,
+		height: 400,
 		width: 300,
 	},
 	ghostDescription: {
