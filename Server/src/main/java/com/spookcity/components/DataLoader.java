@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Profile("!test")
-//@Component
+@Component
 public class DataLoader implements ApplicationRunner {
     @Autowired
     GhostRepository ghostRepository;
@@ -36,7 +36,7 @@ public class DataLoader implements ApplicationRunner {
                 "Mans best friend, found near Greyfriars Kirkyard",
                 "A loyal and heartwarming ghost. Known for his devotion to his owner, John Gray, even in the afterlife.",
                 LocalDate.of(1858, 1, 14),
-                "Woof woof!", true);
+                "Woof woof!", false);
         Ghost ghost2 = new Ghost(
                 "Mackenzie Poltergeist", "mackenziePoltergeist.jpg",
                 "A terrifying poltergest of an old judge, haunts Mackenzie's Mausoleum","'Bloody Mackenzie', is the malevolent spirit of Sir George Mackenzie, a notorious persecutor of Covenanters. People have reported sudden drops in temperature, unexplained injuries, and even fainting spells when visiting his mausoleum."
@@ -52,7 +52,7 @@ public class DataLoader implements ApplicationRunner {
                 "maryQueenOfScots.jpg","A royal spirit, found in Holyrood Palace",
                 "The spirit of the famous queen, known to roam the halls and chambers of Holyrood Palace.",
                 LocalDate.of(1542, 12, 8),
-                "Long live the queen!", true);
+                "Long live the queen!", false);
         Ghost ghost6 = new Ghost( "The Woman in Black",
                 "womanInBlack.jpg","A mournful ghost, haunting Canongate Kirk",
                 "A mysterious woman in black who appears near tombs in Canongate Kirk.",
@@ -62,7 +62,7 @@ public class DataLoader implements ApplicationRunner {
                 "phantomPiper.jpg","A wondering piper, trapped in Edinburgh's underground tunnels",
                 "A ghostly piper believed to have vanished while exploring underground tunnels.",
                 LocalDate.of(11, 11, 11),
-                "Would ye like to hear me play ma pipes, laddy?", true);
+                "Would ye like to hear me play ma pipes, laddy?", false);
         Ghost ghost8 = new Ghost(
                 "The Poltergeist of Mary King's Close",
                 "poltergeistOfMaryKingsClose.jpg","The feared specter of Mary King's Close",
@@ -74,7 +74,7 @@ public class DataLoader implements ApplicationRunner {
                 "weeAnnie.jpg","The ghost of a baby girl, found on George Street",
                 "The cries of a baby named Wee Annie are heard near a building on George Street.",
                 LocalDate.of(11, 11, 11),
-                "Can anyone hear me?", true);
+                "Can anyone hear me?", false);
         Ghost ghost10 = new Ghost(
                 "The Phantom Harpist",
                 "phantomHarpist.jpg","A harpist, trapped eternally within George Heriot's School",
@@ -199,10 +199,9 @@ public class DataLoader implements ApplicationRunner {
         ghostRepository.save(ghost9);
         ghostRepository.save(ghost10);
 
-        User user1 = new User("GhostHunter123", 4, Rank.MEDIUM, 2380L, "ILoveGhostHunting");
-        User user2 = new User("SpookyExplorer", 2, Rank.NOVICE, 500L, "ExplorerOfTheSpooks");
+        User user1 = new User("GhostHunter123", 4, Rank.NOVICE, 0L, "ILoveGhostHunting");
+        User user2 = new User("SpookyExplorer", 2, Rank.NOVICE, 0L, "ExplorerOfTheSpooks");
 
-        user1.getDiscoveredGhosts().add(ghost2);
         userRepository.save(user1);
         userRepository.save(user2);
 

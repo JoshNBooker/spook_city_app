@@ -20,12 +20,14 @@ public class Ghost {
     private String dialogue;
     private boolean discovered;
 
-    @JsonBackReference
+
+    @JsonIgnoreProperties("ghost")
     @OneToOne(mappedBy = "ghost", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Location location;
 
-    @JsonBackReference
+//    @JsonIgnoreProperties({"discoveredGhosts"})
+    @JsonBackReference("ghost-users")
     @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinTable(
