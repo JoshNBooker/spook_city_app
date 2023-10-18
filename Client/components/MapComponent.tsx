@@ -401,21 +401,17 @@ const MapComponent: React.FC<MapComponentProps> = ({
 									styles.modalButtonClose,
 								]}
 								onPress={() =>
-									setFoundGhostModalVisible(
-										!foundGhostModalVisible
-									)
+									setGhostEncounter(!ghostEncounter)
 								}
 							>
 								<Text style={styles.modalText}>
-									You have found {foundGhost.ghost.name} in{' '}
-									{foundGhost.name} - {foundGhost.description}
-									... Dare you summon this spectre?
+									{foundGhost.description} {"\n"}
+									Congradulations, you've added a ghost to your collection, now go find more!
 								</Text>
 									<Button
 										title="Return To Quest!"
 										onPress={() => {
-											setFoundGhostModalVisible(false);
-											setModalVisible(false);
+											setGhostEncounter(false)
 										}}
 									></Button>
 							</Pressable>

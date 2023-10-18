@@ -33,7 +33,57 @@ public class DataLoader implements ApplicationRunner {
 
 //
 
-        
+        Ghost ghost1 = new Ghost("Greyfriars Bobby",
+                "greyfriarsBobby.jpg",
+                "Mans best friend, found near Greyfriars Kirkyard",
+                "A loyal and heartwarming ghost. Known for his devotion to his owner, John Gray, even in the afterlife.",
+                LocalDate.of(1858, 1, 14),
+                "Woof woof!", false);
+        Ghost ghost2 = new Ghost(
+                "Mackenzie Poltergeist", "mackenziePoltergeist.jpg",
+                "A terrifying poltergest of an old judge, haunts Mackenzie's Mausoleum","'Bloody Mackenzie', is the malevolent spirit of Sir George Mackenzie, a notorious persecutor of Covenanters. People have reported sudden drops in temperature, unexplained injuries, and even fainting spells when visiting his mausoleum."
+                , LocalDate.of(1691, 2, 28), "Who dares summon me?!", false);
+        Ghost ghost3 = new Ghost("Abandoned Annie", "abandonedAnnie.jpg","A tragic victim of the plague, found in the Underground vaults of Edinburgh","Visitors have reported sightings of a young girl named Annie who died in the close during the plague. Her spirit is said to wander the underground streets, and some have heard her laughter or seen her apparition.", LocalDate.of(1823, 6, 5), "Have you seen my mum?", false);
+        Ghost ghost4 = new Ghost(  "The Headless Drummer",
+                "headlessDrummer.jpg",
+                "A spectral drummer, reported in many areas of the city",
+                "A headless drummer whose ghostly drumming is heard as an omen before major disasters.",
+                LocalDate.of(1600, 11, 11),
+                "Drumming in the dark...", false);
+        Ghost ghost5 = new Ghost("Mary, Queen of Scots",
+                "maryQueenOfScots.jpg","A royal spirit, found in Holyrood Palace",
+                "The spirit of the famous queen, known to roam the halls and chambers of Holyrood Palace.",
+                LocalDate.of(1542, 12, 8),
+                "Long live the queen!", false);
+        Ghost ghost6 = new Ghost( "The Woman in Black",
+                "womanInBlack.jpg","A mournful ghost, haunting Canongate Kirk",
+                "A mysterious woman in black who appears near tombs in Canongate Kirk.",
+                LocalDate.of(11, 11, 11),
+                "Abandon all hope, ye who sight me!", false);
+        Ghost ghost7 = new Ghost( "The Phantom Piper",
+                "phantomPiper.jpg","A wondering piper, trapped in Edinburgh's underground tunnels",
+                "A ghostly piper believed to have vanished while exploring underground tunnels.",
+                LocalDate.of(11, 11, 11),
+                "Would ye like to hear me play ma pipes, laddy?", false);
+        Ghost ghost8 = new Ghost(
+                "The Poltergeist of Mary King's Close",
+                "poltergeistOfMaryKingsClose.jpg","The feared specter of Mary King's Close",
+                "Reports of poltergeist activity in Mary King's Close, including objects moving on their own and mysterious noises.",
+                LocalDate.of(1700, 11, 11),
+                "Beware the unseen sprit of the close!"
+                , false);
+        Ghost ghost9 = new Ghost( "Wee Annie",
+                "weeAnnie.jpg","The ghost of a baby girl, found on George Street",
+                "The cries of a baby named Wee Annie are heard near a building on George Street.",
+                LocalDate.of(11, 11, 11),
+                "Can anyone hear me?", false);
+        Ghost ghost10 = new Ghost(
+                "The Phantom Harpist",
+                "phantomHarpist.jpg","A harpist, trapped eternally within George Heriot's School",
+                "A young harpist whose music is heard in George Heriot's School.",
+                LocalDate.of(11, 11, 11),
+                "Please... stay... listen to my music", false
+        );
 
         Location location1 = new Location(
                 "Greyfriars Kirkyard",
