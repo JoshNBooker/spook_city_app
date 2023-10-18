@@ -195,6 +195,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 			activeUser.discoveredGhosts.push(ghost);
 			foundGhost.ghost.discovered = true;
 			console.log('user about to be sent :', activeUser);
+			console.log('found ghost: ', ghost);
 			const updatedUser = { ...activeUser };
 			updatedUser.discoveredGhosts = [...updatedUser.discoveredGhosts];
 			fetch(`http://localhost:8080/users/${activeUser.id}`, {
@@ -359,7 +360,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} activeUser={activeUser} />
+			<SwipeUp users={users} ghosts={ghosts} activeUser={activeUser} locations={locations}/>
 		</View>
 	);
 };
