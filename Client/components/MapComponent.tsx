@@ -194,8 +194,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		if (!activeUser.discoveredGhosts.includes(ghost)) {
 			activeUser.discoveredGhosts.push(ghost);
 			foundGhost.ghost.discovered = true;
-			console.log('user about to be sent :', activeUser);
-			console.log('found ghost: ', ghost);
 			const updatedUser = { ...activeUser };
 			updatedUser.discoveredGhosts = [...updatedUser.discoveredGhosts];
 			fetch(`http://localhost:8080/users/${activeUser.id}`, {
@@ -207,6 +205,31 @@ const MapComponent: React.FC<MapComponentProps> = ({
 			}).then((data) => {
 				console.log('data: ', data);
 			});
+			const relationship = {
+				user: activeUser,
+				ghost: ghost,
+			};
+			console.log('relationship: ', relationship);
+			const updatedRelationship = { ...relationship };
+			console.log('spread operator :', updatedRelationship);
+
+			fetch(`http://localhost:8080/ghost_user_relationships`, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(updatedRelationship),
+			})
+				.then((response) => response.json())
+				.then((data) => {
+					console.log(
+						'Ghost discovered and relationship created:',
+						data
+					);
+				})
+				.catch((error) => {
+					console.error('Error creating relationship:', error);
+				});
 		} else {
 			console.log('Ghost already discovered');
 		}
@@ -360,7 +383,12 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp users={users} ghosts={ghosts} activeUser={activeUser} locations={locations}/>
+			<SwipeUp
+				users={users}
+				ghosts={ghosts}
+				activeUser={activeUser}
+				locations={locations}
+			/>
 		</View>
 	);
 };
