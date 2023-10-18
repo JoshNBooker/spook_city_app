@@ -48,6 +48,9 @@ public class UserController {
 //    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT, consumes="application/json")
     @PutMapping(value = "/users/{id}", produces="application/json")
     public User updateUsersGhosts(@PathVariable Long id, @RequestBody User newUser) {
+        System.out.println("new user object " + newUser);
+        System.out.println("new user objects name" + newUser.getUserName());
+        System.out.println("new user objects id" + newUser.getId());
         return userRepository.findById(id).map(user -> {
             user.setUserName(newUser.getUserName());
             user.setFileName(newUser.getFileName());

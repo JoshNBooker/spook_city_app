@@ -194,25 +194,15 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		if (!activeUser.discoveredGhosts.includes(ghost)) {
 			activeUser.discoveredGhosts.push(ghost);
 			foundGhost.ghost.discovered = true;
+			console.log('user about to be sent :', activeUser);
+			const updatedUser = { ...activeUser };
+			updatedUser.discoveredGhosts = [...updatedUser.discoveredGhosts];
 			fetch(`http://localhost:8080/users/${activeUser.id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify({
-					activeUser,
-				}),
-			}).then((data) => {
-				console.log('data: ', data);
-			});
-			fetch(`http://localhost:8080/users/${ghost.id}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					ghost,
-				}),
+				body: JSON.stringify(updatedUser),
 			}).then((data) => {
 				console.log('data: ', data);
 			});
