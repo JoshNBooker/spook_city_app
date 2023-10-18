@@ -205,6 +205,17 @@ const MapComponent: React.FC<MapComponentProps> = ({
 			}).then((data) => {
 				console.log('data: ', data);
 			});
+			fetch(`http://localhost:8080/users/${ghost.id}`, {
+				method: 'PUT',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					ghost,
+				}),
+			}).then((data) => {
+				console.log('data: ', data);
+			});
 		} else {
 			console.log('Ghost already discovered');
 		}
