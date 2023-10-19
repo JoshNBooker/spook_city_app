@@ -8,6 +8,7 @@ import {
 	Alert,
 	Image,
 	Button,
+	TouchableOpacity,
 } from 'react-native';
 import MapView, {
 	Marker,
@@ -23,12 +24,16 @@ import { LocationObject } from 'expo-location';
 import { Double } from 'react-native/Libraries/Types/CodegenTypes';
 import getGhostImage from '../ghostImages';
 import { useFonts } from 'expo-font';
+import setIsLoggedIn from '../App';
+
 
 interface MapComponentProps {
 	locations: Location[];
 	users: User[];
 	ghosts: Ghost[];
 	activeUser: User;
+	setIsLoggedIn: (isLoggedIn: boolean) => void;
+	setActiveUser: (activeUser: User) => void;
 }
 
 const icon: ImageURISource = {
@@ -58,7 +63,9 @@ const MapComponent: React.FC<MapComponentProps> = ({
 	locations,
 	users,
 	ghosts,
+	setIsLoggedIn,
 	activeUser,
+	setActiveUser
 }) => {
 	const [userLocation, setUserLocation] = useState<LocationObject>(null);
 	const [foundGhost, setFoundGhost] = useState<Location>(locations[3]);
@@ -238,6 +245,12 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		}
 	};
 
+	const handleLogout = () => {
+		setIsLoggedIn(false);
+		setActiveUser(null);
+		console.log("active user after logout", activeUser)
+	};
+
 	return (
 		<View>
 			<MapView
@@ -255,6 +268,13 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				camera={initalCamera}
 				showsBuildings={true}
 			>
+				<TouchableOpacity>
+				<Pressable style={styles.logout} onPress={handleLogout}>
+						<Text>
+						← Logout
+						</Text>
+				</Pressable>
+				</TouchableOpacity>
 				{locations.map((location, index) => {
 					if (activeUser.discoveredGhosts.includes(location.ghost)) {
 						location.ghost.discovered = true;
@@ -422,6 +442,15 @@ const styles = StyleSheet.create({
 		shadowOffset: { width: 0, height: 4 },
 		shadowRadius: 5,
 		shadowOpacity: 1,
+	},
+	logout: {
+		position: 'absolute',
+		top: 70,
+		left: 20,
+		backgroundColor: '#c67014',
+		borderRadius: 5,
+		padding: 8,
+		zIndex: 100,
 	},
 	centered: {
 		flex: 1,
