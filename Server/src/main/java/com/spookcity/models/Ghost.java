@@ -20,6 +20,7 @@ public class Ghost {
     private LocalDate dateOfDeath;
     private String dialogue;
     private boolean discovered;
+    @Lob
     private String bio;
 
 
@@ -43,7 +44,7 @@ public class Ghost {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Ghost(String name, String fileName, String hiddenDescription, String description, LocalDate dateOfDeath, String dialogue, boolean discovered) {
+    public Ghost(String name, String fileName, String hiddenDescription, String description, LocalDate dateOfDeath, String dialogue, boolean discovered, String bio) {
         this.name = name;
         this.fileName = fileName;
         this.hiddenDescription = hiddenDescription;
@@ -51,6 +52,7 @@ public class Ghost {
         this.dateOfDeath = dateOfDeath;
         this.dialogue = dialogue;
         this.discovered = discovered;
+        this.bio = bio;
         this.location = location;
         this.users = new ArrayList<>();
     }
@@ -138,4 +140,11 @@ public class Ghost {
     }
 
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
 }

@@ -8,6 +8,7 @@ import {
 	Alert,
 	Image,
 	Button,
+	ScrollView,
 } from 'react-native';
 import MapView, {
 	Marker,
@@ -393,8 +394,14 @@ const MapComponent: React.FC<MapComponentProps> = ({
 							</Text>
 							<Image
 								source={getGhostImage(foundGhost.ghost)}
-								style={styles.foundGhostImage}
+								style={styles.ghostEncounterImage}
 							/>
+							<ScrollView style={styles.foundGhostText}>
+									<Text style={styles.modalText}>
+										{foundGhost.ghost.bio} {"\n"}
+										Congradulations, you've added a ghost to your collection, now go find more! {"\n"}
+									</Text>
+							</ScrollView>
 							<Pressable
 								style={[
 									styles.modalButton,
@@ -404,10 +411,6 @@ const MapComponent: React.FC<MapComponentProps> = ({
 									setGhostEncounter(!ghostEncounter)
 								}
 							>
-								<Text style={styles.modalText}>
-									{foundGhost.description} {"\n"}
-									Congradulations, you've added a ghost to your collection, now go find more!
-								</Text>
 									<Button
 										title="Return To Quest!"
 										onPress={() => {
@@ -450,6 +453,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(60, 60, 60, 0.9)',
 		borderRadius: 30,
 		padding: 20,
+		height: '90%',
+		width: '90%',
 		alignItems: 'center',
 		shadowColor: 'rgba(255, 255, 255, 0.5)', // Semi-transparent white
 		shadowOffset: { width: 0, height: 0 },
@@ -492,7 +497,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'spookyFontsSmall',
 	},
 	modalButton: {
-		margin: 10,
 		padding: 10,
 	},
 	modalButtonClose: {
@@ -508,6 +512,17 @@ const styles = StyleSheet.create({
 		height: 300,
 		width: 200,
 	},
+	foundGhostText: {
+		borderRadius: 10,
+		marginTop: 10,
+		backgroundColor: '#693C23',
+		marginBottom: 10,
+		padding: 5,
+	}, 
+	ghostEncounterImage: {
+		height: 150,
+		width: 100,
+	}
 });
 
 const initalCamera: Camera = {
