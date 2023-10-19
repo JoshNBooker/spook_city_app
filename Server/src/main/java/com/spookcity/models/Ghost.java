@@ -34,7 +34,7 @@ public class Ghost {
     @ManyToMany
     @Cascade(org.hibernate.annotations.CascadeType.SAVE_UPDATE)
     @JoinTable(
-            name = "users_ghosts",
+            name = "user_ghost_relationships",
             joinColumns = {@JoinColumn(name = "ghost_id", nullable = false, updatable = false)},
             inverseJoinColumns = {@JoinColumn(name="user_id", nullable = false, updatable = false)}
     )
