@@ -8,6 +8,7 @@ import {
 	Alert,
 	Image,
 	Button,
+	ScrollView,
 	TouchableOpacity,
 } from 'react-native';
 import MapView, {
@@ -81,6 +82,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		spookyFontsLarge: require('../fonts/IM_Fell_English/IMFellEnglish-Regular.ttf'),
 		spookyFontsSmall: require('../fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf'),
 	});
+	const [ghostEncounter, setGhostEncounter] = useState<boolean>(false)
 	const compareLocations = async () => {
 		try {
 			await updateUserLocation();
@@ -214,6 +216,8 @@ const MapComponent: React.FC<MapComponentProps> = ({
 				body: JSON.stringify(updatedUser),
 			}).then((data) => {
 				console.log('data: ', data);
+				setFoundGhostModalVisible(false);
+				setGhostEncounter(true);
 			});
 			const relationship = {
 				user: activeUser,
@@ -417,12 +421,53 @@ const MapComponent: React.FC<MapComponentProps> = ({
 					</View>
 				</Modal>
 			)}
-			<SwipeUp
-				users={users}
-				ghosts={ghosts}
-				activeUser={activeUser}
-				locations={locations}
-			/>
+
+			{ghostEncounter && !modalVisible && !foundGhostModalVisible && (
+				<Modal
+					animationType="slide"
+					transparent={true}
+					visible={ghostEncounter}
+					onRequestClose={() => {
+						Alert.alert('Modal has been closed.');
+						setGhostEncounter(!ghostEncounter);
+					}}
+				>
+					<View style={styles.centered}>
+						<View style={styles.modalView}>
+							<Text style={styles.ghostName}>
+								{foundGhost.ghost.name}
+							</Text>
+							<Image
+								source={getGhostImage(foundGhost.ghost)}
+								style={styles.ghostEncounterImage}
+							/>
+							<ScrollView style={styles.foundGhostText}>
+									<Text style={styles.modalText}>
+										{foundGhost.ghost.bio} {"\n"}
+										Congradulations, you've added a ghost to your collection, now go find more! {"\n"}
+									</Text>
+							</ScrollView>
+							<Pressable
+								style={[
+									styles.modalButton,
+									styles.modalButtonClose,
+								]}
+								onPress={() =>
+									setGhostEncounter(!ghostEncounter)
+								}
+							>
+									<Button
+										title="Return To Quest!"
+										onPress={() => {
+											setGhostEncounter(false)
+										}}
+									></Button>
+							</Pressable>
+						</View>
+					</View>
+				</Modal>
+			)}
+			<SwipeUp users={users} ghosts={ghosts} activeUser={activeUser} locations={locations}/>
 		</View>
 	);
 };
@@ -462,6 +507,8 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(60, 60, 60, 0.9)',
 		borderRadius: 30,
 		padding: 20,
+		height: '90%',
+		width: '90%',
 		alignItems: 'center',
 		shadowColor: 'rgba(255, 255, 255, 0.5)', // Semi-transparent white
 		shadowOffset: { width: 0, height: 0 },
@@ -504,7 +551,6 @@ const styles = StyleSheet.create({
 		fontFamily: 'spookyFontsSmall',
 	},
 	modalButton: {
-		margin: 10,
 		padding: 10,
 	},
 	modalButtonClose: {
@@ -520,6 +566,17 @@ const styles = StyleSheet.create({
 		height: 300,
 		width: 200,
 	},
+	foundGhostText: {
+		borderRadius: 10,
+		marginTop: 10,
+		backgroundColor: '#693C23',
+		marginBottom: 10,
+		padding: 5,
+	}, 
+	ghostEncounterImage: {
+		height: 150,
+		width: 100,
+	}
 });
 
 const initalCamera: Camera = {
