@@ -36,6 +36,20 @@ export default function UserPage({
 		setSelectedGhost(ghost);
 	};
 
+	function calculateRank(points) {
+		if (points < 1000) {
+			return 'NOVICE';
+		} else if (points >= 1000 && points < 2000) {
+			return 'MEDIUM';
+		} else if (points >= 2000 && points < 3000) {
+			return 'SEANCEMASTER';
+		} else if (points > 3000) {
+			return 'EXORCIST';
+		} else {
+			return "RANK ERROR";
+		}
+	}
+
 	return (
 		<View>
 			<View style={styles.userInfoContainer}>
@@ -47,7 +61,7 @@ export default function UserPage({
 					<Text style={styles.userNameInfo}>
 						{activeUser.userName}
 					</Text>
-					<Text style={styles.rank}>Rank: {activeUser.rank}</Text>
+					<Text style={styles.rank}>Rank: {calculateRank(activeUser.points)}</Text>
 					<Text style={styles.score}>
 						{' '}
 						Score: {activeUser.points}
@@ -84,12 +98,12 @@ export default function UserPage({
 					Progress Bar
 				</Text>
 				<ProgressBar
-					progress={activeUser.points / 1000}
-					width={280}
-					height={8}
-					color="orange"
-					borderRadius="2"
-					style={styles.progressBar}
+  				progress={(activeUser.points % 1000) / 1000}
+  				width={280}
+  				height={8}
+  				color="orange"
+  				borderRadius={2}
+  				style={styles.progressBar}
 				/>
 				<Text style={styles.discoveredGhostsTitle}>
 					Discovered Ghosts

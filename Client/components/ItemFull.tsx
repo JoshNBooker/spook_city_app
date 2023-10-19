@@ -47,6 +47,20 @@ export default function ItemFull({
 		);
 	}
 
+	function calculateRank(points) {
+		if (points < 1000) {
+			return 'NOVICE';
+		} else if (points >= 1000 && points < 2000) {
+			return 'MEDIUM';
+		} else if (points >= 2000 && points < 3000) {
+			return 'SEANCEMASTER';
+		} else if (points > 3000) {
+			return 'EXORCIST';
+		} else {
+			return "RANK ERROR";
+		}
+	}
+
 	return (
 		<View style={styles.container}>
 			{hidden && (
@@ -55,7 +69,7 @@ export default function ItemFull({
 						<Text style={styles.userName}>
 							{activeUser.userName}
 						</Text>
-						<Text style={styles.rank}>Rank: {activeUser.rank}</Text>
+						<Text style={styles.rank}>Rank: {calculateRank(activeUser.points)}</Text>
 					</View>
 					<View>
 						<Image
