@@ -203,7 +203,7 @@ const MapComponent: React.FC<MapComponentProps> = ({
 		if (!activeUser.discoveredGhosts.includes(ghost)) {
 			activeUser.discoveredGhosts.push(ghost);
 			foundGhost.ghost.discovered = true;
-			activeUser.points += 100;
+			activeUser.points += 300;
 			const updatedUser = { ...activeUser };
 			updatedUser.discoveredGhosts = [...updatedUser.discoveredGhosts];
 			fetch(`http://localhost:8080/users/${activeUser.id}`, {
