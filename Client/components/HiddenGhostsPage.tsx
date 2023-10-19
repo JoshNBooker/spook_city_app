@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	View,
 	StyleSheet,
+	AccessibilityInfo,
 } from 'react-native';
 import getGhostImage from '../ghostImages';
 import { useFonts } from 'expo-font';
@@ -32,15 +33,31 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 		spookyFontsLarge: require('../fonts/IM_Fell_English/IMFellEnglish-Regular.ttf'),
 		spookyFontsSmall: require('../fonts/IM_Fell_English_SC/IMFellEnglishSC-Regular.ttf'),
 	});
-	console.log('selectedGhost :', selectedGhost);
-	console.log('name: ', selectedGhost.name);
-	console.log('description: ', selectedGhost.description);
-	console.log('dialogue: ', selectedGhost.dialogue);
-	console.log('');
+	const [updatedGhostList, setUpdatedGhostList] = useState(ghosts);
+	// console.log('selectedGhost :', selectedGhost);
+	// console.log('name: ', selectedGhost.name);
+	// console.log('description: ', selectedGhost.description);
+	// console.log('dialogue: ', selectedGhost.dialogue);
+	// console.log('selectedGhostdiscovered: ', selectedGhost.discovered);
+	// console.log('hidden on hiddenghosts page:', hidden);
+	console.log('active User ghosts: ', activeUser.discoveredGhosts);
 
 	useEffect(() => {
-		console.log('re-render');
-	}, [hidden]);
+		const filteredGhostList = ghosts.filter((ghost, index) => {
+			return activeUser.discoveredGhosts.some(
+				(discoveredGhost) => discoveredGhost.id === ghost.id
+			);
+		});
+		console.log('filtered list: ', filteredGhostList);
+		const updatedGhosts = ghosts.map((ghost) => {
+			if (filteredGhostList.includes(ghost)) {
+				return { ...ghost, discovered: true };
+			}
+			return ghost;
+		});
+		setUpdatedGhostList(updatedGhosts);
+		console.log('updatedGhosts: ', updatedGhosts);
+	}, [selectedGhost]);
 
 	return (
 		<View style={styles.container}>
@@ -64,7 +81,9 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 							style={styles.ghostImage}
 						/>
 						<Text style={styles.ghostDescription}>
-							{selectedGhost.hiddenDescription}
+							{selectedGhost.discovered
+								? selectedGhost.description
+								: selectedGhost.hiddenDescription}
 							{!selectedGhost.discovered &&
 								'. You have not encountered this spirit yet'}
 							.
@@ -72,22 +91,15 @@ const HiddenGhostsPage: React.FC<HiddenGhostsPageProps> = ({
 					</View>
 				)}
 				<ScrollView horizontal style={styles.horizontalScrollView}>
-					{locations.map((location, index) => {
-						if (
-							activeUser.discoveredGhosts.includes(location.ghost)
-						) {
-							location.ghost.discovered = true;
-						}
+					{updatedGhostList.map((ghost, index) => {
 						return (
 							<TouchableOpacity
 								key={index}
-								onPress={() =>
-									handleSelectGhost(location.ghost)
-								}
+								onPress={() => handleSelectGhost(ghost)}
 							>
 								<View style={styles.ghostTile}>
 									<Text style={styles.tileText}>
-										{location.ghost.name}
+										{ghost.name}
 									</Text>
 								</View>
 							</TouchableOpacity>
