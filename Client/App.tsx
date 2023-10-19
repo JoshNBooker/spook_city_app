@@ -84,6 +84,8 @@ export default function App() {
 					users={users}
 					ghosts={ghosts}
 					activeUser={activeUser}
+					setIsLoggedIn={setIsLoggedIn}
+					setActiveUser={setActiveUser}
 				/>
 			)}
 		</View>
